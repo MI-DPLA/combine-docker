@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  # ElasticSearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+    container_name: elasticsearch
+    environment:
+      - cluster.name=combine-elasticsearch
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+      - xpack.security.enabled=false
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  # MongoDB
+  mongo:
+    build: ./mongo
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - 27017:27017
+    command: "--config /etc/mongod.conf"
+
+  # MySQL
+  mysql:
+    build: ./mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: combine
+    volumes:
+      - mysqldata:/var/lib/mysql
+    ports:
+      - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
+
+volumes:
+  esdata:
+    driver: local
+  mongodata:
+    driver: local
+  mysqldata:
+    driver: local
