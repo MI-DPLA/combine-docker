@@ -1,10 +1,10 @@
-version: '3'
+version: '3.2'
 services:
+
 
   # ElasticSearch
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
-    container_name: elasticsearch
     environment:
       - cluster.name=combine-elasticsearch
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
@@ -13,6 +13,10 @@ services:
       - esdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+    # networks:
+    #   combinenet:
+    #     ipv4_address: 10.5.0.2
+
 
   # MongoDB
   mongo:
@@ -22,6 +26,10 @@ services:
     ports:
       - 27017:27017
     command: "--config /etc/mongod.conf"
+    # networks:
+    #   combinenet:
+    #     ipv4_address: 10.5.0.3
+
 
   # MySQL
   mysql:
@@ -33,13 +41,63 @@ services:
     ports:
       - 3306:3306
     command: "--default-authentication-plugin=mysql_native_password"
+    # networks:
+    #   combinenet:
+    #     ipv4_address: 10.5.0.4
+
 
   # Redis
   redis:
     image: redis:4.0
     ports:
       - 6379:6379
+    # networks:
+    #   combinenet:
+    #     ipv4_address: 10.5.0.5
 
+
+  # Spark Master
+  spark-master:
+    build:
+      context: ./spark
+      dockerfile: Dockerfile
+      args:
+        SPARK_VERSION: "${SPARK_VERSION}"
+        HADOOP_VERSION: "${HADOOP_VERSION}"
+    # volumes:
+    #   - type: bind
+    #     source: ./data/spark
+    #     target: /data/spark
+    ports:
+      - 8080:8080
+      - 7077:7077
+    environment:
+      - SPARK_MASTER_HOST=0.0.0.0
+    command: bin/spark-class org.apache.spark.deploy.master.Master
+    # networks:
+    #   combinenet:
+    #     ipv4_address: 10.5.0.6
+
+
+  # Spark Worker
+  spark-worker:
+    build:
+      context: ./spark
+      dockerfile: Dockerfile
+      args:
+        SPARK_VERSION: "${SPARK_VERSION}"
+        HADOOP_VERSION: "${HADOOP_VERSION}"
+    ports:
+      - 8081:8081
+    environment:
+      - SPARK_MASTER_HOST=0.0.0.0
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077 # use docker container name for host here
+    # networks:
+    #   combinenet:
+    #     ipv4_address: 10.5.0.7
+
+
+# Volumes
 volumes:
   esdata:
     driver: local
@@ -47,3 +105,15 @@ volumes:
     driver: local
   mysqldata:
     driver: local
+  combinehome:
+    driver: local
+
+
+# Networks
+# networks:
+#   combinenet:
+#     driver: bridge
+#     ipam:
+#      driver: default
+#      config:
+#        - subnet: 10.5.0.0/16
