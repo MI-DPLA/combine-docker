@@ -2,58 +2,58 @@ version: '3.2'
 services:
 
 
-  # ElasticSearch
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
-    environment:
-      - cluster.name=combine-elasticsearch
-      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
-      - xpack.security.enabled=false
-    volumes:
-      - esdata:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-    # networks:
-    #   combinenet:
-    #     ipv4_address: 10.5.0.2
+  # # ElasticSearch
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+  #   environment:
+  #     - cluster.name=combine-elasticsearch
+  #     - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+  #     - xpack.security.enabled=false
+  #   volumes:
+  #     - esdata:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9200:9200
+  #   # networks:
+  #   #   combinenet:
+  #   #     ipv4_address: 10.5.0.2
 
 
-  # MongoDB
-  mongo:
-    build: ./mongo
-    volumes:
-      - mongodata:/data/db
-    ports:
-      - 27017:27017
-    command: "--config /etc/mongod.conf"
-    # networks:
-    #   combinenet:
-    #     ipv4_address: 10.5.0.3
+  # # MongoDB
+  # mongo:
+  #   build: ./mongo
+  #   volumes:
+  #     - mongodata:/data/db
+  #   ports:
+  #     - 27017:27017
+  #   command: "--config /etc/mongod.conf"
+  #   # networks:
+  #   #   combinenet:
+  #   #     ipv4_address: 10.5.0.3
 
 
-  # MySQL
-  mysql:
-    build: ./mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: combine
-    volumes:
-      - mysqldata:/var/lib/mysql
-    ports:
-      - 3306:3306
-    command: "--default-authentication-plugin=mysql_native_password"
-    # networks:
-    #   combinenet:
-    #     ipv4_address: 10.5.0.4
+  # # MySQL
+  # mysql:
+  #   build: ./mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: combine
+  #   volumes:
+  #     - mysqldata:/var/lib/mysql
+  #   ports:
+  #     - 3306:3306
+  #   command: "--default-authentication-plugin=mysql_native_password"
+  #   # networks:
+  #   #   combinenet:
+  #   #     ipv4_address: 10.5.0.4
 
 
-  # Redis
-  redis:
-    image: redis:4.0
-    ports:
-      - 6379:6379
-    # networks:
-    #   combinenet:
-    #     ipv4_address: 10.5.0.5
+  # # Redis
+  # redis:
+  #   image: redis:4.0
+  #   ports:
+  #     - 6379:6379
+  #   # networks:
+  #   #   combinenet:
+  #   #     ipv4_address: 10.5.0.5
 
 
   # Spark Master
@@ -64,37 +64,58 @@ services:
       args:
         SPARK_VERSION: "${SPARK_VERSION}"
         HADOOP_VERSION: "${HADOOP_VERSION}"
-    # volumes:
-    #   - type: bind
-    #     source: ./data/spark
-    #     target: /data/spark
+    volumes:
+      - ./data/spark:/data/spark
+      - type: bind
+        source: ./spark/spark-defaults.conf
+        target: /usr/spark-2.3.2/conf/spark-defaults.conf
     ports:
       - 8080:8080
       - 7077:7077
     environment:
-      - SPARK_MASTER_HOST=0.0.0.0
-    command: bin/spark-class org.apache.spark.deploy.master.Master
-    # networks:
-    #   combinenet:
-    #     ipv4_address: 10.5.0.6
+      - "SPARK_HOME=/usr/spark-2.3.2"
+      - "SPARK_MASTER_HOST=spark-master"
+      - "SPARK_DRIVER_HOST=spark-master"
+      - "SPARK_LOCAL_IP=spark-master"
+      - "SPARK_WORKER_CORES=1"
+      - "SPARK_DRIVER_CORES=1"
+      - "SPARK_WORKER_MEMORY=4G"
+      - "SPARK_DRIVER_MEMORY=1G"
+    command: bash -c "bin/spark-class org.apache.spark.deploy.master.Master && bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077"
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.6
 
+        #  # Spark Worker
+        #  spark-worker:
+        #    build:
+        #      context: ./spark
+        #      dockerfile: Dockerfile
+        #      args:
+        #        SPARK_VERSION: "${SPARK_VERSION}"
+        #        HADOOP_VERSION: "${HADOOP_VERSION}"
+        #    volumes:
+        #      - ./data/spark:/data/spark
+        #      - type: bind
+        #        source: ./spark/spark-defaults.conf
+        #        target: /usr/spark-2.3.2/conf/spark-defaults.conf
+        #    ports:
+        #      - 8081:8081
+        #    environment:
+        #      - "SPARK_HOME=/usr/spark-2.3.2"
+        #      - "SPARK_MASTER=spark://spark-master:7077"
+        #      - "SPARK_MASTER_HOST=spark-master"
+        #      - "SPARK_DRIVER_HOST=spark-master"
+        #      - "SPARK_LOCAL_IP=spark-worker"
+        #      - "SPARK_WORKER_CORES=2"
+        #      - "SPARK_WORKER_MEMORY=4G"
+        #    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077 # use docker container name for host here
+        #    links:
+        #      - spark-master
+        #    networks:
+        #      combinenet:
+        #        ipv4_address: 10.5.0.7
 
-  # Spark Worker
-  spark-worker:
-    build:
-      context: ./spark
-      dockerfile: Dockerfile
-      args:
-        SPARK_VERSION: "${SPARK_VERSION}"
-        HADOOP_VERSION: "${HADOOP_VERSION}"
-    ports:
-      - 8081:8081
-    environment:
-      - SPARK_MASTER_HOST=0.0.0.0
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077 # use docker container name for host here
-    # networks:
-    #   combinenet:
-    #     ipv4_address: 10.5.0.7
 
 
 # Volumes
@@ -110,10 +131,10 @@ volumes:
 
 
 # Networks
-# networks:
-#   combinenet:
-#     driver: bridge
-#     ipam:
-#      driver: default
-#      config:
-#        - subnet: 10.5.0.0/16
+networks:
+  combinenet:
+    driver: bridge
+    ipam:
+     driver: default
+     config:
+       - subnet: 10.5.0.0/16
