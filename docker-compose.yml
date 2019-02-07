@@ -72,6 +72,7 @@ services:
     ports:
       - 8080:8080
       - 7077:7077
+      - 6066:6066
     environment:
       - "SPARK_HOME=/usr/spark-2.3.2"
       - "SPARK_MASTER_HOST=spark-master"
@@ -81,42 +82,53 @@ services:
       - "SPARK_DRIVER_CORES=1"
       - "SPARK_WORKER_MEMORY=4G"
       - "SPARK_DRIVER_MEMORY=1G"
-    command: bash -c "bin/spark-class org.apache.spark.deploy.master.Master && bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077"
+    command: bin/spark-class org.apache.spark.deploy.master.Master
     networks:
       combinenet:
         ipv4_address: 10.5.0.6
 
-        #  # Spark Worker
-        #  spark-worker:
-        #    build:
-        #      context: ./spark
-        #      dockerfile: Dockerfile
-        #      args:
-        #        SPARK_VERSION: "${SPARK_VERSION}"
-        #        HADOOP_VERSION: "${HADOOP_VERSION}"
-        #    volumes:
-        #      - ./data/spark:/data/spark
-        #      - type: bind
-        #        source: ./spark/spark-defaults.conf
-        #        target: /usr/spark-2.3.2/conf/spark-defaults.conf
-        #    ports:
-        #      - 8081:8081
-        #    environment:
-        #      - "SPARK_HOME=/usr/spark-2.3.2"
-        #      - "SPARK_MASTER=spark://spark-master:7077"
-        #      - "SPARK_MASTER_HOST=spark-master"
-        #      - "SPARK_DRIVER_HOST=spark-master"
-        #      - "SPARK_LOCAL_IP=spark-worker"
-        #      - "SPARK_WORKER_CORES=2"
-        #      - "SPARK_WORKER_MEMORY=4G"
-        #    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077 # use docker container name for host here
-        #    links:
-        #      - spark-master
-        #    networks:
-        #      combinenet:
-        #        ipv4_address: 10.5.0.7
+  # Spark Worker
+  spark-worker:
+    build:
+      context: ./spark
+      dockerfile: Dockerfile
+      args:
+        SPARK_VERSION: "${SPARK_VERSION}"
+        HADOOP_VERSION: "${HADOOP_VERSION}"
+    volumes:
+      - ./data/spark:/data/spark
+      - type: bind
+        source: ./spark/spark-defaults.conf
+        target: /usr/spark-2.3.2/conf/spark-defaults.conf
+    ports:
+      - 8081:8081
+    environment:
+      - "SPARK_HOME=/usr/spark-2.3.2"
+      - "SPARK_MASTER=spark://spark-master:7077"
+      - "SPARK_MASTER_HOST=spark-master"
+      - "SPARK_DRIVER_HOST=spark-master"
+      - "SPARK_LOCAL_IP=10.5.0.7"
+      - "SPARK_WORKER_CORES=2"
+      - "SPARK_WORKER_MEMORY=4G"
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077
+    links:
+      - spark-master
+    networks:
+      combinenet:
+       ipv4_address: 10.5.0.7
 
-
+   # livy:
+   #  image: registry.gitlab.com/rychly-edu/docker/docker-livy
+   #  environment:
+   #    - LIVY_PORT=8998
+   #    - RECOVERY_DIR=/home/livy
+   #    - MASTER=spark://spark-master:7077
+   #    - DEPLOY_MODE=standalone
+   #    # - RESOURCE_MANAGER=resourcemanager
+   #    - HISTUI_PORT=18080
+   #    - LOG_DIR=hdfs://namenode:8020/user/spark/applicationHistory
+   #  ports:
+   #    - "8998:8998"
 
 # Volumes
 volumes:
