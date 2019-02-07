@@ -55,6 +55,7 @@ services:
   #     combinenet:
   #       ipv4_address: 10.5.0.5
 
+
   hadoop-namenode:
     build:
       context: ./hadoop
@@ -176,7 +177,7 @@ services:
         target: /opt/livy/conf/livy.conf
     ports:
       - 8998:8998
-    command:  tail -f /dev/null
+    command:  /opt/livy/bin/livy-server
     networks:
       combinenet:
         ipv4_address: 10.5.0.10
