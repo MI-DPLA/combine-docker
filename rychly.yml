@@ -1,0 +1,82 @@
+version: '3'
+services:
+
+  livy:
+    image: registry.gitlab.com/rychly-edu/docker/docker-livy
+    environment:
+      - LIVY_PORT=8998
+      - RECOVERY_DIR=/home/livy
+      - MASTER=yarn
+      - DEPLOY_MODE=cluster
+      - RESOURCE_MANAGER=resourcemanager
+      - HISTUI_PORT=18080
+      - LOG_DIR=hdfs://namenode:8020/user/spark/applicationHistory
+    ports:
+      - "8998:8998"
+    volumes:
+      - ./volumes/recovery:/home/livy
+
+  resourcemanager:
+    image: registry.gitlab.com/rychly-edu/docker/docker-yarn
+    environment:
+      - ROLE=resourcemanager
+      - RESOURCE_MANAGER=http://resourcemanager:8088,https://resourcemanager:8090,rpc://resourcemanager:8032,schrpc://resourcemanager:8030,rtrpc://resourcemanager:8031,admrpc://resourcemanager:8033
+      - DFS_DEFAULT=hdfs://namenode:8020
+    ports:
+      - "8088:8088"
+      - "8090:8090"
+      - "8032:8032"
+      - "8030:8030"
+      - "8031:8031"
+      - "8033:8033"
+
+  nodemanager:
+    image: registry.gitlab.com/rychly-edu/docker/docker-yarn
+    environment:
+      - ROLE=nodemanager
+      - NODE_MANAGER=http://nodemanager:8042,https://nodemanager:8044,locipc://nodemanager:8040,csipc://nodemanager:8048
+      - RESOURCE_MANAGER=resourcemanager
+      - DFS_DEFAULT=hdfs://namenode:8020
+    ports:
+      - "8042"
+      - "8044"
+      - "8040"
+      - "8048"
+
+  sparkhistory:
+    image: registry.gitlab.com/rychly-edu/docker/docker-spark
+    environment:
+      - ROLE=history
+      - HISTUI_PORT=18080
+      - LOG_DIR=hdfs://namenode:8020/user/spark/applicationHistory
+    ports:
+      - "18080:18080"
+
+  namenode:
+    image: registry.gitlab.com/rychly-edu/docker/docker-hdfs
+    environment:
+      - ROLE=namenode
+      - DFS_DEFAULT=hdfs://namenode:8020
+      - NAME_DIRS=/home/hadoop/name
+      - DFS_NAMENODES=rpc://namenode:8020,http://namenode:9870,https://namenode:9871
+    ports:
+      - "8020:8020"
+      - "9870:9870"
+      - "9871:9871"
+    volumes:
+      - ./volumes/namenode:/home/hadoop/name
+
+  datanode:
+    image: registry.gitlab.com/rychly-edu/docker/docker-hdfs
+    environment:
+      - ROLE=datanode
+      - DFS_DEFAULT=hdfs://namenode:8020
+      - DATA_DIRS=/home/hadoop/data
+      - DFS_DATANODES=data://0.0.0.0:9866,http://0.0.0.0:9864,https://0.0.0.0:9865,ipc://0.0.0.0:9867
+    ports:
+      - "9866"
+      - "9864"
+      - "9865"
+      - "9867"
+    volumes:
+      - ./volumes/datanode1:/home/hadoop/data

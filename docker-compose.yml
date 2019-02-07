@@ -13,9 +13,9 @@ services:
   #     - esdata:/usr/share/elasticsearch/data
   #   ports:
   #     - 9200:9200
-  #   # networks:
-  #   #   combinenet:
-  #   #     ipv4_address: 10.5.0.2
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.2
 
 
   # # MongoDB
@@ -26,9 +26,9 @@ services:
   #   ports:
   #     - 27017:27017
   #   command: "--config /etc/mongod.conf"
-  #   # networks:
-  #   #   combinenet:
-  #   #     ipv4_address: 10.5.0.3
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.3
 
 
   # # MySQL
@@ -41,9 +41,9 @@ services:
   #   ports:
   #     - 3306:3306
   #   command: "--default-authentication-plugin=mysql_native_password"
-  #   # networks:
-  #   #   combinenet:
-  #   #     ipv4_address: 10.5.0.4
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.4
 
 
   # # Redis
@@ -51,13 +51,12 @@ services:
   #   image: redis:4.0
   #   ports:
   #     - 6379:6379
-  #   # networks:
-  #   #   combinenet:
-  #   #     ipv4_address: 10.5.0.5
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.5
 
 
-  # Spark Master
-  spark-master:
+  hadoop-namenode:
     build:
       context: ./spark
       dockerfile: Dockerfile
@@ -65,30 +64,24 @@ services:
         SPARK_VERSION: "${SPARK_VERSION}"
         HADOOP_VERSION: "${HADOOP_VERSION}"
     volumes:
-      - ./data/spark:/data/spark
+      - hdfs:/hdfs
       - type: bind
-        source: ./spark/spark-defaults.conf
-        target: /usr/spark-2.3.2/conf/spark-defaults.conf
+        source: ./spark/config/hadoop/core-site.xml
+        target: /opt/hadoop/etc/hadoop/core-site.xml
+      - type: bind
+        source: ./spark/config/hadoop/hdfs-site.xml
+        target: /opt/hadoop/etc/hadoop/hdfs-site.xml
     ports:
-      - 8080:8080
-      - 7077:7077
-      - 6066:6066
-    environment:
-      - "SPARK_HOME=/usr/spark-2.3.2"
-      - "SPARK_MASTER_HOST=spark-master"
-      - "SPARK_DRIVER_HOST=spark-master"
-      - "SPARK_LOCAL_IP=spark-master"
-      - "SPARK_WORKER_CORES=1"
-      - "SPARK_DRIVER_CORES=1"
-      - "SPARK_WORKER_MEMORY=4G"
-      - "SPARK_DRIVER_MEMORY=1G"
-    command: bin/spark-class org.apache.spark.deploy.master.Master
+      - 8020:8020
+    # environment:
+    #   - "SPARK_HOME=/usr/spark-2.3.2"
+    command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
     networks:
       combinenet:
         ipv4_address: 10.5.0.6
 
-  # Spark Worker
-  spark-worker:
+
+  hadoop-datanode:
     build:
       context: ./spark
       dockerfile: Dockerfile
@@ -96,39 +89,23 @@ services:
         SPARK_VERSION: "${SPARK_VERSION}"
         HADOOP_VERSION: "${HADOOP_VERSION}"
     volumes:
-      - ./data/spark:/data/spark
+      - hdfs:/hdfs
       - type: bind
-        source: ./spark/spark-defaults.conf
-        target: /usr/spark-2.3.2/conf/spark-defaults.conf
+        source: ./spark/config/hadoop/core-site.xml
+        target: /opt/hadoop/etc/hadoop/core-site.xml
+      - type: bind
+        source: ./spark/config/hadoop/hdfs-site.xml
+        target: /opt/hadoop/etc/hadoop/hdfs-site.xml
     ports:
-      - 8081:8081
-    environment:
-      - "SPARK_HOME=/usr/spark-2.3.2"
-      - "SPARK_MASTER=spark://spark-master:7077"
-      - "SPARK_MASTER_HOST=spark-master"
-      - "SPARK_DRIVER_HOST=spark-master"
-      - "SPARK_LOCAL_IP=10.5.0.7"
-      - "SPARK_WORKER_CORES=2"
-      - "SPARK_WORKER_MEMORY=4G"
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077
-    links:
-      - spark-master
+      - 50070:50070
+      - 50075:50075
+    # environment:
+    #   - "SPARK_HOME=/usr/spark-2.3.2"
+    command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
     networks:
       combinenet:
-       ipv4_address: 10.5.0.7
+        ipv4_address: 10.5.0.7
 
-   # livy:
-   #  image: registry.gitlab.com/rychly-edu/docker/docker-livy
-   #  environment:
-   #    - LIVY_PORT=8998
-   #    - RECOVERY_DIR=/home/livy
-   #    - MASTER=spark://spark-master:7077
-   #    - DEPLOY_MODE=standalone
-   #    # - RESOURCE_MANAGER=resourcemanager
-   #    - HISTUI_PORT=18080
-   #    - LOG_DIR=hdfs://namenode:8020/user/spark/applicationHistory
-   #  ports:
-   #    - "8998:8998"
 
 # Volumes
 volumes:
@@ -139,6 +116,8 @@ volumes:
   mysqldata:
     driver: local
   combinehome:
+    driver: local
+  hdfs:
     driver: local
 
 

@@ -1,5 +1,4 @@
-FROM debian:stretch
-MAINTAINER Getty Images "https://github.com/gettyimages"
+FROM openjdk:8-jdk-stretch
 
 RUN apt-get update \
  && apt-get install -y locales \
@@ -16,9 +15,11 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+# Install OS libraries
 RUN apt-get update \
- && apt-get install -y curl unzip \
+ && apt-get install -y curl unzip lsof wget unzip \
     python3 python3-setuptools \
+ && rm /usr/bin/python \
  && ln -s /usr/bin/python3 /usr/bin/python \
  && easy_install3 pip py4j \
  && apt-get clean \
@@ -29,46 +30,24 @@ ENV PYTHONHASHSEED 0
 ENV PYTHONIOENCODING UTF-8
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
-# JAVA
-ARG JAVA_MAJOR_VERSION=8
-ARG JAVA_UPDATE_VERSION=202
-ARG JAVA_BUILD_NUMBER=08
-ENV JAVA_HOME /usr/jdk1.${JAVA_MAJOR_VERSION}.0_${JAVA_UPDATE_VERSION}
-
-ENV PATH $PATH:$JAVA_HOME/bin
-RUN curl -sL --retry 3 --insecure \
-  --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
-  "http://download.oracle.com/otn-pub/java/jdk/${JAVA_MAJOR_VERSION}u${JAVA_UPDATE_VERSION}-b${JAVA_BUILD_NUMBER}/1961070e4c9b4e26a04e7f5a083f551e/server-jre-${JAVA_MAJOR_VERSION}u${JAVA_UPDATE_VERSION}-linux-x64.tar.gz" \
-  | gunzip \
-  | tar x -C /usr/ \
-  && ln -s $JAVA_HOME /usr/java \
-  && rm -rf $JAVA_HOME/man
-
-# HADOOP
+# Download and install Hadoop
 ARG HADOOP_VERSION
-ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
-ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
-ENV PATH $PATH:$HADOOP_HOME/bin
-RUN curl -sL --retry 3 \
-  "http://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz" \
-  | gunzip \
-  | tar -x -C /usr/ \
- && rm -rf $HADOOP_HOME/share/doc \
- && chown -R root:root $HADOOP_HOME
+ENV HADOOP_VERSION=$HADOOP_VERSION
+RUN mkdir /opt/hadoop \
+ && cd /opt/hadoop \
+ && wget https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
+ && tar --strip-components=1 -xvf hadoop-${HADOOP_VERSION}.tar.gz \
+ && rm /opt/hadoop/hadoop-${HADOOP_VERSION}.tar.gz
+ENV HADOOP_PREFIX=/opt/hadoop
+ENV HADOOP_HOME=${HADOOP_PREFIX}
+ENV HADOOP_COMMON_HOME=${HADOOP_PREFIX}
+ENV HADOOP_CONF_DIR=${HADOOP_PREFIX}/etc/hadoop
+ENV HADOOP_HDFS_HOME=${HADOOP_PREFIX}
+ENV HADOOP_MAPRED_HOME=${HADOOP_PREFIX}
+ENV HADOOP_YARN_HOME=${HADOOP_PREFIX}
 
-# SPARK
-ARG SPARK_VERSION
-ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-without-hadoop
-ENV SPARK_HOME /usr/spark-${SPARK_VERSION}
-ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"
-ENV PATH $PATH:${SPARK_HOME}/bin
-RUN curl -sL --retry 3 \
-  "https://www.apache.org/dyn/mirrors/mirrors.cgi?action=download&filename=spark/spark-${SPARK_VERSION}/${SPARK_PACKAGE}.tgz" \
-  | gunzip \
-  | tar x -C /usr/ \
- && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
- && chown -R root:root $SPARK_HOME
+# Format node
+RUN ${HADOOP_PREFIX}/bin/hdfs namenode -format
 
-WORKDIR $SPARK_HOME
 
 
