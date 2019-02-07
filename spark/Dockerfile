@@ -1,63 +1,10 @@
-FROM openjdk:8-jdk-stretch
-
-RUN apt-get update \
- && apt-get install -y locales \
- && dpkg-reconfigure -f noninteractive locales \
- && locale-gen C.UTF-8 \
- && /usr/sbin/update-locale LANG=C.UTF-8 \
- && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
- && locale-gen \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
-
-# Users with other locales should set this in their derivative image
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
-# Install OS libraries
-RUN apt-get update \
- && apt-get install -y curl unzip lsof wget unzip maven \
-    python3 python3-setuptools \
- && rm /usr/bin/python \
- && ln -s /usr/bin/python3 /usr/bin/python \
- && easy_install3 pip py4j \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
-
-# http://blog.stuart.axelbrooke.com/python-3-on-spark-return-of-the-pythonhashseed
-ENV PYTHONHASHSEED 0
-ENV PYTHONIOENCODING UTF-8
-ENV PIP_DISABLE_PIP_VERSION_CHECK 1
+FROM combine-docker_hadoop-namenode:latest
 
 # Arguments
-ARG HADOOP_VERSION
 ARG SPARK_VERSION
-ARG HADOOP_VERSION_SHORT
-ARG LIVY_TAGGED_RELEASE
-ARG SCALA_VERSION
-ENV HADOOP_VERSION=$HADOOP_VERSION
 ENV SPARK_VERSION=$SPARK_VERSION
+ARG HADOOP_VERSION_SHORT
 ENV HADOOP_VERSION_SHORT=$HADOOP_VERSION_SHORT
-ENV LIVY_TAGGED_RELEASE=$LIVY_TAGGED_RELEASE
-ENV SCALA_VERSION=$SCALA_VERSION
-
-# Download and install Hadoop
-RUN mkdir /opt/hadoop \
- && cd /opt/hadoop \
- && wget https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
- && tar --strip-components=1 -xvf hadoop-${HADOOP_VERSION}.tar.gz \
- && rm /opt/hadoop/hadoop-${HADOOP_VERSION}.tar.gz
-ENV HADOOP_PREFIX=/opt/hadoop
-ENV HADOOP_HOME=${HADOOP_PREFIX}
-ENV HADOOP_COMMON_HOME=${HADOOP_PREFIX}
-ENV HADOOP_CONF_DIR=${HADOOP_PREFIX}/etc/hadoop
-ENV HADOOP_HDFS_HOME=${HADOOP_PREFIX}
-ENV HADOOP_MAPRED_HOME=${HADOOP_PREFIX}
-ENV HADOOP_YARN_HOME=${HADOOP_PREFIX}
-
-# Format node
-RUN ${HADOOP_PREFIX}/bin/hdfs namenode -format
 
 # Download and install Spark
 RUN cd /tmp \
@@ -65,15 +12,6 @@ RUN cd /tmp \
  && tar -xvf spark.tgz \
  && mv /tmp/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_SHORT} /opt/spark
 ENV SPARK_HOME=/opt/spark
-
-# Download and install Livy
-RUN cd /opt \
- && git clone https://github.com/apache/incubator-livy livy \
- && cd livy \
- && git checkout -b tags/${LIVY_TAGGED_RELEASE} ${LIVY_TAGGED_RELEASE} \
- && mvn package -DskipTests \
- && mkdir logs \
- && ln -s /data/spark/ingestion3_${SCALA_VERSION}-0.0.1.jar /opt/livy/rsc/target/jars/ingestion3.jar
 
 
 

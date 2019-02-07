@@ -55,24 +55,19 @@ services:
   #     combinenet:
   #       ipv4_address: 10.5.0.5
 
-
   hadoop-namenode:
     build:
-      context: ./spark
-      dockerfile: Dockerfile
+      context: ./hadoop
+      dockerfile: Dockerfile_namenode
       args:
-        SPARK_VERSION: "${SPARK_VERSION}"
         HADOOP_VERSION: "${HADOOP_VERSION}"
-        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
-        SCALA_VERSION: "${SCALA_VERSION}"
     volumes:
       - hdfs:/hdfs
       - type: bind
-        source: ./spark/config/hadoop/core-site.xml
+        source: ./hadoop/core-site.xml
         target: /opt/hadoop/etc/hadoop/core-site.xml
       - type: bind
-        source: ./spark/config/hadoop/hdfs-site.xml
+        source: ./hadoop/hdfs-site.xml
         target: /opt/hadoop/etc/hadoop/hdfs-site.xml
     ports:
       - 8020:8020
@@ -84,21 +79,15 @@ services:
 
   hadoop-datanode:
     build:
-      context: ./spark
-      dockerfile: Dockerfile
-      args:
-        SPARK_VERSION: "${SPARK_VERSION}"
-        HADOOP_VERSION: "${HADOOP_VERSION}"
-        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
-        SCALA_VERSION: "${SCALA_VERSION}"
+      context: ./hadoop
+      dockerfile: Dockerfile_datanode
     volumes:
       - hdfs:/hdfs
       - type: bind
-        source: ./spark/config/hadoop/core-site.xml
+        source: ./hadoop/core-site.xml
         target: /opt/hadoop/etc/hadoop/core-site.xml
       - type: bind
-        source: ./spark/config/hadoop/hdfs-site.xml
+        source: ./hadoop/hdfs-site.xml
         target: /opt/hadoop/etc/hadoop/hdfs-site.xml
     ports:
       - 50070:50070
@@ -122,7 +111,7 @@ services:
     volumes:
       - hdfs:/hdfs
       - type: bind
-        source: ./spark/config/spark/spark-defaults.conf
+        source: ./spark/spark-defaults.conf
         target: /opt/spark/conf/spark-defaults.conf
     ports:
       - 8080:8080
@@ -153,7 +142,7 @@ services:
     volumes:
       - hdfs:/hdfs
       - type: bind
-        source: ./spark/config/spark/spark-defaults.conf
+        source: ./spark/spark-defaults.conf
         target: /opt/spark/conf/spark-defaults.conf
     ports:
       - 8081:8081
@@ -172,21 +161,18 @@ services:
 
   livy:
     build:
-      context: ./spark
+      context: ./livy
       dockerfile: Dockerfile
       args:
-        SPARK_VERSION: "${SPARK_VERSION}"
-        HADOOP_VERSION: "${HADOOP_VERSION}"
-        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
     volumes:
       - hdfs:/hdfs
       - type: bind
-        source: ./spark/config/livy/livy-env.sh
+        source: ./livy/livy-env.sh
         target: /opt/livy/conf/livy-env.sh
       - type: bind
-        source: ./spark/config/livy/livy.conf
+        source: ./livy/livy.conf
         target: /opt/livy/conf/livy.conf
     ports:
       - 8998:8998
