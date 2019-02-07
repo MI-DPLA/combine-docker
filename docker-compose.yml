@@ -56,55 +56,108 @@ services:
   #       ipv4_address: 10.5.0.5
 
 
-  hadoop-namenode:
+  # hadoop-namenode:
+  #   build:
+  #     context: ./spark
+  #     dockerfile: Dockerfile
+  #     args:
+  #       SPARK_VERSION: "${SPARK_VERSION}"
+  #       HADOOP_VERSION: "${HADOOP_VERSION}"
+  #   volumes:
+  #     - hdfs:/hdfs
+  #     - type: bind
+  #       source: ./spark/config/hadoop/core-site.xml
+  #       target: /opt/hadoop/etc/hadoop/core-site.xml
+  #     - type: bind
+  #       source: ./spark/config/hadoop/hdfs-site.xml
+  #       target: /opt/hadoop/etc/hadoop/hdfs-site.xml
+  #   ports:
+  #     - 8020:8020
+  #   command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.6
+
+
+  # hadoop-datanode:
+  #   build:
+  #     context: ./spark
+  #     dockerfile: Dockerfile
+  #     args:
+  #       SPARK_VERSION: "${SPARK_VERSION}"
+  #       HADOOP_VERSION: "${HADOOP_VERSION}"
+  #   volumes:
+  #     - hdfs:/hdfs
+  #     - type: bind
+  #       source: ./spark/config/hadoop/core-site.xml
+  #       target: /opt/hadoop/etc/hadoop/core-site.xml
+  #     - type: bind
+  #       source: ./spark/config/hadoop/hdfs-site.xml
+  #       target: /opt/hadoop/etc/hadoop/hdfs-site.xml
+  #   ports:
+  #     - 50070:50070
+  #     - 50075:50075
+  #   command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.7
+
+
+  spark-master:
     build:
       context: ./spark
       dockerfile: Dockerfile
       args:
         SPARK_VERSION: "${SPARK_VERSION}"
         HADOOP_VERSION: "${HADOOP_VERSION}"
+        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
     volumes:
       - hdfs:/hdfs
       - type: bind
-        source: ./spark/config/hadoop/core-site.xml
-        target: /opt/hadoop/etc/hadoop/core-site.xml
-      - type: bind
-        source: ./spark/config/hadoop/hdfs-site.xml
-        target: /opt/hadoop/etc/hadoop/hdfs-site.xml
+        source: ./spark/config/spark/spark-defaults.conf
+        target: /opt/spark/conf/spark-defaults.conf
     ports:
-      - 8020:8020
-    # environment:
-    #   - "SPARK_HOME=/usr/spark-2.3.2"
-    command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
+      - 8080:8080
+      - 7077:7077
+    environment:
+      - "SPARK_HOME=/opt/spark"
+      - "SPARK_MASTER_HOST=spark-master"
+      - "SPARK_DRIVER_HOST=spark-master"
+      - "SPARK_LOCAL_IP=spark-master"
+      - "SPARK_DRIVER_CORES=1"
+      - "SPARK_DRIVER_MEMORY=1G"
+    command:  /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
     networks:
       combinenet:
-        ipv4_address: 10.5.0.6
+        ipv4_address: 10.5.0.8
 
 
-  hadoop-datanode:
+  spark-worker:
     build:
       context: ./spark
       dockerfile: Dockerfile
       args:
         SPARK_VERSION: "${SPARK_VERSION}"
         HADOOP_VERSION: "${HADOOP_VERSION}"
+        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
     volumes:
       - hdfs:/hdfs
       - type: bind
-        source: ./spark/config/hadoop/core-site.xml
-        target: /opt/hadoop/etc/hadoop/core-site.xml
-      - type: bind
-        source: ./spark/config/hadoop/hdfs-site.xml
-        target: /opt/hadoop/etc/hadoop/hdfs-site.xml
+        source: ./spark/config/spark/spark-defaults.conf
+        target: /opt/spark/conf/spark-defaults.conf
     ports:
-      - 50070:50070
-      - 50075:50075
-    # environment:
-    #   - "SPARK_HOME=/usr/spark-2.3.2"
-    command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
+      - 8081:8081
+    environment:
+      - "SPARK_HOME=/opt/spark"
+      - "SPARK_MASTER=spark://spark-master:7077"
+      - "SPARK_MASTER_HOST=spark-master"
+      - "SPARK_DRIVER_HOST=spark-master"
+      - "SPARK_WORKER_CORES=2"
+      - "SPARK_WORKER_MEMORY=4G"
+    command:  /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077
     networks:
       combinenet:
-        ipv4_address: 10.5.0.7
+        ipv4_address: 10.5.0.9
 
 
 # Volumes

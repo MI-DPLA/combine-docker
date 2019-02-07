@@ -30,9 +30,15 @@ ENV PYTHONHASHSEED 0
 ENV PYTHONIOENCODING UTF-8
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
-# Download and install Hadoop
+# Arguments
 ARG HADOOP_VERSION
+ARG SPARK_VERSION
+ARG HADOOP_VERSION_SHORT
 ENV HADOOP_VERSION=$HADOOP_VERSION
+ENV SPARK_VERSION=$SPARK_VERSION
+ENV HADOOP_VERSION_SHORT=$HADOOP_VERSION_SHORT
+
+# Download and install Hadoop
 RUN mkdir /opt/hadoop \
  && cd /opt/hadoop \
  && wget https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
@@ -49,5 +55,10 @@ ENV HADOOP_YARN_HOME=${HADOOP_PREFIX}
 # Format node
 RUN ${HADOOP_PREFIX}/bin/hdfs namenode -format
 
-
+# Download and install Spark
+RUN cd /tmp \
+ && curl https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_SHORT}.tgz -o /tmp/spark.tgz \
+ && tar -xvf spark.tgz \
+ && mv /tmp/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_SHORT} /opt/spark
+ENV SPARK_HOME=/opt/spark
 
