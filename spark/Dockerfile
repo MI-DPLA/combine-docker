@@ -17,7 +17,7 @@ ENV LC_ALL en_US.UTF-8
 
 # Install OS libraries
 RUN apt-get update \
- && apt-get install -y curl unzip lsof wget unzip \
+ && apt-get install -y curl unzip lsof wget unzip maven \
     python3 python3-setuptools \
  && rm /usr/bin/python \
  && ln -s /usr/bin/python3 /usr/bin/python \
@@ -34,9 +34,13 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 ARG HADOOP_VERSION
 ARG SPARK_VERSION
 ARG HADOOP_VERSION_SHORT
+ARG LIVY_TAGGED_RELEASE
+ARG SCALA_VERSION
 ENV HADOOP_VERSION=$HADOOP_VERSION
 ENV SPARK_VERSION=$SPARK_VERSION
 ENV HADOOP_VERSION_SHORT=$HADOOP_VERSION_SHORT
+ENV LIVY_TAGGED_RELEASE=$LIVY_TAGGED_RELEASE
+ENV SCALA_VERSION=$SCALA_VERSION
 
 # Download and install Hadoop
 RUN mkdir /opt/hadoop \
@@ -61,4 +65,28 @@ RUN cd /tmp \
  && tar -xvf spark.tgz \
  && mv /tmp/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_SHORT} /opt/spark
 ENV SPARK_HOME=/opt/spark
+
+# Download and install Livy
+RUN cd /opt \
+ && git clone https://github.com/apache/incubator-livy livy \
+ && cd livy \
+ && git checkout -b tags/${LIVY_TAGGED_RELEASE} ${LIVY_TAGGED_RELEASE} \
+ && mvn package -DskipTests \
+ && mkdir logs \
+ && ln -s /data/spark/ingestion3_${SCALA_VERSION}-0.0.1.jar /opt/livy/rsc/target/jars/ingestion3.jar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
