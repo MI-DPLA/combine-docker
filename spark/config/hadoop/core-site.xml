@@ -17,7 +17,7 @@
 <configuration>
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://localhost/</value>
+        <value>hdfs://hadoop-namenode/</value>
         <description>NameNode URI</description>
     </property>
 </configuration>
