@@ -56,51 +56,51 @@ services:
   #       ipv4_address: 10.5.0.5
 
 
-  # hadoop-namenode:
-  #   build:
-  #     context: ./spark
-  #     dockerfile: Dockerfile
-  #     args:
-  #       SPARK_VERSION: "${SPARK_VERSION}"
-  #       HADOOP_VERSION: "${HADOOP_VERSION}"
-  #   volumes:
-  #     - hdfs:/hdfs
-  #     - type: bind
-  #       source: ./spark/config/hadoop/core-site.xml
-  #       target: /opt/hadoop/etc/hadoop/core-site.xml
-  #     - type: bind
-  #       source: ./spark/config/hadoop/hdfs-site.xml
-  #       target: /opt/hadoop/etc/hadoop/hdfs-site.xml
-  #   ports:
-  #     - 8020:8020
-  #   command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
-  #   networks:
-  #     combinenet:
-  #       ipv4_address: 10.5.0.6
+  hadoop-namenode:
+    build:
+      context: ./spark
+      dockerfile: Dockerfile
+      args:
+        SPARK_VERSION: "${SPARK_VERSION}"
+        HADOOP_VERSION: "${HADOOP_VERSION}"
+    volumes:
+      - hdfs:/hdfs
+      - type: bind
+        source: ./spark/config/hadoop/core-site.xml
+        target: /opt/hadoop/etc/hadoop/core-site.xml
+      - type: bind
+        source: ./spark/config/hadoop/hdfs-site.xml
+        target: /opt/hadoop/etc/hadoop/hdfs-site.xml
+    ports:
+      - 8020:8020
+    command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.6
 
 
-  # hadoop-datanode:
-  #   build:
-  #     context: ./spark
-  #     dockerfile: Dockerfile
-  #     args:
-  #       SPARK_VERSION: "${SPARK_VERSION}"
-  #       HADOOP_VERSION: "${HADOOP_VERSION}"
-  #   volumes:
-  #     - hdfs:/hdfs
-  #     - type: bind
-  #       source: ./spark/config/hadoop/core-site.xml
-  #       target: /opt/hadoop/etc/hadoop/core-site.xml
-  #     - type: bind
-  #       source: ./spark/config/hadoop/hdfs-site.xml
-  #       target: /opt/hadoop/etc/hadoop/hdfs-site.xml
-  #   ports:
-  #     - 50070:50070
-  #     - 50075:50075
-  #   command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
-  #   networks:
-  #     combinenet:
-  #       ipv4_address: 10.5.0.7
+  hadoop-datanode:
+    build:
+      context: ./spark
+      dockerfile: Dockerfile
+      args:
+        SPARK_VERSION: "${SPARK_VERSION}"
+        HADOOP_VERSION: "${HADOOP_VERSION}"
+    volumes:
+      - hdfs:/hdfs
+      - type: bind
+        source: ./spark/config/hadoop/core-site.xml
+        target: /opt/hadoop/etc/hadoop/core-site.xml
+      - type: bind
+        source: ./spark/config/hadoop/hdfs-site.xml
+        target: /opt/hadoop/etc/hadoop/hdfs-site.xml
+    ports:
+      - 50070:50070
+      - 50075:50075
+    command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.7
 
 
   spark-master:
