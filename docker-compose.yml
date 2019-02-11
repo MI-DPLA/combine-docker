@@ -189,6 +189,20 @@ services:
   #     combinenet:
   #       ipv4_address: 10.5.0.10
 
+  combine-django:
+    build:
+      context: ./combine
+      dockerfile: Dockerfile_django
+    volumes:
+      - hdfs:/hdfs
+      - ./combinelib:/combinelib      
+    ports:
+      - 8000:8000
+    command:  /bin/bash
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.11
+
 
 volumes:
   esdata:
