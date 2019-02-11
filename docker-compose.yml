@@ -2,54 +2,54 @@ version: '3.2'
 services:
 
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
-    environment:
-      - cluster.name=combine-elasticsearch
-      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
-      - xpack.security.enabled=false
-    volumes:
-      - esdata:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.2
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+  #   environment:
+  #     - cluster.name=combine-elasticsearch
+  #     - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+  #     - xpack.security.enabled=false
+  #   volumes:
+  #     - esdata:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9200:9200
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.2
 
 
-  mongo:
-    build: ./mongo
-    volumes:
-      - mongodata:/data/db
-    ports:
-      - 27017:27017
-    command: "--config /etc/mongod.conf"
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.3
+  # mongo:
+  #   build: ./mongo
+  #   volumes:
+  #     - mongodata:/data/db
+  #   ports:
+  #     - 27017:27017
+  #   command: "--config /etc/mongod.conf"
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.3
 
 
-  mysql:
-    build: ./mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: combine
-    volumes:
-      - mysqldata:/var/lib/mysql
-    ports:
-      - 3306:3306
-    command: "--default-authentication-plugin=mysql_native_password"
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.4
+  # mysql:
+  #   build: ./mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: combine
+  #   volumes:
+  #     - mysqldata:/var/lib/mysql
+  #   ports:
+  #     - 3306:3306
+  #   command: "--default-authentication-plugin=mysql_native_password"
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.4
 
 
-  redis:
-    image: redis:4.0
-    ports:
-      - 6379:6379
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.5
+  # redis:
+  #   image: redis:4.0
+  #   ports:
+  #     - 6379:6379
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.5
 
 
   hadoop-namenode:
@@ -68,9 +68,14 @@ services:
       - type: bind
         source: ./hadoop/hdfs-site.xml
         target: /opt/hadoop/etc/hadoop/hdfs-site.xml
+      # - type: bind
+      #   source: ./hadoop/entrypoint_namenode.sh
+      #   target: /tmp/entrypoint_namenode.sh
     ports:
       - 8020:8020
+    # entrypoint: bash /tmp/entrypoint_namenode.sh
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
+    tty: true
     networks:
       combinenet:
         ipv4_address: 10.5.0.6
@@ -98,91 +103,91 @@ services:
         ipv4_address: 10.5.0.7
 
 
-  spark-master:
-    build:
-      context: ./spark
-      dockerfile: Dockerfile
-      args:
-        SPARK_VERSION: "${SPARK_VERSION}"
-        HADOOP_VERSION: "${HADOOP_VERSION}"
-        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
-        SCALA_VERSION: "${SCALA_VERSION}"
-    volumes:
-      - hdfs:/hdfs
-      - ./combinelib:/combinelib
-      - type: bind
-        source: ./spark/spark-defaults.conf
-        target: /opt/spark/conf/spark-defaults.conf
-    ports:
-      - 8080:8080
-      - 7077:7077
-    environment:
-      - "SPARK_HOME=/opt/spark"
-      - "SPARK_MASTER_HOST=spark-master"
-      - "SPARK_DRIVER_HOST=spark-master"
-      - "SPARK_LOCAL_IP=spark-master"
-      - "SPARK_DRIVER_CORES=1"
-      - "SPARK_DRIVER_MEMORY=1G"
-    command:  /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.8
+  # spark-master:
+  #   build:
+  #     context: ./spark
+  #     dockerfile: Dockerfile
+  #     args:
+  #       SPARK_VERSION: "${SPARK_VERSION}"
+  #       HADOOP_VERSION: "${HADOOP_VERSION}"
+  #       HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
+  #       LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
+  #       SCALA_VERSION: "${SCALA_VERSION}"
+  #   volumes:
+  #     - hdfs:/hdfs
+  #     - ./combinelib:/combinelib
+  #     - type: bind
+  #       source: ./spark/spark-defaults.conf
+  #       target: /opt/spark/conf/spark-defaults.conf
+  #   ports:
+  #     - 8080:8080
+  #     - 7077:7077
+  #   environment:
+  #     - "SPARK_HOME=/opt/spark"
+  #     - "SPARK_MASTER_HOST=spark-master"
+  #     - "SPARK_DRIVER_HOST=spark-master"
+  #     - "SPARK_LOCAL_IP=spark-master"
+  #     - "SPARK_DRIVER_CORES=1"
+  #     - "SPARK_DRIVER_MEMORY=1G"
+  #   command:  /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.8
 
 
-  spark-worker:
-    build:
-      context: ./spark
-      dockerfile: Dockerfile
-      args:
-        SPARK_VERSION: "${SPARK_VERSION}"
-        HADOOP_VERSION: "${HADOOP_VERSION}"
-        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
-        SCALA_VERSION: "${SCALA_VERSION}"
-    volumes:
-      - hdfs:/hdfs
-      - ./combinelib:/combinelib
-      - type: bind
-        source: ./spark/spark-defaults.conf
-        target: /opt/spark/conf/spark-defaults.conf
-    ports:
-      - 8081:8081
-    environment:
-      - "SPARK_HOME=/opt/spark"
-      - "SPARK_MASTER=spark://spark-master:7077"
-      - "SPARK_MASTER_HOST=spark-master"
-      - "SPARK_DRIVER_HOST=spark-master"
-      - "SPARK_WORKER_CORES=2"
-      - "SPARK_WORKER_MEMORY=4G"
-    command:  /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.9
+  # spark-worker:
+  #   build:
+  #     context: ./spark
+  #     dockerfile: Dockerfile
+  #     args:
+  #       SPARK_VERSION: "${SPARK_VERSION}"
+  #       HADOOP_VERSION: "${HADOOP_VERSION}"
+  #       HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
+  #       LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
+  #       SCALA_VERSION: "${SCALA_VERSION}"
+  #   volumes:
+  #     - hdfs:/hdfs
+  #     - ./combinelib:/combinelib
+  #     - type: bind
+  #       source: ./spark/spark-defaults.conf
+  #       target: /opt/spark/conf/spark-defaults.conf
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     - "SPARK_HOME=/opt/spark"
+  #     - "SPARK_MASTER=spark://spark-master:7077"
+  #     - "SPARK_MASTER_HOST=spark-master"
+  #     - "SPARK_DRIVER_HOST=spark-master"
+  #     - "SPARK_WORKER_CORES=2"
+  #     - "SPARK_WORKER_MEMORY=4G"
+  #   command:  /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.9
 
 
-  livy:
-    build:
-      context: ./livy
-      dockerfile: Dockerfile
-      args:
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
-        SCALA_VERSION: "${SCALA_VERSION}"
-    volumes:
-      - hdfs:/hdfs
-      - ./combinelib:/combinelib
-      - type: bind
-        source: ./livy/livy-env.sh
-        target: /opt/livy/conf/livy-env.sh
-      - type: bind
-        source: ./livy/livy.conf
-        target: /opt/livy/conf/livy.conf
-    ports:
-      - 8998:8998
-    command:  /opt/livy/bin/livy-server
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.10
+  # livy:
+  #   build:
+  #     context: ./livy
+  #     dockerfile: Dockerfile
+  #     args:
+  #       LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
+  #       SCALA_VERSION: "${SCALA_VERSION}"
+  #   volumes:
+  #     - hdfs:/hdfs
+  #     - ./combinelib:/combinelib
+  #     - type: bind
+  #       source: ./livy/livy-env.sh
+  #       target: /opt/livy/conf/livy-env.sh
+  #     - type: bind
+  #       source: ./livy/livy.conf
+  #       target: /opt/livy/conf/livy.conf
+  #   ports:
+  #     - 8998:8998
+  #   command:  /opt/livy/bin/livy-server
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.10
 
 
 volumes:
