@@ -1,29 +1,29 @@
-FROM continuumio/miniconda3
-# QUESTION: Should this actually extend livy?
-#	- at the very least, need to install livy client from /opt/livy in Livy container
+FROM combine-docker_livy:latest
 
-# create conda env
-RUN conda create -n combine python=3.5
-RUN echo "source activate combine" > ~/.bashrc
-# ENV PATH /opt/conda/envs/combine/bin:$PATH
+# install miniconda
 
-# install mysql client
-RUN apt-get update \
- && apt-get install -y default-libmysqlclient-dev gcc libkrb5-dev libxml2-dev libxslt1-dev libmysql-java python-dev
+# # create conda env
+# RUN conda create -n combine python=3.5
+# RUN echo "source activate combine" > ~/.bashrc
+# # ENV PATH /opt/conda/envs/combine/bin:$PATH
 
-# clone combine repo
-RUN cd /opt \
- && git clone https://github.com/WSULib/combine.git 
+# # install mysql client
+# RUN apt-get update \
+#  && apt-get install -y default-libmysqlclient-dev gcc libkrb5-dev libxml2-dev libxslt1-dev libmysql-java python-dev
 
-# downgrade pip and install dependencies
-RUN pip install pip==9.0.3
-RUN cd /opt/combine \
- && pip install -r requirements.txt
+# # clone combine repo
+# RUN cd /opt \
+#  && git clone https://github.com/WSULib/combine.git
+
+# # downgrade pip and install dependencies
+# RUN pip install pip==9.0.3
+# RUN cd /opt/combine \
+#  && pip install -r requirements.txt
 
 # install Livy Client
 # https://github.com/WSULib/combine-playbook/blob/master/roles/combine/tasks/main.yml#L34-L42
 
-# install es2csv 
+# install es2csv
 # https://github.com/WSULib/combine-playbook/blob/master/roles/combine/tasks/main.yml#L44-L49
 
 # create mysql database
