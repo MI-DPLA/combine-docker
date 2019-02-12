@@ -1,4 +1,4 @@
-FROM combine-docker_hadoop-namenode:latest
+FROM combine-docker_spark-cluster-base:latest
 
 # Arguments
 ARG SPARK_VERSION

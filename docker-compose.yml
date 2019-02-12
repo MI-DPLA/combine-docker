@@ -52,16 +52,23 @@ services:
   #       ipv4_address: 10.5.0.5
 
 
+  spark-cluster-base:
+    build:
+      context: ./spark_cluster
+      dockerfile: Dockerfile        
+    command:  /bin/true # exits immediately when run, as not needed
+
+
   hadoop-namenode:
     build:
       context: ./hadoop
-      dockerfile: Dockerfile_namenode
+      dockerfile: Dockerfile
       args:
         HADOOP_VERSION: "${HADOOP_VERSION}"
     volumes:
       - hdfs:/hdfs
       - ./combinelib:/combinelib
-      - ./data:/data
+      - hadoop_binaries:/opt/hadoop
       - type: bind
         source: ./hadoop/core-site.xml
         target: /opt/hadoop/etc/hadoop/core-site.xml
@@ -74,8 +81,7 @@ services:
     ports:
       - 8020:8020
     # entrypoint: bash /tmp/entrypoint_namenode.sh
-    command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
-    tty: true
+    command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode    
     networks:
       combinenet:
         ipv4_address: 10.5.0.6
@@ -84,14 +90,17 @@ services:
   hadoop-datanode:
     build:
       context: ./hadoop
-      dockerfile: Dockerfile_datanode
+      dockerfile: Dockerfile
+      args:
+        HADOOP_VERSION: "${HADOOP_VERSION}"
     volumes:
       - hdfs:/hdfs
       - ./combinelib:/combinelib
-      - type: bind
+      - hadoop_binaries:/opt/hadoop
+      - type: bind # unclear why needed...
         source: ./hadoop/core-site.xml
         target: /opt/hadoop/etc/hadoop/core-site.xml
-      - type: bind
+      - type: bind # unclear why needed...
         source: ./hadoop/hdfs-site.xml
         target: /opt/hadoop/etc/hadoop/hdfs-site.xml
     ports:
@@ -103,67 +112,63 @@ services:
         ipv4_address: 10.5.0.7
 
 
-  # spark-master:
-  #   build:
-  #     context: ./spark
-  #     dockerfile: Dockerfile
-  #     args:
-  #       SPARK_VERSION: "${SPARK_VERSION}"
-  #       HADOOP_VERSION: "${HADOOP_VERSION}"
-  #       HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-  #       LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
-  #       SCALA_VERSION: "${SCALA_VERSION}"
-  #   volumes:
-  #     - hdfs:/hdfs
-  #     - ./combinelib:/combinelib
-  #     - type: bind
-  #       source: ./spark/spark-defaults.conf
-  #       target: /opt/spark/conf/spark-defaults.conf
-  #   ports:
-  #     - 8080:8080
-  #     - 7077:7077
-  #   environment:
-  #     - "SPARK_HOME=/opt/spark"
-  #     - "SPARK_MASTER_HOST=spark-master"
-  #     - "SPARK_DRIVER_HOST=spark-master"
-  #     - "SPARK_LOCAL_IP=spark-master"
-  #     - "SPARK_DRIVER_CORES=1"
-  #     - "SPARK_DRIVER_MEMORY=1G"
-  #   command:  /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
-  #   networks:
-  #     combinenet:
-  #       ipv4_address: 10.5.0.8
+  spark-master:
+    build:
+      context: ./spark
+      dockerfile: Dockerfile
+      args:
+        SPARK_VERSION: "${SPARK_VERSION}"
+        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"        
+    volumes:
+      - hdfs:/hdfs
+      - ./combinelib:/combinelib
+      - spark_binaries:/opt/spark
+      - type: bind
+        source: ./spark/spark-defaults.conf
+        target: /opt/spark/conf/spark-defaults.conf
+    ports:
+      - 8080:8080
+      - 7077:7077
+    environment:
+      - "SPARK_HOME=/opt/spark"
+      - "SPARK_MASTER_HOST=spark-master"
+      - "SPARK_DRIVER_HOST=spark-master"
+      - "SPARK_LOCAL_IP=spark-master"
+      - "SPARK_DRIVER_CORES=1"
+      - "SPARK_DRIVER_MEMORY=1G"
+    command:  /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.8
 
 
-  # spark-worker:
-  #   build:
-  #     context: ./spark
-  #     dockerfile: Dockerfile
-  #     args:
-  #       SPARK_VERSION: "${SPARK_VERSION}"
-  #       HADOOP_VERSION: "${HADOOP_VERSION}"
-  #       HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-  #       LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
-  #       SCALA_VERSION: "${SCALA_VERSION}"
-  #   volumes:
-  #     - hdfs:/hdfs
-  #     - ./combinelib:/combinelib
-  #     - type: bind
-  #       source: ./spark/spark-defaults.conf
-  #       target: /opt/spark/conf/spark-defaults.conf
-  #   ports:
-  #     - 8081:8081
-  #   environment:
-  #     - "SPARK_HOME=/opt/spark"
-  #     - "SPARK_MASTER=spark://spark-master:7077"
-  #     - "SPARK_MASTER_HOST=spark-master"
-  #     - "SPARK_DRIVER_HOST=spark-master"
-  #     - "SPARK_WORKER_CORES=2"
-  #     - "SPARK_WORKER_MEMORY=4G"
-  #   command:  /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077
-  #   networks:
-  #     combinenet:
-  #       ipv4_address: 10.5.0.9
+  spark-worker:
+    build:
+      context: ./spark
+      dockerfile: Dockerfile
+      args:
+        SPARK_VERSION: "${SPARK_VERSION}"
+        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
+    volumes:
+      - hdfs:/hdfs
+      - ./combinelib:/combinelib
+      - spark_binaries:/opt/spark
+      - type: bind
+        source: ./spark/spark-defaults.conf
+        target: /opt/spark/conf/spark-defaults.conf
+    ports:
+      - 8081:8081
+    environment:
+      - "SPARK_HOME=/opt/spark"
+      - "SPARK_MASTER=spark://spark-master:7077"
+      - "SPARK_MASTER_HOST=spark-master"
+      - "SPARK_DRIVER_HOST=spark-master"
+      - "SPARK_WORKER_CORES=2"
+      - "SPARK_WORKER_MEMORY=4G"
+    command:  /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.9
 
 
   # livy:
@@ -189,19 +194,19 @@ services:
   #     combinenet:
   #       ipv4_address: 10.5.0.10
 
-  combine-django:
-    build:
-      context: ./combine
-      dockerfile: Dockerfile_django
-    volumes:
-      - hdfs:/hdfs
-      - ./combinelib:/combinelib      
-    ports:
-      - 8000:8000
-    command:  /bin/bash
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.11
+  # combine-django:
+  #   build:
+  #     context: ./combine
+  #     dockerfile: Dockerfile_django
+  #   volumes:
+  #     - hdfs:/hdfs
+  #     - ./combinelib:/combinelib      
+  #   ports:
+  #     - 8000:8000
+  #   command:  /bin/bash
+  #   networks:
+  #     combinenet:
+  #       ipv4_address: 10.5.0.11
 
 
 volumes:
@@ -211,13 +216,19 @@ volumes:
     driver: local
   mysqldata:
     driver: local
-  combinehome:
-    driver: local
   hdfs:
     driver: local
+  combinehome:
+    driver: local  
   combine_python_env:
     driver: local
   combine_django_app:
+    driver: local
+  hadoop_binaries:
+    driver: local
+  spark_binaries:
+    driver: local
+  livy_binaries:
     driver: local
 
 
