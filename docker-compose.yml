@@ -226,37 +226,37 @@ services:
       combinenet:
         ipv4_address: 10.5.0.10
 
-  # combine-django:
-  #   build:
-  #     context: ./combine
-  #     dockerfile: Dockerfile_django
-  #   volumes:
-  #     - type: bind
-  #       source: ./hadoop/core-site.xml
-  #       target: /opt/hadoop/etc/hadoop/core-site.xml
-  #     - type: bind
-  #       source: ./hadoop/hdfs-site.xml
-  #       target: /opt/hadoop/etc/hadoop/hdfs-site.xml
-  #     - type: bind
-  #       source: ./spark/spark-defaults.conf
-  #       target: /opt/spark/conf/spark-defaults.conf
-  #     - type: bind
-  #       source: ./livy/livy-env.sh
-  #       target: /opt/livy/conf/livy-env.sh
-  #     - type: bind
-  #       source: ./livy/livy.conf
-  #       target: /opt/livy/conf/livy.conf
-  #     - hdfs:/hdfs
-  #     - ./combinelib:/combinelib
-  #     - hadoop_binaries:/opt/hadoop
-  #     - spark_binaries:/opt/spark
-  #     - livy_binaries:/opt/livy
-  #   ports:
-  #     - 8000:8000
-  #   command:  /bin/bash
-  #   networks:
-  #     combinenet:
-  #       ipv4_address: 10.5.0.11
+  combine-django:
+    build:
+      context: ./combine
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ./hadoop/core-site.xml
+        target: /opt/hadoop/etc/hadoop/core-site.xml
+      - type: bind
+        source: ./hadoop/hdfs-site.xml
+        target: /opt/hadoop/etc/hadoop/hdfs-site.xml
+      - type: bind
+        source: ./spark/spark-defaults.conf
+        target: /opt/spark/conf/spark-defaults.conf
+      - type: bind
+        source: ./livy/livy-env.sh
+        target: /opt/livy/conf/livy-env.sh
+      - type: bind
+        source: ./livy/livy.conf
+        target: /opt/livy/conf/livy.conf
+      - hdfs:/hdfs
+      - ./combinelib:/combinelib
+      - hadoop_binaries:/opt/hadoop
+      - spark_binaries:/opt/spark
+      - livy_binaries:/opt/livy
+    ports:
+      - 8000:8000
+    command:  /bin/bash
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.11
 
 
 volumes:
