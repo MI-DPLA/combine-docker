@@ -230,6 +230,9 @@ services:
     build:
       context: ./combine
       dockerfile: Dockerfile
+      args:
+        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
+        SCALA_VERSION: "${SCALA_VERSION}"
     volumes:
       - type: bind
         source: ./hadoop/core-site.xml

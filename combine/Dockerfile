@@ -36,9 +36,21 @@ RUN cd /opt/combine \
 
 # install Livy Client
 # https://github.com/WSULib/combine-playbook/blob/master/roles/combine/tasks/main.yml#L34-L42
+# Arguments
+ARG LIVY_TAGGED_RELEASE
+ARG SCALA_VERSION
+ENV LIVY_TAGGED_RELEASE=$LIVY_TAGGED_RELEASE
+ENV SCALA_VERSION=$SCALA_VERSION
+RUN cd /opt \
+ && git clone https://github.com/apache/incubator-livy livy \
+ && cd livy \
+ && git checkout -b tags/${LIVY_TAGGED_RELEASE} ${LIVY_TAGGED_RELEASE} \
+ && cd /opt/livy/python-api \
+ && python setup.py install
 
 # install es2csv
 # https://github.com/WSULib/combine-playbook/blob/master/roles/combine/tasks/main.yml#L44-L49
+# RUN pip install git+https://github.com/WSULib/es2csv.git
 
 # create mysql database
 
