@@ -1,4 +1,4 @@
-FROM combine-docker_spark-master:latest
+FROM combine-docker_spark-cluster-base:latest
 
 # Arguments
 ARG LIVY_TAGGED_RELEASE
