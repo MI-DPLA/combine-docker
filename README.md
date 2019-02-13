@@ -10,7 +10,7 @@ Combine Docker-ized
   `docker-compose -p combine build`
 
   * Format HDFS namenode
-  `docker-compose run hadoop-namenode mkdir -p /hdfs/namenode && echo 'Y' | ${HADOOP_PREFIX}/bin/hdfs namenode -format`
+  `docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode && echo 'Y' | ${HADOOP_PREFIX}/bin/hdfs namenode -format"`
 
   * [Combine database setup from Ansible playbook](https://github.com/WSULib/combine-playbook/blob/master/roles/combine/tasks/main.yml)
 

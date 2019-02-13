@@ -17,3 +17,5 @@ RUN cd /opt \
 
 # Copy configurations
 COPY livy.conf /opt/livy/conf/livy.conf
+COPY livy-env.sh /opt/livy/conf/livy-env.sh
+

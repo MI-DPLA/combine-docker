@@ -75,25 +75,6 @@ services:
         source: hadoop_binaries
         target: /opt/hadoop
         read_only: false # owner of dir
-      # - type: volume
-      #   source: spark_binaries
-      #   target: /opt/spark
-      #   read_only: true
-      # - type: volume
-      #   source: livy_binaries
-      #   target: /opt/livy
-      #   read_only: true
-      # - type: volume
-      #   source: combine_django_app
-      #   target: /opt/combine
-      #   read_only: true
-      # - type: volume
-      #   source: combine_home
-      #   target: /home/combine
-      #   read_only: true
-      # - type: bind
-      #   source: ./hadoop/entrypoint_namenode.sh
-      #   target: /tmp/entrypoint_namenode.sh
     ports:
       - 8020:8020
     # entrypoint: bash /tmp/entrypoint_namenode.sh
@@ -111,30 +92,10 @@ services:
         HADOOP_VERSION: "${HADOOP_VERSION}"
     volumes:
       - ./combinelib:/combinelib
-      - type: volume
-        source: hdfs
-        target: /hdfs
-        read_only: false
       # - type: volume
-      #   source: hadoop_binaries
-      #   target: /opt/hadoop
-      #   read_only: false # owner of dir
-      # - type: volume
-      #   source: spark_binaries
-      #   target: /opt/spark
-      #   read_only: true
-      # - type: volume
-      #   source: livy_binaries
-      #   target: /opt/livy
-      #   read_only: true
-      # - type: volume
-      #   source: combine_django_app
-      #   target: /opt/combine
-      #   read_only: true
-      # - type: volume
-      #   source: combine_home
-      #   target: /home/combine
-      #   read_only: true
+      #   source: hdfs
+      #   target: /hdfs
+      #   read_only: false
     ports:
       - 50070:50070
       - 50075:50075
@@ -167,18 +128,6 @@ services:
         source: spark_binaries
         target: /opt/spark
         read_only: false # owner of dir
-      # - type: volume
-      #   source: livy_binaries
-      #   target: /opt/livy
-      #   read_only: true
-      # - type: volume
-      #   source: combine_django_app
-      #   target: /opt/combine
-      #   read_only: true
-      # - type: volume
-      #   source: combine_home
-      #   target: /home/combine
-      #   read_only: true
     ports:
       - 8080:8080
       - 7077:7077
@@ -189,6 +138,7 @@ services:
       - "SPARK_LOCAL_IP=spark-master"
       - "SPARK_DRIVER_CORES=1"
       - "SPARK_DRIVER_MEMORY=1G"
+      - "SPARK_PUBLIC_DNS=10.5.0.1"
     command:  /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
     # depends_on:
     #   - hadoop-namenode
@@ -215,22 +165,6 @@ services:
         source: hadoop_binaries
         target: /opt/hadoop
         read_only: true
-      # - type: volume
-      #   source: spark_binaries
-      #   target: /opt/spark
-      #   read_only: false # owner of dir
-      # - type: volume
-      #   source: livy_binaries
-      #   target: /opt/livy
-      #   read_only: true
-      # - type: volume
-      #   source: combine_django_app
-      #   target: /opt/combine
-      #   read_only: true
-      # - type: volume
-      #   source: combine_home
-      #   target: /home/combine
-      #   read_only: true
     ports:
       - 8081:8081
     environment:
@@ -240,6 +174,7 @@ services:
       - "SPARK_DRIVER_HOST=spark-master"
       - "SPARK_WORKER_CORES=2"
       - "SPARK_WORKER_MEMORY=4G"
+      - "SPARK_PUBLIC_DNS=10.5.0.1"
     command:  /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark-master:7077
     # depends_on:
     #   - hadoop-namenode
