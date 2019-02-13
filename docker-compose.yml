@@ -29,18 +29,18 @@ services:
   #       ipv4_address: 10.5.0.3
 
 
-  # mysql:
-  #   build: ./mysql
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: combine
-  #   volumes:
-  #     - mysqldata:/var/lib/mysql
-  #   ports:
-  #     - 3306:3306
-  #   command: "--default-authentication-plugin=mysql_native_password"
-  #   networks:
-  #     combinenet:
-  #       ipv4_address: 10.5.0.4
+  mysql:
+    build: ./mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: combine
+    volumes:
+      - mysqldata:/var/lib/mysql
+    ports:
+      - 3306:3306
+    command: "--default-authentication-plugin=mysql_native_password"
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.4
 
 
   # redis:
@@ -231,51 +231,55 @@ services:
         ipv4_address: 10.5.0.10
 
 
-  # combine-django:
-  #   build:
-  #     context: ./combine
-  #     dockerfile: Dockerfile
-  #     args:
-  #       LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
-  #       SCALA_VERSION: "${SCALA_VERSION}"
-  #   volumes:
-  #     - ./combinelib:/combinelib
-  #     - type: volume
-  #       source: hdfs
-  #       target: /hdfs
-  #       read_only: true
-  #     - type: volume
-  #       source: hadoop_binaries
-  #       target: /opt/hadoop
-  #       read_only: true
-  #     - type: volume
-  #       source: spark_binaries
-  #       target: /opt/spark
-  #       read_only: true
-  #     - type: volume
-  #       source: livy_binaries
-  #       target: /opt/livy
-  #       read_only: true
-  #     - type: volume
-  #       source: combine_django_app
-  #       target: /opt/combine
-  #       read_only: false # owner
-  #     - type: volume
-  #       source: combine_home
-  #       target: /home/combine
-  #       read_only: false # owner
-  #   ports:
-  #     - 8000:8000
-  #   command:  /bin/bash
-  #   # depends_on:
-  #   #   - hadoop-namenode
-  #   #   - hadoop-datanode
-  #   #   - spark-master
-  #   #   - spark-worker
-  #   #   - livy
-  #   networks:
-  #     combinenet:
-  #       ipv4_address: 10.5.0.11
+  combine-django:
+    build:
+      context: ./combine
+      dockerfile: Dockerfile
+      args:
+        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
+        SCALA_VERSION: "${SCALA_VERSION}"
+    volumes:
+      - ./combinelib:/combinelib
+      - type: volume
+        source: hdfs
+        target: /hdfs
+        read_only: true
+      - type: volume
+        source: hadoop_binaries
+        target: /opt/hadoop
+        read_only: true
+      - type: volume
+        source: spark_binaries
+        target: /opt/spark
+        read_only: true
+      - type: volume
+        source: livy_binaries
+        target: /opt/livy
+        read_only: true
+      - type: volume
+        source: combine_django_app
+        target: /opt/combine
+        read_only: false # owner
+      - type: volume
+        source: combine_home
+        target: /home/combine
+        read_only: false # owner
+      - type: volume
+        source: combine_python_env
+        target: /opt/conda/envs/combine
+        read_only: false # owner
+    ports:
+      - 8000:8000
+    command:  /bin/bash
+    # depends_on:
+    #   - hadoop-namenode
+    #   - hadoop-datanode
+    #   - spark-master
+    #   - spark-worker
+    #   - livy
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.11
 
 
 volumes:
