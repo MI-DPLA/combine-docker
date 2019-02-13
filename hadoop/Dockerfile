@@ -10,6 +10,12 @@ RUN mkdir /opt/hadoop \
  && wget https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
  && tar --strip-components=1 -xvf hadoop-${HADOOP_VERSION}.tar.gz \
  && rm /opt/hadoop/hadoop-${HADOOP_VERSION}.tar.gz
+
+# Copy configurations
+COPY core-site.xml /opt/hadoop/etc/hadoop/core-site.xml
+COPY hdfs-site.xml /opt/hadoop/etc/hadoop/hdfs-site.xml
+
+# Envs
 ENV HADOOP_PREFIX=/opt/hadoop
 ENV HADOOP_HOME=${HADOOP_PREFIX}
 ENV HADOOP_COMMON_HOME=${HADOOP_PREFIX}

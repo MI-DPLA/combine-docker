@@ -13,7 +13,8 @@ RUN cd /tmp \
  && mv /tmp/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_SHORT} /opt/spark
 ENV SPARK_HOME=/opt/spark
 
-
+# Copy configurations
+COPY spark-defaults.conf /opt/spark/conf/spark-defaults.conf
 
 
 

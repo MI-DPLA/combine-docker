@@ -17,36 +17,40 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86
 RUN /opt/conda/bin/conda create -n combine python=3.5 --yes \
  && echo "conda activate combine" >> ~/.bashrc
 
-# set default to python 3.5
-RUN rm /usr/bin/python \
- && ln -s /usr/bin/python3.5 /usr/bin/python
+# # set default to python 3.5
+# RUN rm /usr/bin/python \
+#  && ln -s /usr/bin/python3.5 /usr/bin/python
 
-# install mysql client
-RUN apt-get update \
- && apt-get install -y default-libmysqlclient-dev gcc libkrb5-dev libxml2-dev libxslt1-dev libmysql-java python3-dev
+# # install dependencies
+# RUN apt-get update \
+#  && apt-get install -y default-libmysqlclient-dev gcc libkrb5-dev libxml2-dev libxslt1-dev libmysql-java python3-dev mysql-client
 
-# clone combine repo
-RUN cd /opt \
- && git clone https://github.com/WSULib/combine.git
+# # clone combine repo
+# RUN cd /opt \
+#  && git clone https://github.com/WSULib/combine.git
 
-# downgrade pip and install dependencies
-RUN pip install pip==9.0.3
-RUN cd /opt/combine \
- && pip install -r requirements.txt
+# Copy configurations
+COPY localsettings.py /opt/combine/combine/localsettings.py
+COPY combine.sql /tmp/combine.sql
 
-# install Livy Client
-# https://github.com/WSULib/combine-playbook/blob/master/roles/combine/tasks/main.yml#L34-L42
-# Arguments
-ARG LIVY_TAGGED_RELEASE
-ARG SCALA_VERSION
-ENV LIVY_TAGGED_RELEASE=$LIVY_TAGGED_RELEASE
-ENV SCALA_VERSION=$SCALA_VERSION
-RUN cd /opt \
- && git clone https://github.com/apache/incubator-livy livy \
- && cd livy \
- && git checkout -b tags/${LIVY_TAGGED_RELEASE} ${LIVY_TAGGED_RELEASE} \
- && cd /opt/livy/python-api \
- && python setup.py install
+# # downgrade pip and install dependencies
+# RUN pip install pip==9.0.3
+# RUN cd /opt/combine \
+#  && pip install -r requirements.txt
+
+# # install Livy Client
+# # https://github.com/WSULib/combine-playbook/blob/master/roles/combine/tasks/main.yml#L34-L42
+# # Arguments
+# ARG LIVY_TAGGED_RELEASE
+# ARG SCALA_VERSION
+# ENV LIVY_TAGGED_RELEASE=$LIVY_TAGGED_RELEASE
+# ENV SCALA_VERSION=$SCALA_VERSION
+# RUN cd /opt \
+#  && git clone https://github.com/apache/incubator-livy livy \
+#  && cd livy \
+#  && git checkout -b tags/${LIVY_TAGGED_RELEASE} ${LIVY_TAGGED_RELEASE} \
+#  && cd /opt/livy/python-api \
+#  && python setup.py install
 
 # install es2csv
 # https://github.com/WSULib/combine-playbook/blob/master/roles/combine/tasks/main.yml#L44-L49
