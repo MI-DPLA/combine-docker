@@ -49,12 +49,3 @@ RUN cd /opt \
  && cd /opt/livy/python-api \
  && python setup.py install
 
-# install es2csv
-# https://github.com/WSULib/combine-playbook/blob/master/roles/combine/tasks/main.yml#L44-L49
-# RUN pip install git+https://github.com/WSULib/es2csv.git
-
-# create mysql database
-
-# run database migrations
-# RUN python manage.py makemigrations \
-#  && python manage.py migrate

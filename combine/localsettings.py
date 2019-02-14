@@ -148,3 +148,17 @@ to preserve, so /tmp is not ideal here.
 '''
 STATEIO_EXPORT_DIR = '/home/combine/data/combine/stateio/exports'
 STATEIO_IMPORT_DIR = '/home/combine/data/combine/stateio/imports'
+
+
+# Docker Database override
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'combine',
+        'USER': 'combine',
+        'PASSWORD': 'combine',
+        'HOST': '10.5.0.4',
+        'PORT': '3306',
+    }
+}
+

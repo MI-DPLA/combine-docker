@@ -1,18 +1,26 @@
 # combine-docker
-Combine Docker-ized
 
 ## Initial Build
 
-  * probably should use a prefix (namespace):
-  `docker-compose -p combine-docker # else, defaults to directory name`
+The end goal is a single `docker-compose up`, but in the interim there might be a couple additional steps.
 
-  * Build images:
-  `docker-compose -p combine build`
+Build images:
+```
+docker-compose -p combine-docker build
+```
 
-  * Format HDFS namenode:
-  `docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode && echo 'Y' | ${HADOOP_PREFIX}/bin/hdfs namenode -format"`
+Format HDFS namenode:
+```
+docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode && echo 'Y' | ${HADOOP_PREFIX}/bin/hdfs namenode -format"
+```
 
-  * Combine database setup...
+Run Combine Django database migrations:
+```
+TODO
+```
+
+
+
 
 ## Running
 
