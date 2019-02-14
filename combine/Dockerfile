@@ -57,5 +57,4 @@ RUN cd /opt \
 
 # run database migrations
 # RUN python manage.py makemigrations \
-#  && python manage.py migrate \
-#  && python manage.py migrate core \
+#  && python manage.py migrate
