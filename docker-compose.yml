@@ -238,14 +238,16 @@ services:
         source: livy_binaries
         target: /opt/livy
         read_only: true
-      - type: volume
-        source: combine_django_app
-        target: /opt/combine
-        read_only: false # owner
+      # - type: volume
+      #   source: combine_django_app
+      #   target: /opt/combine
+      #   read_only: false # owner
       - type: bind
         source: ./mnt/combine_django_app
         target: /opt/combine
         read_only: false # owner
+        bind:
+          propagation: shared
       - type: volume
         source: combine_home
         target: /home/combine
@@ -256,7 +258,10 @@ services:
         read_only: false # owner
     ports:
       - 8000:8000
-    command:  python /opt/combine/manage.py runserver --noreload 0.0.0.0:8000
+    # command:  python /opt/combine/manage.py runserver --noreload 0.0.0.0:8000
+    command:  python /opt/combine/manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - mysql
     networks:
       combinenet:
         ipv4_address: 10.5.0.11

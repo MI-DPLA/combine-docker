@@ -26,3 +26,9 @@ docker:
 docker-compose run combine-django /bin/bash -c "/tmp/combine_db_prepare.sh"
 ```
 
+
+### ToDo
+
+  * if dockerized, handle not checking supervisor for celery status
+  * configure Mongo host
+  * configure elasticsearch host

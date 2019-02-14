@@ -1,5 +1,9 @@
 # combine-docker
 
+## Configuration
+
+Where will this happen?  How can this most closely align with 
+
 ## Initial Build
 
 The end goal is a single `docker-compose up`, but in the interim there might be a couple additional steps.

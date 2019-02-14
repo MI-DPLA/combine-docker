@@ -69,7 +69,7 @@ WRITE_AVRO = False
 
 
 # ElasicSearch server
-ES_HOST = 'elasticsearch'
+ES_HOST = '10.5.0.2'
 INDEX_TO_ES = True
 
 
@@ -148,6 +148,10 @@ to preserve, so /tmp is not ideal here.
 '''
 STATEIO_EXPORT_DIR = '/home/combine/data/combine/stateio/exports'
 STATEIO_IMPORT_DIR = '/home/combine/data/combine/stateio/imports'
+
+
+# Mongo server
+MONGO_HOST = '10.5.0.3'
 
 
 # Docker Database override
