@@ -26,15 +26,3 @@ docker:
 docker-compose run combine-django /bin/bash -c "/tmp/combine_db_prepare.sh"
 ```
 
-
-### ToDo
-
-  * if dockerized, handle not checking supervisor for celery status
-  * configure Mongo host
-  * configure elasticsearch host
-  * create indices for Mongo collections:
-  `https://github.com/WSULib/combine-playbook/blob/master/roles/combine/tasks/main.yml#L98`
-  * going to have to wait for MySQL to start the first time (and in general)
-    * ping port `3306`?
-  * `dockerized` branch
-    * will need to revisit supervisor hard sets to `None`

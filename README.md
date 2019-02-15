@@ -24,9 +24,13 @@ TODO
 ```
 
 
-
-
-## Running
+## Running and Managing
 
   * Run with `up` and detatch:
   `docker-compose -p combine up -d`
+
+  * Restart select services, e.g.:
+  `docker-compose restart combine-django combine-celery`
+
+
+## [TODO](TODO.md)

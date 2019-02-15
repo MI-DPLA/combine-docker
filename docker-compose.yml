@@ -223,7 +223,6 @@ services:
     ports:
       - 8000:8000
     command:  python /opt/combine/manage.py runserver --noreload 0.0.0.0:8000
-    # command:  python /opt/combine/manage.py runserver 0.0.0.0:8000
     depends_on:
       - mysql
     networks:
