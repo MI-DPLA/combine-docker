@@ -39,6 +39,6 @@ HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
 HADOOP_HDFS_HOME=/opt/hadoop
 HADOOP_MAPRED_HOME=/opt/hadoop
 HADOOP_YARN_HOME=/opt/hadoop
-PYSPARK_PYTHON=/usr/bin/python
+PYSPARK_PYTHON=/opt/conda/envs/combine/bin/python
 DJANGO_SETTINGS_MODULE=combine.settings
 # END ANSIBLE MANAGED BLOCK

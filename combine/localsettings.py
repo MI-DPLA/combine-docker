@@ -5,11 +5,11 @@ COMBINE_INSTALL_PATH = '/opt/combine'
 
 
 # Combine Front-End
-APP_HOST = 'combine-django'
+APP_HOST = '10.5.0.10'
 
 
 # Spark Cluster Information
-SPARK_HOST = 'spark-master'
+SPARK_HOST = '10.5.0.8'
 SPARK_PORT = 8080
 SPARK_APPLICATION_ROOT_PORT = 4040 # if taken, will automatically increment +100 from here until open port is found
 
@@ -26,7 +26,7 @@ MONGO_READ_PARTITION_SIZE_MB = 4
 Combine uses Livy to issue spark statements.
 Livy provides a stateless pattern for interacting with Spark, and by proxy, DPLA code.
 '''
-LIVY_HOST = 'livy'
+LIVY_HOST = '10.5.0.11'
 LIVY_PORT = 8998
 LIVY_DEFAULT_SESSION_CONFIG = {
     'kind':'pyspark',
@@ -136,8 +136,8 @@ ANALYSIS_JOBS_HIERARCHY = {
 }
 
 # Celery Configurations
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://10.5.0.5:6379/0'
+CELERY_RESULT_BACKEND = 'redis://10.5.0.5:6379/0'
 
 
 # StateIO Configurations

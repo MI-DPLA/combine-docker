@@ -1,4 +1,4 @@
-FROM combine-docker_spark-cluster-base:latest
+FROM combine-docker_combine-django:latest
 
 # Arguments
 ARG LIVY_TAGGED_RELEASE
@@ -19,3 +19,5 @@ RUN cd /opt \
 COPY livy.conf /opt/livy/conf/livy.conf
 COPY livy-env.sh /opt/livy/conf/livy-env.sh
 
+# Create symlink to ElasticSearch/Hadoop connector
+RUN ln -s /combinelib/elasticsearch-hadoop-5.6.2.jar /opt/livy/rsc/target/jars/elasticsearch-hadoop-5.6.2.jar

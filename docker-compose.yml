@@ -54,8 +54,12 @@ services:
 
   spark-cluster-base:
     build:
-      context: ./spark_cluster
+      context: ./spark_cluster_base
       dockerfile: Dockerfile
+      args:
+        SPARK_VERSION: "${SPARK_VERSION}"
+        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
+        ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: "${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}"
     command:  /bin/true # exits code 0
 
 
@@ -173,57 +177,6 @@ services:
   #       ipv4_address: 10.5.0.9
 
 
-  livy:
-    build:
-      context: ./livy
-      dockerfile: Dockerfile
-      args:
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
-        SCALA_VERSION: "${SCALA_VERSION}"
-    volumes:
-      - ./combinelib:/combinelib
-      - type: volume
-        source: hdfs
-        target: /hdfs
-        read_only: true
-      - type: volume
-        source: hadoop_binaries
-        target: /opt/hadoop
-        read_only: true
-      - type: volume
-        source: spark_binaries
-        target: /opt/spark
-        read_only: true
-      - type: volume
-        source: livy_binaries
-        target: /opt/livy
-        read_only: false # owner of dir
-      # - type: volume
-      #   source: combine_django_app
-      #   target: /opt/combine
-      #   read_only: true
-      - type: bind
-        source: ./mnt/combine_django_app
-        target: /opt/combine
-        read_only: false # owner
-        bind:
-          propagation: shared
-      - type: volume
-        source: combine_home
-        target: /home/combine
-        read_only: true
-      - type: volume
-        source: combine_python_env
-        target: /opt/conda/envs/combine
-        read_only: true
-    ports:
-      - 8998:8998
-    command:  /opt/livy/bin/livy-server
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.10
-
-
   combine-django:
     build:
       context: ./combine
@@ -269,10 +222,108 @@ services:
         read_only: false # owner
     ports:
       - 8000:8000
-    # command:  python /opt/combine/manage.py runserver --noreload 0.0.0.0:8000
-    command:  python /opt/combine/manage.py runserver 0.0.0.0:8000
+    command:  python /opt/combine/manage.py runserver --noreload 0.0.0.0:8000
+    # command:  python /opt/combine/manage.py runserver 0.0.0.0:8000
     depends_on:
       - mysql
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.10
+
+
+  combine-celery:
+    image: combine-docker_combine-django
+    volumes:
+      - ./combinelib:/combinelib
+      - type: volume
+        source: hdfs
+        target: /hdfs
+        read_only: true
+      - type: volume
+        source: hadoop_binaries
+        target: /opt/hadoop
+        read_only: true
+      - type: volume
+        source: spark_binaries
+        target: /opt/spark
+        read_only: true
+      - type: volume
+        source: livy_binaries
+        target: /opt/livy
+        read_only: true
+      # - type: volume
+      #   source: combine_django_app
+      #   target: /opt/combine
+      #   read_only: false # owner
+      - type: bind
+        source: ./mnt/combine_django_app
+        target: /opt/combine
+        read_only: false # owner
+        bind:
+          propagation: shared
+      - type: volume
+        source: combine_home
+        target: /home/combine
+        read_only: false # owner
+      - type: volume
+        source: combine_python_env
+        target: /opt/conda/envs/combine
+        read_only: false # owner
+    working_dir: /opt/combine
+    command:  celery -A core worker -l info --concurrency 1
+    depends_on:
+      - redis
+    networks:
+      combinenet:
+        ipv4_address: 10.5.0.12
+
+
+  livy:
+    build:
+      context: ./livy
+      dockerfile: Dockerfile
+      args:
+        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
+        SCALA_VERSION: "${SCALA_VERSION}"
+    volumes:
+      - ./combinelib:/combinelib
+      - type: volume
+        source: hdfs
+        target: /hdfs
+        read_only: true
+      - type: volume
+        source: hadoop_binaries
+        target: /opt/hadoop
+        read_only: true
+      - type: volume
+        source: spark_binaries
+        target: /opt/spark
+        read_only: false
+      - type: volume
+        source: livy_binaries
+        target: /opt/livy
+        read_only: false # owner of dir
+      # - type: volume
+      #   source: combine_django_app
+      #   target: /opt/combine
+      #   read_only: true
+      - type: bind
+        source: ./mnt/combine_django_app
+        target: /opt/combine
+        read_only: false # owner
+        bind:
+          propagation: shared
+      - type: volume
+        source: combine_home
+        target: /home/combine
+        read_only: false
+      - type: volume
+        source: combine_python_env
+        target: /opt/conda/envs/combine
+        read_only: true
+    ports:
+      - 8998:8998
+    command:  /opt/livy/bin/livy-server
     networks:
       combinenet:
         ipv4_address: 10.5.0.11
