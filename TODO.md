@@ -5,6 +5,9 @@
   * checking supervisor in multiple places, hardcoded to `None`, need to update
   * when starting, or running initial migrations, wait for MySQL to be ready
     * ping port `3306`?
+  * figure out how to handle live editing/debugging of `/opt/combine`
+    * placeholders for local binds to `./mnt`, but not ideal
+    * *could* be git sub-module point to actual Combine repo, but that gets messy
 
 ## Celery
 
