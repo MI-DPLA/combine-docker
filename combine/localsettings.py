@@ -1,5 +1,27 @@
 from django.conf import settings
 
+
+'''
+Docker "combinenet" internal network assigns:
+	- host machine:		10.5.0.1
+	- elasticsearch:	10.5.0.2
+	- mongo:			10.5.0.3
+	- mysql:			10.5.0.4
+	- redis:			10.5.0.5
+	- hadoop-namenode:	10.5.0.6
+	- hadoop-datanode:	10.5.0.7
+	- spark-master:		10.5.0.8	<----- not currently used
+	- spark-worker:		10.5.0.9	<----- not currently used
+	- combine-django:	10.5.0.10
+	- livy:				10.5.0.11
+	- combine-celery:	10.5.0.12
+'''
+
+
+# Deployment type
+COMBINE_DEPLOYMENT = 'docker'
+
+
 # Combine Install Location
 COMBINE_INSTALL_PATH = '/opt/combine'
 
@@ -18,8 +40,8 @@ SPARK_APPLICATION_ROOT_PORT = 4040 # if taken, will automatically increment +100
 SPARK_MAX_WORKERS = 1
 JDBC_NUMPARTITIONS = 200
 SPARK_REPARTITION = 200
-MONGO_READ_PARTITION_SIZE_MB = 4
 TARGET_RECORDS_PER_PARTITION = 5000
+MONGO_READ_PARTITION_SIZE_MB = 4
 
 
 # Apache Livy settings

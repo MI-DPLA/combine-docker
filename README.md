@@ -2,7 +2,11 @@
 
 ## Configuration
 
-Where will this happen?  How can this most closely align with 
+Modify Combine app configurations before Docker images are built.  While the file is already tailored to look for Docker containers, users may still want to add values like S3 or DPLA API keys:
+```
+./combine/localsettings.py
+```
+
 
 ## Initial Build
 
@@ -26,6 +30,3 @@ Run first build script
 
   * Restart select services, e.g.:
   `docker-compose restart combine-django combine-celery`
-
-
-## [TODO](TODO.md)
