@@ -22,9 +22,10 @@ ENV PATH /opt/conda/envs/combine/bin:$PATH
 RUN cd /opt \
  && git clone https://github.com/WSULib/combine.git
 
-# Copy configurations
+# Copy configurations and scripts
 COPY localsettings.py /opt/combine/combine/localsettings.py
 COPY combine.sql /tmp/combine.sql
+COPY combine_db_prepare.sh /tmp/combine_db_prepare.sh
 
 # downgrade pip and install dependencies
 RUN pip install pip==9.0.3

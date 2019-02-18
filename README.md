@@ -13,14 +13,9 @@ Build images:
 docker-compose -p combine-docker build
 ```
 
-Format HDFS namenode:
+Run first build script
 ```
-docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode && echo 'Y' | ${HADOOP_PREFIX}/bin/hdfs namenode -format"
-```
-
-Run Combine Django database migrations:
-```
-TODO
+./first_build.sh
 ```
 
 
