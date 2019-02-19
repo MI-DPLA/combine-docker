@@ -45,4 +45,3 @@ RUN cd /tmp \
  && git checkout -b tags/${LIVY_TAGGED_RELEASE} ${LIVY_TAGGED_RELEASE} \
  && cd /tmp/livy_for_python_client/python-api \
  && python setup.py install
-
