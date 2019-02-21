@@ -21,3 +21,7 @@ COPY livy-env.sh /opt/livy/conf/livy-env.sh
 
 # Create symlink to ElasticSearch/Hadoop connector
 RUN ln -s /combinelib/elasticsearch-hadoop-5.6.2.jar /opt/livy/rsc/target/jars/elasticsearch-hadoop-5.6.2.jar
+
+# Remove ivy cache directory
+# https://github.com/WSULib/combine-docker/issues/5
+RUN rm -r /root/.m2

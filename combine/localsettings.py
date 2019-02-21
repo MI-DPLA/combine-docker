@@ -54,7 +54,7 @@ LIVY_PORT = 8998
 LIVY_DEFAULT_SESSION_CONFIG = {
     'kind':'pyspark',
     'jars':[
-    	'file:///usr/share/java/mysql.jar'
+    	'file:///combinelib/mysql.jar'
     ],
     'files':[
     	'file://%s/core/spark/es.py' % COMBINE_INSTALL_PATH.rstrip('/'),
@@ -126,7 +126,7 @@ METADATA_PREFIXES = {
 
 # Database configurations for use in Spark context
 COMBINE_DATABASE = {
-	'jdbc_url':'jdbc:mysql://%s:3306/combine' % APP_HOST,
+	'jdbc_url':'jdbc:mysql://%s:3306/combine' % '10.5.0.4',
 	'user':settings.DATABASES['default']['USER'],
 	'password':settings.DATABASES['default']['PASSWORD']
 }

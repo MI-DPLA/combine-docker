@@ -20,7 +20,9 @@ ENV PATH /opt/conda/envs/combine/bin:$PATH
 
 # clone combine repo
 RUN cd /opt \
- && git clone https://github.com/WSULib/combine.git
+ && git clone https://github.com/WSULib/combine.git \
+ && cd combine \
+ && git checkout dockerized
 
 # Copy configurations and scripts
 COPY localsettings.py /opt/combine/combine/localsettings.py

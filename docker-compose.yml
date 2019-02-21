@@ -297,7 +297,7 @@ services:
       - type: volume
         source: spark_binaries
         target: /opt/spark
-        read_only: false
+        read_only: false # owner of /opt/spark when Livy only
       - type: volume
         source: livy_binaries
         target: /opt/livy
