@@ -222,7 +222,8 @@ services:
         read_only: false # owner
     ports:
       - 8000:8000
-    command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver --noreload 0.0.0.0:8000"
+    # command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver --noreload 0.0.0.0:8000"
+    command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
     depends_on:
       - mysql
     networks:
@@ -322,6 +323,10 @@ services:
         read_only: true
     ports:
       - 8998:8998
+      - 8080:8080
+      - 8081:8081
+      - 7077:7077
+      - 4040:4040
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && /opt/livy/bin/livy-server"
     networks:
       combinenet:
