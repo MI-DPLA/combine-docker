@@ -8,8 +8,13 @@ services:
       - cluster.name=combine-elasticsearch
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
       - xpack.security.enabled=false
+      - http.max_initial_line_length=5m
     volumes:
       - esdata:/usr/share/elasticsearch/data
+      - type: bind
+        source: ./elasticsearch/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: false # owner
     ports:
       - 9200:9200
     networks:
