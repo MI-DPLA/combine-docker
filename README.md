@@ -36,6 +36,6 @@ Run first build script
 
 ### ElasticSearch container dies because of `vm.max_map_count`
 
-Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_map_count` (seems to be particulary true on older machines):
+Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_map_count` on Docker host machine (seems to be particulary true on older ones):
 [https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode)
 

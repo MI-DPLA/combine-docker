@@ -10,3 +10,4 @@ discovery.zen.minimum_master_nodes: 1
 
 # Combine config
 http.max_initial_line_length: 5m
+path.repo: ["/tmp/es_repo"]
