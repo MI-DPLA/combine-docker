@@ -220,6 +220,10 @@ services:
         source: combine_python_env
         target: /opt/conda/envs/combine
         read_only: false # owner
+      - type: volume
+        source: combine_tmp
+        target: /tmp
+        read_only: false
     ports:
       - 8000:8000
     # command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver --noreload 0.0.0.0:8000"
@@ -269,6 +273,10 @@ services:
         source: combine_python_env
         target: /opt/conda/envs/combine
         read_only: false # owner
+      - type: volume
+        source: combine_tmp
+        target: /tmp
+        read_only: false
     working_dir: /opt/combine
     command:  celery -A core worker -l info --concurrency 1
     depends_on:
@@ -321,6 +329,10 @@ services:
         source: combine_python_env
         target: /opt/conda/envs/combine
         read_only: true
+      - type: volume
+        source: combine_tmp
+        target: /tmp
+        read_only: false
     ports:
       - 8998:8998
       - 8080:8080
@@ -353,6 +365,8 @@ volumes:
   spark_binaries:
     driver: local
   livy_binaries:
+    driver: local
+  combine_tmp:
     driver: local
 
 
