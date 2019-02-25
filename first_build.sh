@@ -7,4 +7,4 @@ docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode && echo
 
 # Combine db migrations and superuser create
 # TODO: pass mysql root password with run command
-docker-compose run combine-django /bin/bash -c "/tmp/combine_db_prepare.sh"
+docker-compose run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh"
