@@ -211,12 +211,12 @@ services:
         source: combine_django_app
         target: /opt/combine
         read_only: false # owner
-      # type: bind
-      #  source: ./mnt/combine_django_app
-      #  target: /opt/combine
-      #  read_only: false # owner
-      #  bind:
-      #    propagation: shared
+      # - type: bind
+      #   source: ./mnt/combine_django_app
+      #   target: /opt/combine
+      #   read_only: false # owner
+      #    bind:
+      #      propagation: shared
       - type: volume
         source: combine_home
         target: /home/combine
@@ -264,7 +264,7 @@ services:
         source: combine_django_app
         target: /opt/combine
         read_only: false # owner
-      #- type: bind
+      # - type: bind
       #  source: ./mnt/combine_django_app
       #  target: /opt/combine
       #  read_only: false # owner
@@ -320,7 +320,7 @@ services:
         source: combine_django_app
         target: /opt/combine
         read_only: true
-      #- type: bind
+      # - type: bind
       #  source: ./mnt/combine_django_app
       #  target: /opt/combine
       #  read_only: false # owner
