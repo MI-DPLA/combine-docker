@@ -39,3 +39,10 @@ Run first build script
 Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_map_count` on Docker host machine (seems to be particulary true on older ones):
 [https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode)
 
+### Ports exposed from containers are already
+
+## Development
+
+Building and running for development, for convenience sake, is a bit different.  As development likely includes working on the Combine Django app, it would be handy to have the app itself on the host machine, then bound to the `combine-django`, `combine-celery`, and `livy` containers that require its code.
+
+Following these steps
