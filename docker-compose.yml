@@ -153,8 +153,7 @@ services:
         read_only: false
     ports:
       - ${COMBINE_DJANGO_HOST_PORT}:8000
-    # command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver --noreload 0.0.0.0:8000"
-    command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
+    command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver --noreload 0.0.0.0:8000"
     depends_on:
       - mysql
     networks:

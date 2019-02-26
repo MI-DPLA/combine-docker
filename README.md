@@ -15,7 +15,7 @@ The end goal is a single `docker-compose up`, but in the interim there might be 
 
 Build images:
 ```
-docker-compose -p combine-docker build
+docker-compose build
 ```
 
 Run first build script
@@ -42,7 +42,7 @@ Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_ma
 
 ### Port collision error: `port is already allocated`
 
-By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can turned off selectively off (or changed) if you have services running on your host that conflict.  Look for the `ports` section for each service in the `docker-compose.yml` file you're running.
+By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can turned off selectively (or changed) if you have services running on your host that conflict.  Look for the `ports` section for each service in the `docker-compose.yml` file you're running.
 
 
 ## Development
