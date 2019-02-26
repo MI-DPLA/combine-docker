@@ -1,4 +1,5 @@
-# combine-docker
+# Combine-Docker
+
 
 ## Configuration
 
@@ -26,7 +27,7 @@ Run first build script
 ## Running and Managing
 
   * Run with `up` and detatch:
-  `docker-compose -p combine up -d`
+  `docker-compose up -d`
 
   * Restart select services, e.g.:
   `docker-compose restart combine-django combine-celery`
@@ -39,10 +40,64 @@ Run first build script
 Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_map_count` on Docker host machine (seems to be particulary true on older ones):
 [https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode)
 
-### Ports exposed from containers are already
+### Port collision error: `port is already allocated`
+
+By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can turned off selectively off (or changed) if you have services running on your host that conflict.  Look for the `ports` section for each service in the `docker-compose.yml` file you're running.
+
 
 ## Development
 
-Building and running for development, for convenience sake, is a bit different.  As development likely includes working on the Combine Django app, it would be handy to have the app itself on the host machine, then bound to the `combine-django`, `combine-celery`, and `livy` containers that require its code.
+Building and running for development, for convenience sake, is a bit different.  As development likely includes working on the Combine Django app, it is handy to have the app on the host machine, then bound to the `combine-django`, `combine-celery`, and `livy` containers that require its code.  In this way, code from the app can be modified locally, while simultaneously updating the code in the containers via the bind mount.
 
-Following these steps
+To run Combine in a more dev-friendly environment, follow these steps:
+
+```
+# navigate to ./mnt directory
+cd ./mnt
+
+# clone Combine GitHub repository
+git clone https://github.com/wsulib/combine.git
+
+# check out relevant branch or tag
+
+# e.g. to checkout v0.5
+git checkout tags/v0.5
+
+# e.g. checkout dev branch
+git checkout dev
+
+# ensure combine/localsettings.py exists and is correct,
+# create using Docker template if not
+cp combine/localsettings.py.docker combine/localsettings.py
+```
+
+An example of `localsettings.py` that Docker copies to the containers for production deploys can be found here, relative to the `combine-docker` repo root: `./combine/localsettings.py`
+
+Now you're ready to run -- and build if necessary -- containers using the `docker-compose.docker.yml` file (this compose file should be similar to `docker-compose.yml`, but differs primarily in ports exposed and volume mounts):
+```
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+**Note:** If you tire of adding that extra `-f` flag each time, consider backing up `docker-compose.yml` to something like `docker-compose.prod.yml`, and moving `docker-compose.dev.yml` to `docker-compose.yml`, the default file that Docker Compose looks for.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
