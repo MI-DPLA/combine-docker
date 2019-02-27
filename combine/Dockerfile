@@ -1,5 +1,9 @@
 FROM combine-docker_spark-cluster-base:latest
 
+# Arguments
+ARG COMBINE_BRANCH
+ENV COMBINE_BRANCH=$COMBINE_BRANCH
+
 # install miniconda
 # https://hub.docker.com/r/continuumio/miniconda3/dockerfile
 RUN apt-get update --fix-missing && \
@@ -22,7 +26,7 @@ ENV PATH /opt/conda/envs/combine/bin:$PATH
 RUN cd /opt \
  && git clone https://github.com/WSULib/combine.git \
  && cd combine \
- && git checkout dockerized
+ && git checkout ${COMBINE_BRANCH}
 
 # Copy configurations and scripts
 COPY localsettings.py /opt/combine/combine/localsettings.py

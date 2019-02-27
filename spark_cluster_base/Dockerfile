@@ -30,10 +30,6 @@ ENV PYTHONHASHSEED 0
 ENV PYTHONIOENCODING UTF-8
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
-##########################################################################################
-# UPDATE: Install Spark whily Livy running in standalone mode
-##########################################################################################
-
 # Arguments
 ARG SPARK_VERSION
 ENV SPARK_VERSION=$SPARK_VERSION
@@ -51,14 +47,3 @@ ENV SPARK_HOME=/opt/spark
 
 # Copy configurations
 COPY spark-defaults.conf /opt/spark/conf/spark-defaults.conf
-
-# # Copy ElasticSearch/Hadoop connector
-# RUN mkdir -p /opt/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}/dist
-# COPY elasticsearch-hadoop-5.6.2.jar /opt/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}/dist
-
-# # Download and prepare ElasticSearch / Hadoop Connector
-# RUN curl http://download.elastic.co/hadoop/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}.zip -o /tmp/hadoop-es.zip \
-#  && cd /tmp \
-#  && unzip hadoop-es.zip \
-#  && mkdir /opt/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}/dist \
-#  && cp /tmp/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}/dist/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}.jar /opt/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}/dist/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}.jar

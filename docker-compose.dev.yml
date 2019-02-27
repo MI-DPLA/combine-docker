@@ -117,6 +117,7 @@ services:
       args:
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
+        COMBINE_BRANCH: "${COMBINE_BRANCH}"
     volumes:
       - ./combinelib:/combinelib
       - type: volume
