@@ -13,7 +13,7 @@ Modify Combine app configurations before Docker images are built.  While the fil
 
 The end goal is a single `docker-compose up`, but in the interim there might be a couple additional steps.
 
-Build images:
+Build images (this can take anywhere from 5-10 minutes):
 ```
 docker-compose build
 ```
