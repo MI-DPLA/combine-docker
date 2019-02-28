@@ -1,6 +1,17 @@
 # Combine-Docker
 
 
+## Overview
+
+This repository provides a "Dockerized" version of [Combine](https://github.com/wsulib/combine.git).
+
+### Hoes does it work?
+
+Major components that support Combine -- all installed on a single server when building via the [Combine-Playbook](https://github.com/wsulib/combine-playbook.git) ansible route -- have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a **service**.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
+
+Docker compose provides a way to interact with all the containers that support Combine at once, even providing some improved ability to view logs, restart services, etc.
+
+
 ## Configuration
 
 Modify Combine app configurations before Docker images are built.  While the file is already tailored to look for Docker containers, users may still want to add values like S3 or DPLA API keys:
@@ -45,6 +56,15 @@ docker-compose restart combine-django combine-celery
 docker-compose restart
 ```
 
+Logs can be viewed with the `logs` command, again, selecting all services, or a subset of:
+```
+# tail all logs
+docker-compose logs -f
+
+# tail logs of specific services
+docker-compose logs -f combine-django combine-celery livy
+
+```
 
 ## Updating
 
