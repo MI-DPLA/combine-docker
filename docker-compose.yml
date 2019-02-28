@@ -136,10 +136,19 @@ services:
         source: livy_binaries
         target: /opt/livy
         read_only: true
-      - type: volume
-        source: combine_django_app
+      # - type: volume
+      #   source: combine_django_app
+      #   target: /opt/combine
+      #   read_only: false # owner
+      ############################################
+      # Bind local Combine Django app to container
+      - type: bind
+        source: ./combine/combine
         target: /opt/combine
         read_only: false # owner
+        bind:
+          propagation: shared
+      ############################################
       - type: volume
         source: combine_home
         target: /home/combine
@@ -182,10 +191,19 @@ services:
         source: livy_binaries
         target: /opt/livy
         read_only: true
-      - type: volume
-        source: combine_django_app
+      # - type: volume
+      #   source: combine_django_app
+      #   target: /opt/combine
+      #   read_only: false # owner
+      ############################################
+      # Bind local Combine Django app to container
+      - type: bind
+        source: ./combine/combine
         target: /opt/combine
         read_only: false # owner
+        bind:
+          propagation: shared
+      ############################################
       - type: volume
         source: combine_home
         target: /home/combine
@@ -232,10 +250,19 @@ services:
         source: livy_binaries
         target: /opt/livy
         read_only: false # owner of dir
-      - type: volume
-        source: combine_django_app
+      # - type: volume
+      #   source: combine_django_app
+      #   target: /opt/combine
+      #   read_only: true
+      ############################################
+      # Bind local Combine Django app to container
+      - type: bind
+        source: ./combine/combine
         target: /opt/combine
-        read_only: true
+        read_only: false # owner
+        bind:
+          propagation: shared
+      ############################################
       - type: volume
         source: combine_home
         target: /home/combine
