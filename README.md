@@ -11,13 +11,19 @@ Major components that support Combine -- all installed on a single server when b
 
 Docker compose provides a way to interact with all the containers that support Combine at once, even providing some improved ability to view logs, restart services, etc.
 
+### Data Integrity
 
-## Configuration
+**WARNING:** The containerization of Combine provides arguably easier deployment and upgrading, but introduces some risks to data integrity in Combine.  Combine-Docker stores data that needs to persist between container rebuilding and upgrades in named volumes, specifically the following:
 
-Modify Combine app configurations before Docker images are built.  While the file is already tailored to look for Docker containers, users may still want to add values like S3 or DPLA API keys:
-```
-./combine/localsettings.py
-```
+  * `esdata`: ElasticSearch data
+  * `mongodata`: Mongo data
+  * `mysqldata`: MySQL data
+  * `hdfs`: Hadoop HDFS data
+  * `combine_home`: Home directory for Combine that contains important, non-volatile data
+
+Containers are shutdown with the command `docker-compose down`, which is perfectly safe and encouraged!  However, **do not** include the `-v` or `--volumes` flag to that command, which will remove **all** volumes associated with the services in the `docker-compose.yml` file.
+
+Docker does a relatively good job protecting named volumes, but this simple command would wipe data from Combine.
 
 
 ## Installation and First Build
@@ -38,6 +44,11 @@ Next, run the `first_build.sh` script:
   * initializes Combine Django app as Git submodule at `./combine/combine`
   * builds all required docker images
   * runs one-time database initializations and migrations
+
+
+## Configuration
+
+Once a build is complete, configurations may be performed on Combine's `localsettings.py`.  This file is found at `./combine/combine/combine/localsettings.py`.  This file will be maintained between upgrades.
 
 
 ## Running and Managing
