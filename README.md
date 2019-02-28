@@ -9,28 +9,84 @@ Modify Combine app configurations before Docker images are built.  While the fil
 ```
 
 
-## Initial Build
+## Installation and First Build
 
-The end goal is a single `docker-compose up`, but in the interim there might be a couple additional steps.
-
-Build images (this can take anywhere from 5-10 minutes):
+The first step is to clone this repository and move into it:
 ```
-docker-compose build
+git clone https://github.com/wsulib/combine-docker.git
+cd combine-docker
 ```
 
-Run first build script
+Next, run the `first_build.sh` script:
 ```
 ./first_build.sh
 ```
 
+**Note:** This script may take some time, anywhere from 5-20 minutes depending on your hardware.  This script accomplishes a few things:
+
+  * initializes Combine Django app as Git submodule at `./combine/combine`
+  * builds all required docker images
+  * runs one-time database initializations and migrations
+
 
 ## Running and Managing
 
-  * Run with `up` and detatch:
-  `docker-compose up -d`
+Ensuring that `first_build.sh` (or `update_build.sh` if appropriate) has been run, fire up all containers with the following:
+```
+docker-compose up -d
+```
 
-  * Restart select services, e.g.:
-  `docker-compose restart combine-django combine-celery`
+As outlined in the [Combine-Docker Containers](#docker-images-and-containers) section all services, or a subset of, can be restarted as follows:
+```
+# e.g. restart Combine Django app, background tasks Celery, and Livy
+docker-compose restart combine-django combine-celery
+
+# e.e. restart everything
+docker-compose restart
+```
+
+
+## Updating
+
+This dockerized version of Combine supports, arguably, easier version updating becaues major components, broken out as images and containers, can be readily rebuilt.  Much like the repository Combine-Playbook, this repository follows the same versioning as Combine.  So checking out the tagged release `v0.7` for this repository, will build Combine version `v0.7`.
+
+To update, follow these steps from the Combine-Docker repository root folder:
+
+```
+# pull new changes
+git pull
+
+# checkout desired release, e.g. v0.7
+git checkout v0.7
+
+# run update build script
+./update_build.sh
+```
+
+Finally, start Combine-Docker as normal with:
+```
+docker-compose up -d
+```
+
+
+## Docker Images and Containers
+
+This dockerized version of Combine includes the following containers:
+
+| Service Name          | Internal Network IP | Notes                                                      |
+| --------------------- | ------------------- | ---------------------------------------------------------- |
+| **host machine**      | `10.5.0.1`          | not a container, but part of internal network              |
+| `elasticsearch`       | `10.5.0.2`          |                                                            |
+| `mongo`               | `10.5.0.3`          |                                                            |
+| `mysql`               | `10.5.0.4`          |                                                            |
+| `redis`               | `10.5.0.5`          |                                                            |
+| `hadoop-namenode`     | `10.5.0.6`          |                                                            |
+| `hadoop-datanode`     | `10.5.0.7`          |                                                            |
+| `spark-master`        | `10.5.0.8`          | not currently used                                         |
+| `spark-worker`        | `10.5.0.9`          | not currently used                                         |
+| `combine-django`      | `10.5.0.10`         |                                                            |
+| `livy`                | `10.5.0.11`         | location of spark application running in `local[*]` mode   |
+| `combine-celery`      | `10.5.0.12`         |                                                            |
 
 
 ## Troubleshooting
@@ -47,57 +103,7 @@ By default, nearly all relevant ports are exposed from the containers that consp
 
 ## Development
 
-Building and running for development, for convenience sake, is a bit different.  As development likely includes working on the Combine Django app, it is handy to have the app on the host machine, then bound to the `combine-django`, `combine-celery`, and `livy` containers that require its code.  In this way, code from the app can be modified locally, while simultaneously updating the code in the containers via the bind mount.
-
-To run Combine in a more dev-friendly environment, follow these steps:
-
-```
-# navigate to ./mnt directory
-cd ./mnt
-
-# clone Combine GitHub repository
-git clone https://github.com/wsulib/combine.git
-
-# check out relevant branch or tag
-
-# e.g. to checkout v0.5
-git checkout tags/v0.5
-
-# e.g. checkout dev branch
-git checkout dev
-
-# ensure combine/localsettings.py exists and is correct,
-# create using Docker template if not
-cp combine/localsettings.py.docker combine/localsettings.py
-```
-
-An example of `localsettings.py` that Docker copies to the containers for production deploys can be found here, relative to the `combine-docker` repo root: `./combine/localsettings.py`
-
-Now you're ready to run -- and build if necessary -- containers using the `docker-compose.docker.yml` file (this compose file should be similar to `docker-compose.yml`, but differs primarily in ports exposed and volume mounts):
-```
-docker-compose -f docker-compose.dev.yml up -d
-```
-
-**Note:** If you tire of adding that extra `-f` flag each time, consider backing up `docker-compose.yml` to something like `docker-compose.prod.yml`, and moving `docker-compose.dev.yml` to `docker-compose.yml`, the default file that Docker Compose looks for.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+The Combine Django application, where most developments efforts are targeted, is a [bind mount volume](https://docs.docker.com/storage/bind-mounts/) from the location of this cloned repository on disk at `./combine/combine`.  Though the application is copied to the docker images during build, to support the installation of dependencies, the location `/opt/combine` is overwritten by this bind volume at `docker-compose up` or `run`.  This allows live editing of the local folder `./combine/combine`, which is updating the folder `/opt/combine` in services `combine-django`, `combine-celery`, and `livy`.
 
 
 

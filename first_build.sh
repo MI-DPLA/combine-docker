@@ -1,4 +1,4 @@
-echo "Running Combine-Docker post-build script"
+echo "Running Combine-Docker FIRST BUILD script.  Note: this may take some time, anywhere from 5-20 minutes depending on your hardware."
 
 # source .env file
 source .env
