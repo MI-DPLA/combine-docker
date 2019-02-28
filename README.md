@@ -67,6 +67,11 @@ docker-compose restart combine-django combine-celery
 docker-compose restart
 ```
 
+To stop all services and containers (**NOTE:** Do not include `-v` or `--volumes` flags, as these will wipe ALL data from Combine):
+```
+docker-compose down
+```
+
 Logs can be viewed with the `logs` command, again, selecting all services, or a subset of:
 ```
 # tail all logs
@@ -75,6 +80,11 @@ docker-compose logs -f
 # tail logs of specific services
 docker-compose logs -f combine-django combine-celery livy
 
+```
+
+View stats of containers:
+```
+docker stats
 ```
 
 ## Updating
