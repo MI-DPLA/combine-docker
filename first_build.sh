@@ -1,10 +1,14 @@
 # echo
-echo "Running Combine-Docker first build, this should be run only once!"
+echo "Running Combine-Docker first build / update"
 
 # init Combine app submodule and use localsettings docker template
 git submodule init
 git submodule update
+
 cp ./combine/combine/combine/localsettings.py.docker ./combine/combine/combine/localsettings.py
+
+# remove volatile volumes
+docker volume rm combine_python_env hadoop_binaries spark_binaries livy_binaries combine_tmp
 
 # format Hadoop namenode
 docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode && echo 'Y' && /opt/hadoop/bin/hdfs namenode -format"

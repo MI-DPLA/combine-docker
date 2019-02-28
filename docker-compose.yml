@@ -136,19 +136,12 @@ services:
         source: livy_binaries
         target: /opt/livy
         read_only: true
-      # - type: volume
-      #   source: combine_django_app
-      #   target: /opt/combine
-      #   read_only: false # owner
-      ############################################
-      # Bind local Combine Django app to container
-      - type: bind
+      - type: bind # Bind Combine app submodule
         source: ./combine/combine
         target: /opt/combine
         read_only: false # owner
         bind:
           propagation: shared
-      ############################################
       - type: volume
         source: combine_home
         target: /home/combine
@@ -191,19 +184,12 @@ services:
         source: livy_binaries
         target: /opt/livy
         read_only: true
-      # - type: volume
-      #   source: combine_django_app
-      #   target: /opt/combine
-      #   read_only: false # owner
-      ############################################
-      # Bind local Combine Django app to container
-      - type: bind
+      - type: bind # Bind Combine app submodule
         source: ./combine/combine
         target: /opt/combine
         read_only: false # owner
         bind:
           propagation: shared
-      ############################################
       - type: volume
         source: combine_home
         target: /home/combine
@@ -250,19 +236,12 @@ services:
         source: livy_binaries
         target: /opt/livy
         read_only: false # owner of dir
-      # - type: volume
-      #   source: combine_django_app
-      #   target: /opt/combine
-      #   read_only: true
-      ############################################
-      # Bind local Combine Django app to container
-      - type: bind
+      - type: bind # Bind Combine app submodule
         source: ./combine/combine
         target: /opt/combine
         read_only: false # owner
         bind:
           propagation: shared
-      ############################################
       - type: volume
         source: combine_home
         target: /home/combine
@@ -288,6 +267,8 @@ services:
 
 
 volumes:
+
+  # non-volatile
   esdata:
     driver: local
   mongodata:
@@ -298,9 +279,9 @@ volumes:
     driver: local
   combine_home:
     driver: local
+
+  # volatile
   combine_python_env:
-    driver: local
-  combine_django_app:
     driver: local
   hadoop_binaries:
     driver: local
