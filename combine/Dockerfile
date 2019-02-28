@@ -22,14 +22,10 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86
 RUN /opt/conda/bin/conda create -n combine python=3.5 --yes
 ENV PATH /opt/conda/envs/combine/bin:$PATH
 
-# clone combine repo
-RUN cd /opt \
- && git clone https://github.com/WSULib/combine.git \
- && cd combine \
- && git checkout ${COMBINE_BRANCH}
+# copy Combine app submodule
+COPY combine /opt/combine/
 
-# Copy configurations and scripts
-COPY /opt/combine/combine/localsettings.py.docker /opt/combine/combine/localsettings.py
+# Copy scripts
 COPY combine.sql /tmp/combine.sql
 COPY combine_db_prepare.sh /tmp/combine_db_prepare.sh
 
