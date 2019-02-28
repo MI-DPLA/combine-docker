@@ -29,7 +29,7 @@ RUN cd /opt \
  && git checkout ${COMBINE_BRANCH}
 
 # Copy configurations and scripts
-COPY localsettings.py /opt/combine/combine/localsettings.py
+COPY /opt/combine/combine/localsettings.py.docker /opt/combine/combine/localsettings.py
 COPY combine.sql /tmp/combine.sql
 COPY combine_db_prepare.sh /tmp/combine_db_prepare.sh
 
