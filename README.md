@@ -7,9 +7,9 @@ This repository provides a "Dockerized" version of [Combine](https://github.com/
 
 ### Hoes does it work?
 
-Major components that support Combine -- all installed on a single server when building via the [Combine-Playbook](https://github.com/wsulib/combine-playbook.git) ansible route -- have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a **service**.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
+Major components that support Combine, all installed on a single server when building via the [Combine-Playbook](https://github.com/wsulib/combine-playbook.git) ansible route, have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a Docker Compose **service**.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
 
-Docker compose provides a way to interact with all the containers that support Combine at once, even providing some improved ability to view logs, restart services, etc.
+Docker Compose provides a way to interact with all the containers that support Combine at once, even providing some improved ability to view logs, restart services, etc.
 
 ### Data Integrity
 
@@ -23,7 +23,7 @@ Docker compose provides a way to interact with all the containers that support C
 
 Containers are shutdown with the command `docker-compose down`, which is perfectly safe and encouraged!  However, **do not** include the `-v` or `--volumes` flag to that command, which will remove **all** volumes associated with the services in the `docker-compose.yml` file.
 
-Docker does a relatively good job protecting named volumes, but this simple command would wipe data from Combine.
+Docker does a relatively good job protecting named volumes, but this simple command would wipe data from Combine.  You can find [more information about the command `docker-compose down` here](https://docs.docker.com/compose/reference/down/).
 
 
 ## Installation and First Build
@@ -58,6 +58,16 @@ Ensuring that `first_build.sh` (or `update_build.sh` if appropriate) has been ru
 docker-compose up -d
 ```
 
+Logs can be viewed with the `logs` command, again, selecting all services, or a subset of:
+```
+# tail all logs
+docker-compose logs -f
+
+# tail logs of specific services
+docker-compose logs -f combine-django combine-celery livy
+
+```
+
 As outlined in the [Combine-Docker Containers](#docker-images-and-containers) section all services, or a subset of, can be restarted as follows:
 ```
 # e.g. restart Combine Django app, background tasks Celery, and Livy
@@ -72,20 +82,11 @@ To stop all services and containers (**NOTE:** Do not include `-v` or `--volumes
 docker-compose down
 ```
 
-Logs can be viewed with the `logs` command, again, selecting all services, or a subset of:
-```
-# tail all logs
-docker-compose logs -f
-
-# tail logs of specific services
-docker-compose logs -f combine-django combine-celery livy
-
-```
-
 View stats of containers:
 ```
 docker stats
 ```
+
 
 ## Updating
 
@@ -94,7 +95,7 @@ This dockerized version of Combine supports, arguably, easier version updating b
 To update, follow these steps from the Combine-Docker repository root folder:
 
 ```
-# pull new changes
+# pull new changes to Combine-Docker repository
 git pull
 
 # checkout desired release, e.g. v0.7
@@ -102,17 +103,15 @@ git checkout v0.7
 
 # run update build script
 ./update_build.sh
-```
 
-Finally, start Combine-Docker as normal with:
-```
+# Restart as per normal
 docker-compose up -d
 ```
 
 
-## Docker Images and Containers
+## Docker Services and Volumes & Binds
 
-This dockerized version of Combine includes the following containers:
+This dockerized version of Combine includes the following services, where each becomes a single container:
 
 | Service Name          | Internal Network IP | Notes                                                      |
 | --------------------- | ------------------- | ---------------------------------------------------------- |
@@ -130,6 +129,23 @@ This dockerized version of Combine includes the following containers:
 | `combine-celery`      | `10.5.0.12`         |                                                            |
 
 
+The following tables show Docker volumes and binds that are created to support data sharing between containers, and "long-term" data storage.  The column `Data Storage` indicates which volumes act as data stores for Combine and should not be deleted (unless, of course, a fresh installation is desired).  Conversely, the column `Refreshed on Upgrade` shows which tables are removed during builds.  **Note:** this information is purely for informational purposes only; the build scripts and normal usage of `docker-compose up` and `docker-compose down` will not remove these volumes.
+
+|Volume Name|Type|Source|Target|DataStorage|RefreshedonUpdate|AssociatedServices|
+|-----|-----|-----|-----|-----|
+|`esdata`|namedvolume|n/a|`/usr/share/elasticsearch/data`|TRUE||elasticsearch|
+|`mongodata`|namedvolume|n/a|`/data/db`|TRUE||mongo|
+|`mysqldata`|namedvolume|n/a|`/var/lib/mysql`|TRUE||mysql|
+|`hdfs`|namedvolume|n/a|`/hdfs`|TRUE||hadoop-namenode,hadoop-datanode|
+|`combine_home`|namedvolume|n/a|`/home/combine`|TRUE||[spark-cluster-base]|
+|`combine_django_app`|bind|`./combine/combine`|`/opt/combine`||TRUE|combine-django,combine-celery,livy|
+|`combine_python_env`|namedvolume|n/a|`/opt/conda/envs/combine`||TRUE|combine-django,combine-celery,livy|
+|`hadoop_binaries`|namedvolume|n/a|`/opt/hadoop`||TRUE|[spark-cluster-base]|
+|`spark_binaries`|namedvolume|n/a|`/opt/spark`||TRUE|[spark-cluster-base]|
+|`livy_binaries`|namedvolume|n/a|`/opt/livy`||TRUE|[spark-cluster-base]|
+|`combine_tmp`|namedvolume|n/a|`/tmp`||TRUE|[spark-cluster-base]|
+
+
 ## Troubleshooting
 
 ### ElasticSearch container dies because of `vm.max_map_count`
@@ -139,7 +155,11 @@ Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_ma
 
 ### Port collision error: `port is already allocated`
 
-By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can turned off selectively (or changed) if you have services running on your host that conflict.  Look for the `ports` section for each service in the `docker-compose.yml` file you're running.
+By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can turned off selectively (or changed) if you have services running on your host that conflict.  Look for the `ports` section for each service in the `docker-compose.yml` to enable or disable them.
+
+### Other issues?
+
+Please don't hesitate to [submit an issue](https://github.com/WSULib/combine-docker/issues)!
 
 
 ## Development
