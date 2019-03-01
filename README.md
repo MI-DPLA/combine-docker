@@ -131,8 +131,9 @@ This dockerized version of Combine includes the following services, where each b
 
 The following tables show Docker volumes and binds that are created to support data sharing between containers, and "long-term" data storage.  The column `Data Storage` indicates which volumes act as data stores for Combine and should not be deleted (unless, of course, a fresh installation is desired).  Conversely, the column `Refreshed on Upgrade` shows which tables are removed during builds.  **Note:** this information is purely for informational purposes only; the build scripts and normal usage of `docker-compose up` and `docker-compose down` will not remove these volumes.
 
-|Volume Name|Type|Source|Target|DataStorage|RefreshedonUpdate|AssociatedServices|
-|-----|-----|-----|-----|-----|
+
+|Volume Name|Type|Source|Target|Data Storage|RefreshedonUpdate|AssociatedServices|
+|-----------|----|------|------|------------|-----------------|------------------|
 |`esdata`|namedvolume|n/a|`/usr/share/elasticsearch/data`|TRUE||elasticsearch|
 |`mongodata`|namedvolume|n/a|`/data/db`|TRUE||mongo|
 |`mysqldata`|namedvolume|n/a|`/var/lib/mysql`|TRUE||mysql|
