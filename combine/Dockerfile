@@ -58,3 +58,8 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
 RUN /opt/conda/bin/conda create -n python2.7 python=2.7 --yes \
  && /opt/conda/envs/python2.7/bin/pip install git+https://github.com/WSULib/es2csv.git \
  && ln -s /opt/conda/envs/python2.7/bin/es2csv /usr/bin/es2csv
+
+# install mongo tools
+RUN echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list \
+  && apt-get update \
+  && apt-get install -y mongodb-org-tools
