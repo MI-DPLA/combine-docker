@@ -60,6 +60,7 @@ RUN /opt/conda/bin/conda create -n python2.7 python=2.7 --yes \
  && ln -s /opt/conda/envs/python2.7/bin/es2csv /usr/bin/es2csv
 
 # install mongo tools
-RUN echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list \
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E52529D4 \
+  && echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list \
   && apt-get update \
   && apt-get install -y mongodb-org-tools
