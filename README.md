@@ -3,11 +3,11 @@
 
 ## Overview
 
-This repository provides a "Dockerized" version of [Combine](https://github.com/wsulib/combine.git).
+This repository provides a "Dockerized" version of [Combine](https://github.com/mi-dpla/combine.git).
 
 ### Hoes does it work?
 
-Major components that support Combine, all installed on a single server when building via the [Combine-Playbook](https://github.com/wsulib/combine-playbook.git) ansible route, have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a Docker Compose **service**.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
+Major components that support Combine, all installed on a single server when building via the [Combine-Playbook](https://github.com/mi-dpla/combine-playbook.git) ansible route, have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a Docker Compose **service**.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
 
 Docker Compose provides a way to interact with all the containers that support Combine at once, even providing some improved ability to view logs, restart services, etc.
 
@@ -30,7 +30,7 @@ Docker does a relatively good job protecting named volumes, but this simple comm
 
 The first step is to clone this repository and move into it:
 ```
-git clone https://github.com/wsulib/combine-docker.git
+git clone https://github.com/mi-dpla/combine-docker.git
 cd combine-docker
 ```
 
@@ -160,7 +160,7 @@ By default, nearly all relevant ports are exposed from the containers that consp
 
 ### Other issues?
 
-Please don't hesitate to [submit an issue](https://github.com/WSULib/combine-docker/issues)!
+Please don't hesitate to [submit an issue](https://github.com/MI-DPLA/combine-docker/issues)!
 
 
 ## Development
