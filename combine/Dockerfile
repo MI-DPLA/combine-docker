@@ -56,7 +56,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
 # install es2csv
 # installs to /opt/conda/envs/python2.7/bin/es2csv
 RUN /opt/conda/bin/conda create -n python2.7 python=2.7 --yes \
- && /opt/conda/envs/python2.7/bin/pip install git+https://github.com/MI-DPLA/es2csv.git \
+ && /opt/conda/envs/python2.7/bin/pip install git+https://github.com/WSULib/es2csv.git \
  && ln -s /opt/conda/envs/python2.7/bin/es2csv /usr/bin/es2csv
 
 # install mongo tools
