@@ -6,9 +6,11 @@ source .env
 # init Combine app submodule and use localsettings docker template
 git submodule init
 git submodule update
-git -C combine/combine fetch
-git -C combine/combine checkout $COMBINE_BRANCH
-git -C combine/combine pull
+cd combine/combine
+git fetch
+git checkout $COMBINE_BRANCH
+git  pull
+cd ../../
 cp ./combine/combine/combine/localsettings.py.docker ./combine/combine/combine/localsettings.py
 
 # build images
