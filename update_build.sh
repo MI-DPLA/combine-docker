@@ -11,7 +11,7 @@ git submodule init
 git submodule update
 cd combine/combine
 git fetch
-git $COMBINE_BRANCH
+git checkout $COMBINE_BRANCH
 git pull
 cd ../../
 
