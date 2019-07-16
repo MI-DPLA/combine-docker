@@ -10,9 +10,8 @@ cd combine/combine
 git fetch
 git checkout $COMBINE_BRANCH
 git  pull
+cp ./combine/localsettings.py.docker ./combine/localsettings.py
 cd ../../
-cp ./combine/combine/combine/localsettings.py.docker ./combine/combine/combine/localsettings.py
-
 # build images
 docker volume rm combine_python_env hadoop_binaries spark_binaries livy_binaries combine_tmp
 docker-compose build
