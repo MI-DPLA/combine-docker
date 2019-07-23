@@ -9,9 +9,11 @@ docker-compose down
 # init Combine app submodule and use localsettings docker template
 git submodule init
 git submodule update
-git -C combine/combine fetch
-git -C combine/combine checkout $COMBINE_BRANCH
-git -C combine/combine pull
+cd combine/combine
+git fetch
+git checkout $COMBINE_BRANCH
+git pull
+cd ../../
 
 # build images
 docker volume rm combine_python_env hadoop_binaries spark_binaries livy_binaries combine_tmp

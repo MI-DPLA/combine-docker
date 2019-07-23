@@ -6,11 +6,12 @@ source .env
 # init Combine app submodule and use localsettings docker template
 git submodule init
 git submodule update
-git -C combine/combine fetch
-git -C combine/combine checkout $COMBINE_BRANCH
-git -C combine/combine pull
-cp ./combine/combine/combine/localsettings.py.docker ./combine/combine/combine/localsettings.py
-
+cd combine/combine
+git fetch
+git checkout $COMBINE_BRANCH
+git  pull
+cp ./combine/localsettings.py.docker ./combine/localsettings.py
+cd ../../
 # build images
 docker volume rm combine_python_env hadoop_binaries spark_binaries livy_binaries combine_tmp
 docker-compose build
