@@ -39,12 +39,12 @@ RUN cd /opt/combine \
 # Arguments
 ARG LIVY_TAGGED_RELEASE
 ARG SCALA_VERSION
-ENV LIVY_TAGGED_RELEASE=$LIVY_TAGGED_RELEASE
+ENV LIVY_TAGGED_RELEASE=v0.6.0-incubating
 ENV SCALA_VERSION=$SCALA_VERSION
 RUN cd /tmp \
  && git clone https://github.com/apache/incubator-livy livy_for_python_client \
  && cd livy_for_python_client \
- && git checkout -b tags/${LIVY_TAGGED_RELEASE} ${LIVY_TAGGED_RELEASE} \
+ && git checkout -b tags/v0.6.0-incubating v0.6.0-incubating \
  && cd /tmp/livy_for_python_client/python-api \
  && python setup.py install
 

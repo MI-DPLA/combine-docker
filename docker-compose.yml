@@ -102,7 +102,7 @@ services:
     volumes:
       - ./combinelib:/combinelib
     ports:
-      - 50070:50070
+      - 50071:50071
       - 50075:50075
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
     networks:
@@ -115,7 +115,7 @@ services:
       context: ./combine
       dockerfile: Dockerfile
       args:
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
+        LIVY_TAGGED_RELEASE: "0.6.0-incubating"
         SCALA_VERSION: "${SCALA_VERSION}"
         COMBINE_BRANCH: "${COMBINE_BRANCH}"
     volumes:
@@ -216,7 +216,7 @@ services:
       context: ./livy
       dockerfile: Dockerfile
       args:
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
+        LIVY_TAGGED_RELEASE: "v0.6.0-incubating"
         SCALA_VERSION: "${SCALA_VERSION}"
     volumes:
       - ./combinelib:/combinelib
