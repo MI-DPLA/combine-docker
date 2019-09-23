@@ -3,7 +3,7 @@ services:
 
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
     environment:
       - cluster.name=combine-elasticsearch
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
@@ -115,7 +115,7 @@ services:
       context: ./combine
       dockerfile: Dockerfile
       args:
-        LIVY_TAGGED_RELEASE: "0.6.0-incubating"
+        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
         COMBINE_BRANCH: "${COMBINE_BRANCH}"
     volumes:
@@ -216,7 +216,7 @@ services:
       context: ./livy
       dockerfile: Dockerfile
       args:
-        LIVY_TAGGED_RELEASE: "v0.6.0-incubating"
+        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
     volumes:
       - ./combinelib:/combinelib

@@ -11,3 +11,11 @@ discovery.zen.minimum_master_nodes: 1
 # Combine config
 http.max_initial_line_length: 5m
 path.repo: ["/tmp/es_repo"]
+discovery.seed_hosts: 0.0.0.0
+http.port: 9200
+node.master: true
+node.name: combine_es
+transport.tcp.port: 9300
+cluster.initial_master_nodes:
+    - combine_es
+

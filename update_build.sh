@@ -5,6 +5,7 @@ source .env
 
 # bring down Combine docker containers, if running
 docker-compose down
+echo $COMBINE_BRANCH
 
 # init Combine app submodule and use localsettings docker template
 git submodule init
