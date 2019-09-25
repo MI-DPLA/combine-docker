@@ -1,7 +1,7 @@
 echo "Running Combine-Docker UPDATE script.  Note: this may take some time, anywhere from 5-20 minutes depending on your hardware."
 
 # source .env file
-source .env
+source ./.env
 
 # bring down Combine docker containers, if running
 docker-compose down
