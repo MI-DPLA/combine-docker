@@ -1,4 +1,4 @@
-echo "Running Combine-Docker UPDATE script.  Note: this may take some time, anywhere from 5-20 minutes depending on your hardware."
+echo "Running Combine-Docker build script.  Note: this may take some time, anywhere from 5-20 minutes depending on your hardware."
 
 # source .env file
 source ./.env
@@ -14,11 +14,17 @@ cd combine/combine
 git fetch
 git checkout $COMBINE_BRANCH
 git pull
+if [[ ! -f "./combine/localsettings.py" ]]; then
+    cp ./combine/localsettings.py.docker ./combine/localsettings.py
+fi
 cd ../../
 
 # build images
 docker volume rm combine_python_env hadoop_binaries spark_binaries livy_binaries combine_tmp
 docker-compose build
 
-# run migrations in Combine Django app
-bin/combine_migrations.sh
+# format Hadoop namenode
+docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode && echo 'Y' && /opt/hadoop/bin/hdfs namenode -format"
+
+# Combine db migrations and superuser create
+docker-compose run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh"
