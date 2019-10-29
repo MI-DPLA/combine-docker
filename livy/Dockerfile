@@ -20,6 +20,7 @@ RUN cd /opt \
 # Copy configurations
 COPY livy.conf /opt/livy/conf/livy.conf
 COPY livy-env.sh /opt/livy/conf/livy-env.sh
+COPY combinelib/ /combinelib/
 
 # Create symlink to ElasticSearch/Hadoop connector
 RUN ln -s /combinelib/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}.jar /opt/livy/rsc/target/jars/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}.jar

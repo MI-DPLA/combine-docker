@@ -75,7 +75,6 @@ services:
       args:
         HADOOP_VERSION: "${HADOOP_VERSION}"
     volumes:
-      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -99,8 +98,6 @@ services:
       dockerfile: Dockerfile
       args:
         HADOOP_VERSION: "${HADOOP_VERSION}"
-    volumes:
-      - ./combinelib:/combinelib
     ports:
       - 50071:50071
       - 50075:50075
@@ -119,7 +116,6 @@ services:
         SCALA_VERSION: "${SCALA_VERSION}"
         COMBINE_BRANCH: "${COMBINE_BRANCH}"
     volumes:
-      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -167,7 +163,6 @@ services:
   combine-celery:
     image: combine-docker_combine-django
     volumes:
-      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -219,7 +214,6 @@ services:
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
     volumes:
-      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs

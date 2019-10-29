@@ -24,6 +24,7 @@ ENV PATH /opt/conda/envs/combine/bin:$PATH
 
 # copy Combine app submodule
 COPY combine /opt/combine/
+COPY combinelib/mysql.jar /combinelib/
 
 # Copy scripts
 COPY combine.sql /tmp/combine.sql
