@@ -15,8 +15,8 @@ services:
         source: ./elasticsearch/elasticsearch.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
         read_only: false # owner
-    ports:
-      - 9200:9200
+    expose:
+      - "9200"
     networks:
       combinenet:
         ipv4_address: 10.5.0.2
@@ -26,8 +26,8 @@ services:
     build: ./mongo
     volumes:
       - mongodata:/data/db
-    ports:
-      - 27018:27017
+    expose:
+      - "27017"
     command: "--config /etc/mongod.conf"
     networks:
       combinenet:
@@ -57,15 +57,15 @@ services:
         ipv4_address: 10.5.0.5
 
 
-  spark-cluster-base:
-    build:
-      context: ./spark_cluster_base
-      dockerfile: Dockerfile
-      args:
-        SPARK_VERSION: "${SPARK_VERSION}"
-        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-        ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: "${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}"
-    command:  /bin/true # exits code 0
+# spark-cluster-base:
+#   build:
+#     context: ./spark_cluster_base
+#     dockerfile: Dockerfile
+#     args:
+#       SPARK_VERSION: "${SPARK_VERSION}"
+#       HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
+#       ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: "${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}"
+#   command:  /bin/true # exits code 0
 
 
   hadoop-namenode:
@@ -83,8 +83,8 @@ services:
         source: hadoop_binaries
         target: /opt/hadoop
         read_only: false # owner of dir
-    ports:
-      - 8020:8020
+    expose:
+      - "8020"
     # entrypoint: bash /tmp/entrypoint_namenode.sh
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
     networks:
@@ -98,9 +98,9 @@ services:
       dockerfile: Dockerfile
       args:
         HADOOP_VERSION: "${HADOOP_VERSION}"
-    ports:
-      - 50071:50071
-      - 50075:50075
+    expose:
+      - "50071"
+      - "50075"
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
     networks:
       combinenet:
@@ -248,9 +248,9 @@ services:
         source: combine_tmp
         target: /tmp
         read_only: false
-    ports:
-      - 8998:8998
-      - 4040:4040
+    expose:
+      - "8998"
+      - "4040"
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && /opt/livy/bin/livy-server"
     networks:
       combinenet:
