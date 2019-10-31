@@ -23,12 +23,12 @@ RUN /opt/conda/bin/conda create -n combine python=3.7 --yes
 ENV PATH /opt/conda/envs/combine/bin:$PATH
 
 # copy Combine app submodule
-COPY combine /opt/combine/
+COPY combine/combine /opt/combine/
 COPY combinelib/mysql.jar /combinelib/
 
 # Copy scripts
-COPY combine.sql /tmp/combine.sql
-COPY combine_db_prepare.sh /tmp/combine_db_prepare.sh
+COPY combine/combine.sql /tmp/combine.sql
+COPY combine/combine_db_prepare.sh /tmp/combine_db_prepare.sh
 
 # downgrade pip and install dependencies
 RUN pip install pip==9.0.3
