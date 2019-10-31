@@ -69,15 +69,15 @@ services:
         ipv4_address: 10.5.0.5
 
 
-# spark-cluster-base:
-#   build:
-#     context: ./spark_cluster_base
-#     dockerfile: Dockerfile
-#     args:
-#       SPARK_VERSION: "${SPARK_VERSION}"
-#       HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-#       ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: "${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}"
-#   command:  /bin/true # exits code 0
+  spark-cluster-base:
+    build:
+      context: ./spark_cluster_base
+      dockerfile: Dockerfile
+      args:
+        SPARK_VERSION: "${SPARK_VERSION}"
+        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
+        ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: "${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}"
+    command:  /bin/true # exits code 0
 
 
   hadoop-namenode:
@@ -117,17 +117,6 @@ services:
     networks:
       combinenet:
         ipv4_address: 10.5.0.7
-
-
-  spark-cluster-base:
-    build:
-      context: ./spark_cluster_base
-      dockerfile: Dockerfile
-      args:
-        SPARK_VERSION: "${SPARK_VERSION}"
-        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-        ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: "${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}"
-    command:  /bin/true # exits code 0
 
 
   combine-django:
