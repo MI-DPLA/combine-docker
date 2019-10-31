@@ -41,6 +41,7 @@ cmake-build-*/
 
 nginx/cache/*
 !nginx/cache/.keep
+nginx/error.log
 
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
