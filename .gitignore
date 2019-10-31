@@ -39,6 +39,9 @@ volumes
 # CMake
 cmake-build-*/
 
+nginx/cache/*
+!nginx/cache/.keep
+
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
 
