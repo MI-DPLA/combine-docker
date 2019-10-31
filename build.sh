@@ -24,7 +24,8 @@ docker volume rm combine_python_env hadoop_binaries spark_binaries livy_binaries
 docker-compose build
 
 # format Hadoop namenode
-docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode && echo 'Y' && /opt/hadoop/bin/hdfs namenode -format"
+docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode"
+docker-compose run hadoop-namenode /bin/bash -c "echo 'Y' | /opt/hadoop/bin/hdfs namenode -format"
 
 # Combine db migrations and superuser create
 docker-compose run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh"
