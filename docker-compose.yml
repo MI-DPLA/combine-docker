@@ -207,8 +207,8 @@ services:
 
   livy:
     build:
-      context: ./livy
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: livy/Dockerfile
       args:
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
