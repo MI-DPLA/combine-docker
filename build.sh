@@ -17,14 +17,15 @@ cd combine/combine
 if [[ ! -f "./combine/localsettings.py" ]]; then
     cp ./combine/localsettings.py.docker ./combine/localsettings.py
 fi
-if [[ ! -d "./static/" ]]; then
+if [[ ! -d "./static/js/" ]]; then
     mkdir -p static/js/
     cp ./core/static/* static/
 fi
-mv ./core/static/[^j]*/*.js static/js/
-mv ./core/static/*.js static/js/
+cp ./static/[^j]*/*.js static/js/
+cp ./static/*.js static/js/
 if [[ ! -f "./static/js/livy-ui.js" ]]; then
     git clone https://github.com/apache/incubator-livy ~/livy
+    git checkout $LIVY_TAGGED_RELEASE
     cp ~/livy/server/src/main/resources/org/apache/livy/server/ui/static/js/*.js ./static/js/
 fi
 cd ../../
