@@ -17,17 +17,6 @@ cd combine/combine
 if [[ ! -f "./combine/localsettings.py" ]]; then
     cp ./combine/localsettings.py.docker ./combine/localsettings.py
 fi
-if [[ ! -d "./static/js/" ]]; then
-    mkdir -p static/js/
-    cp ./core/static/* static/
-fi
-cp ./static/[^j]*/*.js static/js/
-cp ./static/*.js static/js/
-if [[ ! -f "./static/js/livy-ui.js" ]]; then
-    git clone https://github.com/apache/incubator-livy ~/livy
-    git checkout $LIVY_TAGGED_RELEASE
-    cp ~/livy/server/src/main/resources/org/apache/livy/server/ui/static/js/*.js ./static/js/
-fi
 cd ../../
 
 # build images
@@ -40,3 +29,18 @@ docker-compose run hadoop-namenode /bin/bash -c "echo 'Y' | /opt/hadoop/bin/hdfs
 
 # Combine db migrations and superuser create
 docker-compose run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh"
+
+cd combine/combine
+if [[ ! -d "./static/js/" ]]; then
+    mkdir -p static/js/
+fi
+cp -r ./core/static/* static/
+cp -r ./static/[^j]*/*.js static/js/
+if [[ ! -d "$HOME/livy/" ]]; then
+    git clone https://github.com/apache/incubator-livy $HOME/livy
+fi
+if [[ ! -f "./static/js/livy-ui.js" ]]; then
+    git checkout $LIVY_TAGGED_RELEASE
+    cp ~/livy/server/src/main/resources/org/apache/livy/server/ui/static/js/*.js ./static/js/
+fi
+cd ../../
