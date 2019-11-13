@@ -1,3 +1,11 @@
+shopt -s execfail
+fnc() { echo Encountered a problem! Please resolve issue or contact support.; exit 1;}
+trap fnc ERR
+
+docker-compose -v
+docker -v
+svn --version
+
 echo "Running Combine-Docker build script.  Note: this may take some time, anywhere from 5-20 minutes depending on your hardware."
 
 # source .env file
