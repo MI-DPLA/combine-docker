@@ -9,12 +9,12 @@ docker-compose down
 echo $COMBINE_BRANCH
 
 # init Combine app submodule and use localsettings docker template
-#git submodule init
-#git submodule update
+git submodule init
+git submodule update
 cd $WORKDIR/combine/combine
-#git fetch
-#git checkout $COMBINE_BRANCH
-#git pull
+git fetch
+git checkout $COMBINE_BRANCH
+git pull
 if [[ ! -f "./combine/localsettings.py" ]]; then
     cp ./combine/localsettings.py.docker ./combine/localsettings.py
 fi
