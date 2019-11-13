@@ -26,18 +26,6 @@ git pull
 if [[ ! -f "./combine/localsettings.py" ]]; then
     cp ./combine/localsettings.py.docker ./combine/localsettings.py
 fi
-cd $WORKDIR
-
-# build images
-docker volume rm combine_python_env hadoop_binaries spark_binaries livy_binaries combine_tmp
-docker-compose build
-
-# format Hadoop namenode
-docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode"
-docker-compose run hadoop-namenode /bin/bash -c "echo 'Y' | /opt/hadoop/bin/hdfs namenode -format"
-
-# Combine db migrations and superuser create
-docker-compose run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh"
 
 if [[ ! -d "$WORKDIR/combine/combine/static/js/" ]]; then
   mkdir -p $WORKDIR/combine/combine/static/js/
@@ -57,3 +45,14 @@ cd $WORKDIR/external-static/spark
 svn export --force https://github.com/apache/spark/tags/v$SPARK_VERSION/core/src/main/resources/org/apache/spark/ui/static
 cp ./static/*.js $WORKDIR/combine/combine/static/
 cd $WORKDIR
+
+# build images
+docker volume rm combine_python_env hadoop_binaries spark_binaries livy_binaries combine_tmp
+docker-compose build
+
+# format Hadoop namenode
+docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode"
+docker-compose run hadoop-namenode /bin/bash -c "echo 'Y' | /opt/hadoop/bin/hdfs namenode -format"
+
+# Combine db migrations and superuser create
+docker-compose run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh"
