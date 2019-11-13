@@ -254,6 +254,9 @@ services:
     networks:
       combinenet:
         ipv4_address: 10.5.0.11
+        aliases:
+          - spark
+          - livy
 
   nginx:
     image: nginx:latest

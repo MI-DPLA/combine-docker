@@ -42,6 +42,8 @@ cmake-build-*/
 nginx/cache/*
 nginx/error.log
 
+external-static/*
+
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
 

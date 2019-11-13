@@ -2,6 +2,7 @@ echo "Running Combine-Docker build script.  Note: this may take some time, anywh
 
 # source .env file
 source ./.env
+WORKDIR=$(pwd)
 
 # bring down Combine docker containers, if running
 docker-compose down
@@ -10,14 +11,14 @@ echo $COMBINE_BRANCH
 # init Combine app submodule and use localsettings docker template
 #git submodule init
 #git submodule update
-cd combine/combine
+cd $WORKDIR/combine/combine
 #git fetch
 #git checkout $COMBINE_BRANCH
 #git pull
 if [[ ! -f "./combine/localsettings.py" ]]; then
     cp ./combine/localsettings.py.docker ./combine/localsettings.py
 fi
-cd ../../
+cd $WORKDIR
 
 # build images
 docker volume rm combine_python_env hadoop_binaries spark_binaries livy_binaries combine_tmp
@@ -30,17 +31,21 @@ docker-compose run hadoop-namenode /bin/bash -c "echo 'Y' | /opt/hadoop/bin/hdfs
 # Combine db migrations and superuser create
 docker-compose run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh"
 
-cd combine/combine
-if [[ ! -d "./static/js/" ]]; then
-    mkdir -p static/js/
+if [[ ! -d "$WORKDIR/combine/combine/static/js/" ]]; then
+  mkdir -p $WORKDIR/combine/combine/static/js/
 fi
-cp -r ./core/static/* static/
-cp -r ./static/[^j]*/*.js static/js/
-if [[ ! -d "$HOME/livy/" ]]; then
-    git clone https://github.com/apache/incubator-livy $HOME/livy
+cp -r $WORKDIR/combine/combine/core/static/* static/
+cp -r $WORKDIR/combine/combine/static/[^j]*/*.js static/js/
+if [[ ! -d "$WORKDIR/external-static/livy/" ]]; then
+  mkdir -p $WORKDIR/external-static/livy
 fi
-if [[ ! -f "./static/js/livy-ui.js" ]]; then
-    git checkout $LIVY_TAGGED_RELEASE
-    cp ~/livy/server/src/main/resources/org/apache/livy/server/ui/static/js/*.js ./static/js/
+cd $WORKDIR/external-static/livy
+svn export --force https://github.com/apache/incubator-livy/tags/$LIVY_TAGGED_RELEASE/server/src/main/resources/org/apache/livy/server/ui/static/js/
+cp ./js/*.js $WORKDIR/combine/combine/static/js/
+if [[ ! -d "$WORKDIR/external-static/spark/" ]]; then
+  mkdir -p $WORKDIR/external-static/spark
 fi
-cd ../../
+cd $WORKDIR/external-static/spark
+svn export --force https://github.com/apache/spark/tags/v$SPARK_VERSION/core/src/main/resources/org/apache/spark/ui/static
+cp ./static/*.js $WORKDIR/combine/combine/static/
+cd $WORKDIR
