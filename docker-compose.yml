@@ -15,9 +15,6 @@ services:
         read_only: false # owner
     expose:
       - "9200"
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.2
 
 
   mongo:
@@ -27,9 +24,6 @@ services:
     expose:
       - "27017"
     command: "--config /etc/mongod.conf"
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.3
 
 
   mysql:
@@ -41,19 +35,11 @@ services:
     # ports:
     #   - 3306:3306
     command: "--default-authentication-plugin=mysql_native_password"
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.4
-
 
   redis:
     image: redis:4.0
     # ports:
     #   - 6379:6379
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.5
-
 
   spark-cluster-base:
     build:
@@ -85,10 +71,6 @@ services:
       - "8020"
     # entrypoint: bash /tmp/entrypoint_namenode.sh
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.6
-
 
   hadoop-datanode:
     build:
@@ -100,10 +82,6 @@ services:
       - "50071"
       - "50075"
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.7
-
 
   combine-django:
     build:
@@ -154,10 +132,6 @@ services:
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
     depends_on:
       - mysql
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.10
-
 
   combine-celery:
     image: combine-docker_combine-django
@@ -200,10 +174,6 @@ services:
     command:  celery -A core worker -l info --concurrency 1
     depends_on:
       - redis
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.12
-
 
   livy:
     build:
@@ -252,8 +222,7 @@ services:
       - "4040"
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && /opt/livy/bin/livy-server"
     networks:
-      combinenet:
-        ipv4_address: 10.5.0.11
+      default:
         aliases:
           - spark
           - livy
@@ -272,9 +241,6 @@ services:
       - "127.0.0.1:443:443"
     depends_on:
       - combine-django
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.13
 
 volumes:
 
@@ -301,12 +267,3 @@ volumes:
     driver: local
   combine_tmp:
     driver: local
-
-
-networks:
-  combinenet:
-    driver: bridge
-    ipam:
-     driver: default
-     config:
-       - subnet: 10.5.0.0/16
