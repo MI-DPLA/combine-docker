@@ -1,7 +1,6 @@
 version: '3.2'
 services:
   elasticsearch:
-    network_mode: host
     image: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
     environment:
       - cluster.name=combine-elasticsearch
@@ -19,7 +18,6 @@ services:
 
 
   mongo:
-    network_mode: host
     build: ./mongo
     volumes:
       - mongodata:/data/db
@@ -29,7 +27,6 @@ services:
 
 
   mysql:
-    network_mode: host
     build: ./mysql
     environment:
       MYSQL_ROOT_PASSWORD: combine
@@ -40,13 +37,11 @@ services:
     command: "--default-authentication-plugin=mysql_native_password"
 
   redis:
-    network_mode: host
     image: redis:4.0
     # ports:
     #   - 6379:6379
 
   spark-cluster-base:
-    network_mode: host
     build:
       context: ./spark_cluster_base
       dockerfile: Dockerfile
@@ -58,7 +53,6 @@ services:
 
 
   hadoop-namenode:
-    network_mode: host
     build:
       context: ./hadoop
       dockerfile: Dockerfile
@@ -79,7 +73,6 @@ services:
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
 
   hadoop-datanode:
-    network_mode: host
     build:
       context: ./hadoop
       dockerfile: Dockerfile
@@ -91,7 +84,6 @@ services:
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
 
   combine-django:
-    network_mode: host
     build:
       context: .
       dockerfile: ./combine/Dockerfile
@@ -142,7 +134,6 @@ services:
       - mysql
 
   combine-celery:
-    network_mode: host
     image: combine-docker_combine-django
     volumes:
       - type: volume
@@ -185,7 +176,6 @@ services:
       - redis
 
   livy:
-    network_mode: host
     build:
       context: .
       dockerfile: livy/Dockerfile
@@ -233,7 +223,6 @@ services:
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && /opt/livy/bin/livy-server"
 
   nginx:
-    network_mode: host
     image: nginx:latest
     container_name: nginx
     volumes:
