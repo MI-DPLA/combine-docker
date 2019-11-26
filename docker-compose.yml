@@ -136,7 +136,9 @@ services:
       - mysql
 
   combine-celery:
-    image: combine-docker_combine-django
+    build:
+      context: .
+      dockerfile: ./celery/Dockerfile
     volumes:
       - type: volume
         source: hdfs
@@ -173,7 +175,9 @@ services:
         target: /tmp
         read_only: false
     working_dir: /opt/combine
-    command:  celery -A core worker -l info --concurrency 1
+    command: /opt/combine/venv/bin/python supervisord -c /etc/supervisor/supervisord.conf
+    expose:
+      - "9001"
     depends_on:
       - redis
 
