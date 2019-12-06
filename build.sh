@@ -6,9 +6,10 @@ WORKDIR=$(pwd)
 
 # bring down Combine docker containers, if running
 docker-compose down
-echo $COMBINE_BRANCH
+touch $WORKDIR/nginx/error.log
 
 # init Combine app submodule and use localsettings docker template
+echo $COMBINE_BRANCH
 git submodule init
 git submodule update
 cd $WORKDIR/combine/combine
