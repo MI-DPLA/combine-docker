@@ -175,7 +175,7 @@ services:
         target: /tmp
         read_only: false
     working_dir: /opt/combine
-    command: /opt/combine/venv/bin/python supervisord -c /etc/supervisor/supervisord.conf
+    command: supervisord -c /etc/supervisor/supervisord.conf -n
     expose:
       - "9001"
     depends_on:
@@ -242,6 +242,10 @@ services:
       - "127.0.0.1:443:443"
     depends_on:
       - combine-django
+      - combine-celery
+      - livy
+      - elasticsearch
+      - hadoop-datanode
 
 volumes:
 

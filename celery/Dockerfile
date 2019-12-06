@@ -1,10 +1,7 @@
 FROM combine-docker_combine-django:latest
 
-RUN pip3.7 install supervisor && \
-    mkdir -p /var/log/supervisor
+ENV RUNLEVEL=1
+RUN echo exit 0 > /usr/sbin/policy-rc.d
+RUN apt-get update && apt-get install -y supervisor
 
 COPY ./celery/supervisord.conf /etc/supervisor/supervisord.conf
-
-#RUN service start supervisor
-
-#RUN  celery -A core worker -l info --concurrency 1

@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-stretch
+FROM openjdk:8-jdk-slim-buster
 
 RUN apt-get update \
  && apt-get install -y locales \
@@ -17,11 +17,11 @@ ENV LC_ALL en_US.UTF-8
 
 # Install OS libraries
 RUN apt-get update \
+ && mkdir -p /usr/share/man/man1 \
  && apt-get install -y curl unzip lsof wget unzip maven \
-    python3 python3-setuptools \
- && rm /usr/bin/python \
- && ln -s /usr/bin/python3 /usr/bin/python \
- && easy_install3 pip py4j \
+    python3 python3-setuptools python3-pip \
+ && ln -s /usr/bin/python3 /usr/bin/python
+ && pip3 install py4j \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 

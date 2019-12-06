@@ -7,9 +7,10 @@ ENV COMBINE_BRANCH=$COMBINE_BRANCH
 # install miniconda
 # https://hub.docker.com/r/continuumio/miniconda3/dockerfile
 RUN apt-get update --fix-missing && \
-    apt-get install -y wget bzip2 ca-certificates curl git default-libmysqlclient-dev gcc libkrb5-dev libxml2-dev libxslt1-dev libmysql-java python3-dev mysql-client vim make && \
+    apt-get install -y wget bzip2 ca-certificates curl git default-libmysqlclient-dev libmariadbclient-dev gcc libkrb5-dev libxml2-dev libxslt1-dev libmariadb-java python3-dev default-mysql-client vim make && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    ln -s /usr/lib/x86_64-linux-gnu/libmariadb.so.3 /usr/lib/x86_64-linux-gnu/libmariadbclient.so.18
 
 RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
