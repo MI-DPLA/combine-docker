@@ -7,9 +7,10 @@ ENV COMBINE_BRANCH=$COMBINE_BRANCH
 # install miniconda
 # https://hub.docker.com/r/continuumio/miniconda3/dockerfile
 RUN apt-get update --fix-missing && \
-    apt-get install -y wget bzip2 ca-certificates curl git default-libmysqlclient-dev gcc libkrb5-dev libxml2-dev libxslt1-dev libmysql-java python3-dev mysql-client vim make && \
+    apt-get install -y wget bzip2 ca-certificates curl git default-libmysqlclient-dev libmariadbclient-dev gcc libkrb5-dev libxml2-dev libxslt1-dev libmariadb-java python3-dev default-mysql-client vim make && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    ln -s /usr/lib/x86_64-linux-gnu/libmariadb.so.3 /usr/lib/x86_64-linux-gnu/libmariadbclient.so.18
 
 RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
@@ -23,11 +24,12 @@ RUN /opt/conda/bin/conda create -n combine python=3.7 --yes
 ENV PATH /opt/conda/envs/combine/bin:$PATH
 
 # copy Combine app submodule
-COPY combine /opt/combine/
+COPY combine/combine /opt/combine/
+COPY combinelib/mysql.jar /combinelib/
 
 # Copy scripts
-COPY combine.sql /tmp/combine.sql
-COPY combine_db_prepare.sh /tmp/combine_db_prepare.sh
+COPY combine/combine.sql /tmp/combine.sql
+COPY combine/combine_db_prepare.sh /tmp/combine_db_prepare.sh
 
 # downgrade pip and install dependencies
 RUN pip install pip==9.0.3

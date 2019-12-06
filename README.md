@@ -113,20 +113,20 @@ docker-compose up -d
 
 This dockerized version of Combine includes the following services, where each becomes a single container:
 
-| Service Name          | Internal Network IP | Notes                                                      |
-| --------------------- | ------------------- | ---------------------------------------------------------- |
-| **host machine**      | `10.5.0.1`          | not a container, but part of internal network              |
-| `elasticsearch`       | `10.5.0.2`          |                                                            |
-| `mongo`               | `10.5.0.3`          |                                                            |
-| `mysql`               | `10.5.0.4`          |                                                            |
-| `redis`               | `10.5.0.5`          |                                                            |
-| `hadoop-namenode`     | `10.5.0.6`          |                                                            |
-| `hadoop-datanode`     | `10.5.0.7`          |                                                            |
-| `spark-master`        | `10.5.0.8`          | not currently used                                         |
-| `spark-worker`        | `10.5.0.9`          | not currently used                                         |
-| `combine-django`      | `10.5.0.10`         |                                                            |
-| `livy`                | `10.5.0.11`         | location of spark application running in `local[*]` mode   |
-| `combine-celery`      | `10.5.0.12`         |                                                            |
+| Service Name          | Notes                                                      |
+| --------------------- | ---------------------------------------------------------- |
+| **host machine**      | not a container, but part of internal network              |
+| `elasticsearch`       |                                                            |
+| `mongo`               |                                                            |
+| `mysql`               |                                                            |
+| `redis`               |                                                            |
+| `hadoop-namenode`     |                                                            |
+| `hadoop-datanode`     |                                                            |
+| `spark-master`        | not currently used                                         |
+| `spark-worker`        | not currently used                                         |
+| `combine-django`      |                                                            |
+| `livy`                | location of spark application running in `local[*]` mode   |
+| `combine-celery`      |                                                            |
 
 
 The following tables show Docker volumes and binds that are created to support data sharing between containers, and "long-term" data storage.  The column `Data Storage` indicates which volumes act as data stores for Combine and should not be deleted (unless, of course, a fresh installation is desired).  Conversely, the column `Refreshed on Upgrade` shows which tables are removed during builds.  **Note:** this information is purely for informational purposes only; the build scripts and normal usage of `docker-compose up` and `docker-compose down` will not remove these volumes.
