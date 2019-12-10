@@ -1,2 +1,0 @@
-# run combine migrations
-docker-compose run combine-django bash -c "while ! mysqladmin ping -h'10.5.0.4' --silent; do sleep 1; done; python /opt/combine/manage.py makemigrations && python /opt/combine/manage.py migrate && python /opt/combine/manage.py makemigrations core && python /opt/combine/manage.py migrate core"
