@@ -5,7 +5,7 @@
 
 This repository provides a "Dockerized" version of [Combine](https://github.com/mi-dpla/combine.git).
 
-### Hoes does it work?
+### How does it work?
 
 Major components that support Combine, all installed on a single server when building via the [Combine-Playbook](https://github.com/mi-dpla/combine-playbook.git) ansible route, have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a Docker Compose **service**.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
 
