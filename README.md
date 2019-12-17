@@ -34,9 +34,13 @@ git clone https://github.com/mi-dpla/combine-docker.git
 cd combine-docker
 ```
 
-Next, run the `first_build.sh` script:
+Ensure that your machine has dependencies and docker correctly set up by working through the steps in `prepare_server.sh`. This script is not particularly refined or idempotent, so I recommend using it as a reference rather than running it outright.
+
+NOTE: All of the scripts assume you are building on Ubuntu 18.04 LTS.
+
+Next, run the `build.sh` script:
 ```
-./first_build.sh
+./build.sh
 ```
 
 **Note:** This script may take some time, anywhere from 5-20 minutes depending on your hardware.  This script accomplishes a few things:
@@ -157,6 +161,10 @@ Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_ma
 ### Port collision error: `port is already allocated`
 
 By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can turned off selectively (or changed) if you have services running on your host that conflict.  Look for the `ports` section for each service in the `docker-compose.yml` to enable or disable them.
+
+### java.lang.ClassNotFoundException: org.elasticsearch.hadoop.mr.LinkedMapWritable
+
+Make sure that the `elasticsearch-hadoop-x.y.z.jar` in `combinelib` matches the version specified in the `ELASTICSEARCH_HADOOP_CONNECTOR_VERSION` environment variable configured in your `.env`.
 
 ### Other issues?
 
