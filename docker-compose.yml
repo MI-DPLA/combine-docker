@@ -237,6 +237,9 @@ services:
       - ./nginx/error.log:/etc/nginx/error_log.log
       - ./nginx/cache/:/etc/nginx/cache
       - ./combine/combine/static:/static
+# when using certbot for SSL, uncomment these lines:
+#      - ./certbot/conf:/etc/letsencrypt
+#      - ./certbot/www:/var/www/certbot
     ports:
       - "127.0.0.1:80:80"
       - "127.0.0.1:443:443"
@@ -246,6 +249,13 @@ services:
       - livy
       - elasticsearch
       - hadoop-datanode
+
+# when using certbot for SSL, uncomment these lines:
+#  certbot:
+#    image: certbot/certbot
+#    volumes:
+#      - ./certbot/conf:/etc/letsencrypt
+#      - ./certbot/www:/var/www/certbot
 
 volumes:
 
