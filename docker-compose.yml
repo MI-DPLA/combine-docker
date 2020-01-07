@@ -237,6 +237,8 @@ services:
       - ./nginx/error.log:/etc/nginx/error_log.log
       - ./nginx/cache/:/etc/nginx/cache
       - ./combine/combine/static:/static
+# when using not certbot for SSL, uncomment this line:
+#      - /etc/ssl:/etc/ssl
 # when using certbot for SSL, uncomment these lines:
 #      - ./certbot/conf:/etc/letsencrypt
 #      - ./certbot/www:/var/www/certbot
