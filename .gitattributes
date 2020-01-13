@@ -28,6 +28,7 @@
 *.scm text
 *.sql text
 .htaccess text
+.gitattributes text
 *.sh text
 
 # These files are binary and should be left untouched
