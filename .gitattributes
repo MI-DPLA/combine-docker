@@ -28,7 +28,6 @@
 *.scm text eol=lf
 *.sql text eol=lf
 .htaccess text eol=lf
-.gitattributes text eol=lf
 *.sh text eol=lf
 
 # These files are binary and should be left untouched
