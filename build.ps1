@@ -1,6 +1,9 @@
 $location = Location
 $env = Get-Content "$location\.env" | Out-String | ConvertFrom-StringData
-$env
+
+git config --global core.eol "lf"
+git config --global core.autocrlf "false"
+
 docker-compose down
 if(Test-Path $location\nginx\error.log) {
   (Get-ChildItem $location\nginx\error.log).LastWriteTime = Get-Date
@@ -20,7 +23,7 @@ if (!(Test-Path ".\static\js")) {
   mkdir .\static\js
 }
 popd
-docker volume rm combine_python_env hadoop_binaries spark_binaries livy_binaries combine_tmp
+docker volume rm combine-docker_combine_python_env combine-docker_hadoop_binaries combine-docker_spark_binaries combine-docker_livy_binaries combine-docker_combine_tmp
 docker-compose build
 docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode"
 docker-compose run hadoop-namenode /bin/bash -c "echo 'Y' | /opt/hadoop/bin/hdfs namenode -format"
@@ -58,3 +61,4 @@ pushd $location\combine\combine\static
 Get-ChildItem . -recurse -File | foreach($_) {
   cp $_.Fullname ("."+$_.name) -Verbose
 }
+popd
