@@ -28,12 +28,21 @@ Docker does a relatively good job protecting named volumes, but this simple comm
 
 ## Installation and First Build
 
+### Windows!! Important note!
+Before you clone the repository on Windows, ensure that you have your git configured not to add Windows-style line endings. I believe you can do this by setting:
+```
+git config --global core.autocrlf false
+```
+
+### General
+
 The first step is to clone this repository and move into it:
 ```
 git clone https://github.com/mi-dpla/combine-docker.git
 cd combine-docker
 ```
 
+### Linux
 Ensure that your machine has dependencies and docker correctly set up by working through the steps in `prepare_server.sh`. This script is not particularly refined or idempotent, so I recommend using it as a reference rather than running it outright.
 
 NOTE: All of the scripts assume you are building on Ubuntu 18.04 LTS.
@@ -49,6 +58,9 @@ Next, run the `build.sh` script:
   * builds all required docker images
   * runs one-time database initializations and migrations
 
+### Windows again
+
+On Windows you will want to run the `build.ps1` script.
 
 ## Configuration
 
@@ -176,6 +188,3 @@ Please don't hesitate to [submit an issue](https://github.com/MI-DPLA/combine-do
 The Combine Django application, where most developments efforts are targeted, is a [bind mount volume](https://docs.docker.com/storage/bind-mounts/) from the location of this cloned repository on disk at `./combine/combine`.  Though the application is copied to the docker images during build, to support the installation of dependencies, the location `/opt/combine` is overwritten by this bind volume at `docker-compose up` or `run`.  This allows live editing of the local folder `./combine/combine`, which is updating the folder `/opt/combine` in services `combine-django`, `combine-celery`, and `livy`.
 
 The folder `./combine/combine` can, for the most part, be treated like a normal GitHub repository.  For example, one could checkout or create a new branch, and then push and pull from there.
-
-
-
