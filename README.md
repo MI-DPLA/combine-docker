@@ -7,13 +7,13 @@ This repository provides a "Dockerized" version of [Combine](https://github.com/
 
 ### How does it work?
 
-Major components that support Combine, all installed on a single server when building via the [Combine-Playbook](https://github.com/mi-dpla/combine-playbook.git) ansible route, have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a Docker Compose **service**.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
+Major components that support Combine, all installed on a single server when building via the [Combine-Playbook](https://github.com/mi-dpla/combine-playbook.git) ansible route, have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a Docker Compose service.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
 
 Docker Compose provides a way to interact with all the containers that support Combine at once, even providing some improved ability to view logs, restart services, etc.
 
 ### Data Integrity
 
-**WARNING:** The containerization of Combine provides arguably easier deployment and upgrading, but introduces some risks to data integrity in Combine.  Combine-Docker stores data that needs to persist between container rebuilding and upgrades in named volumes, specifically the following:
+WARNING: The containerization of Combine provides arguably easier deployment and upgrading, but introduces some risks to data integrity in Combine.  Combine-Docker stores data that needs to persist between container rebuilding and upgrades in named volumes, specifically the following:
 
   * `esdata`: ElasticSearch data
   * `mongodata`: Mongo data
@@ -21,7 +21,7 @@ Docker Compose provides a way to interact with all the containers that support C
   * `hdfs`: Hadoop HDFS data
   * `combine_home`: Home directory for Combine that contains important, non-volatile data
 
-Containers are shutdown with the command `docker-compose down`, which is perfectly safe and encouraged!  However, **do not** include the `-v` or `--volumes` flag to that command, which will remove **all** volumes associated with the services in the `docker-compose.yml` file.
+Containers are shutdown with the command `docker-compose down`, which is perfectly safe and encouraged!  However, do not include the `-v` or `--volumes` flag to that command, which will remove all volumes associated with the services in the `docker-compose.yml` file.
 
 Docker does a relatively good job protecting named volumes, but this simple command would wipe data from Combine.  You can find [more information about the command `docker-compose down` here](https://docs.docker.com/compose/reference/down/).
 
@@ -43,7 +43,7 @@ Next, run the `build.sh` script:
 ./build.sh
 ```
 
-**Note:** This script may take some time, anywhere from 5-20 minutes depending on your hardware.  This script accomplishes a few things:
+Note: This script may take some time, anywhere from 5-20 minutes depending on your hardware.  This script accomplishes a few things:
 
   * initializes Combine Django app as Git submodule at `./combine/combine`
   * builds all required docker images
@@ -81,7 +81,7 @@ docker-compose restart combine-django combine-celery
 docker-compose restart
 ```
 
-To stop all services and containers (**NOTE:** Do not include `-v` or `--volumes` flags, as these will wipe ALL data from Combine):
+To stop all services and containers (NOTE: Do not include `-v` or `--volumes` flags, as these will wipe ALL data from Combine):
 ```
 docker-compose down
 ```
@@ -119,7 +119,7 @@ This dockerized version of Combine includes the following services, where each b
 
 | Service Name          | Notes                                                      |
 | --------------------- | ---------------------------------------------------------- |
-| **host machine**      | not a container, but part of internal network              |
+| host machine      | not a container, but part of internal network              |
 | `elasticsearch`       |                                                            |
 | `mongo`               |                                                            |
 | `mysql`               |                                                            |
@@ -133,7 +133,7 @@ This dockerized version of Combine includes the following services, where each b
 | `combine-celery`      |                                                            |
 
 
-The following tables show Docker volumes and binds that are created to support data sharing between containers, and "long-term" data storage.  The column `Data Storage` indicates which volumes act as data stores for Combine and should not be deleted (unless, of course, a fresh installation is desired).  Conversely, the column `Refreshed on Upgrade` shows which tables are removed during builds.  **Note:** this information is purely for informational purposes only; the build scripts and normal usage of `docker-compose up` and `docker-compose down` will not remove these volumes.
+The following tables show Docker volumes and binds that are created to support data sharing between containers, and "long-term" data storage.  The column `Data Storage` indicates which volumes act as data stores for Combine and should not be deleted (unless, of course, a fresh installation is desired).  Conversely, the column `Refreshed on Upgrade` shows which tables are removed during builds.  Note: this information is purely for informational purposes only; the build scripts and normal usage of `docker-compose up` and `docker-compose down` will not remove these volumes.
 
 
 |Volume Name|Type|Source|Target|Data Storage|RefreshedonUpdate|AssociatedServices|
@@ -165,6 +165,10 @@ By default, nearly all relevant ports are exposed from the containers that consp
 ### java.lang.ClassNotFoundException: org.elasticsearch.hadoop.mr.LinkedMapWritable
 
 Make sure that the `elasticsearch-hadoop-x.y.z.jar` in `combinelib` matches the version specified in the `ELASTICSEARCH_HADOOP_CONNECTOR_VERSION` environment variable configured in your `.env`.
+
+### Transforms failing
+
+If your XSLT transforms are failing with an error like `NoneType has no such method 'transform'`, double-check that any includes inside your transform XSLT use correct locations. This is particularly important to check if you have imported any transformations that used local includes.
 
 ### Other issues?
 
