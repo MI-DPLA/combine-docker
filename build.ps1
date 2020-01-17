@@ -1,6 +1,7 @@
+<<<<<<< HEAD
 $location = Location
 $env = Get-Content "$location\.env" | Out-String | ConvertFrom-StringData
-
+$env
 git config --global core.eol "lf"
 git config --global core.autocrlf "false"
 
@@ -53,7 +54,7 @@ git remote add -f origin https://github.com/apache/spark
 git config core.sparseCheckout true
 $spark_path = "core/src/main/resources/org/apache/spark/ui/static/*"
 echo $spark_path | out-file -encoding ascii .git/info/sparse-checkout
-git pull origin $env.SPARK_VERSION
+git pull origin $env.SPARK_GIT
 copy $spark_path $location\combine\combine\static
 popd
 
