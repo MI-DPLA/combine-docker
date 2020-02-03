@@ -28,12 +28,21 @@ Docker does a relatively good job protecting named volumes, but this simple comm
 
 ## Installation and First Build
 
+### Windows!! Important note!
+Before you clone the repository on Windows, ensure that you have your git configured not to add Windows-style line endings. I believe you can do this by setting:
+```
+git config --global core.autocrlf false
+```
+
+### General
+
 The first step is to clone this repository and move into it:
 ```
 git clone https://github.com/mi-dpla/combine-docker.git
 cd combine-docker
 ```
 
+### Linux
 Ensure that your machine has dependencies and docker correctly set up by working through the steps in `prepare_server.sh`. This script is not particularly refined or idempotent, so I recommend using it as a reference rather than running it outright.
 
 NOTE: All of the scripts assume you are building on Ubuntu 18.04 LTS.
@@ -49,6 +58,9 @@ Next, run the `build.sh` script:
   * builds all required docker images
   * runs one-time database initializations and migrations
 
+### Windows again
+
+On Windows you will want to run the `build.ps1` script.
 
 ## Configuration
 
@@ -177,8 +189,6 @@ The Combine Django application, where most developments efforts are targeted, is
 
 The folder `./combine/combine` can, for the most part, be treated like a normal GitHub repository.  For example, one could checkout or create a new branch, and then push and pull from there.
 
-
 ## Automated Testing
 
 Combine itself has automated tests. If you want to run them from inside here, you will need to uncomment the `ports` sections for mysql and mongo in `docker-compose.yml`, and you will also need to edit your /etc/hosts file to redirect `mysql` and `mongo` to `127.0.0.1`. This is because the host machine needs to have access to the databases for the Django test runner to set up and tear down around each run.
-

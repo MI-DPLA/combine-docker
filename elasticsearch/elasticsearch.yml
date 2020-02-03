@@ -18,4 +18,3 @@ node.name: combine_es
 transport.tcp.port: 9300
 cluster.initial_master_nodes:
     - combine_es
-

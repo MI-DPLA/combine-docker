@@ -30,6 +30,7 @@ COPY combinelib/mysql.jar /combinelib/
 # Copy scripts
 COPY combine/combine.sql /tmp/combine.sql
 COPY combine/combine_db_prepare.sh /tmp/combine_db_prepare.sh
+COPY mysql/root.my.cnf /etc/.my.cnf
 
 # downgrade pip and install dependencies
 RUN pip install pip==9.0.3

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # run combine migrations
 echo "waiting for MySQL container to be ready..."
 while ! mysqladmin ping -h "mysql" --port=3307 -pcombine --silent; do
