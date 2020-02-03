@@ -41,6 +41,7 @@ cmake-build-*/
 
 nginx/cache/*
 nginx/error.log
+nginx/nginx.conf
 
 external-static/*
 

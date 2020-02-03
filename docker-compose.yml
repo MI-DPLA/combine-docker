@@ -23,6 +23,9 @@ services:
       - mongodata:/data/db
     expose:
       - "27017"
+    # use ports for testing
+    # ports:
+    #   - "127.0.0.1:27017:27017"
     command: "--config /etc/mongod.conf"
 
 
@@ -32,8 +35,9 @@ services:
       MYSQL_ROOT_PASSWORD: combine
     volumes:
       - mysqldata:/var/lib/mysql
+    # use ports for testing
     # ports:
-    #   - 3306:3306
+    #   - "127.0.0.1:3307:3307"
     command: "--default-authentication-plugin=mysql_native_password"
 
   redis:
@@ -237,6 +241,8 @@ services:
       - ./nginx/error.log:/etc/nginx/error_log.log
       - ./nginx/cache/:/etc/nginx/cache
       - ./combine/combine/static:/static
+# when using not certbot for SSL, uncomment this line:
+#      - /etc/ssl:/etc/ssl
 # when using certbot for SSL, uncomment these lines:
 #      - ./certbot/conf:/etc/letsencrypt
 #      - ./certbot/www:/var/www/certbot
