@@ -135,6 +135,9 @@ services:
         read_only: false
     expose:
       - "8000"
+    # use ports for testing
+    # ports:
+    #   - "127.0.0.1:6767:6767"
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
     depends_on:
       - mysql
