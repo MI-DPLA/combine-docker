@@ -18,7 +18,6 @@ RUN cd /opt \
  && ln -s /combinelib/ingestion3_${SCALA_VERSION}-0.0.1.jar /opt/livy/rsc/target/jars/ingestion3.jar
 
 # Copy configurations
-ENV FOO=foobar
 COPY livy/livy.conf /opt/livy/conf/livy.conf
 RUN cat /opt/livy/conf/livy.conf
 COPY livy/livy-env.sh /opt/livy/conf/livy-env.sh
