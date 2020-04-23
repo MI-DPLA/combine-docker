@@ -5,7 +5,7 @@
 
 This repository provides a "Dockerized" version of [Combine](https://github.com/mi-dpla/combine.git).
 
-### Hoes does it work?
+### How does it work?
 
 Major components that support Combine, all installed on a single server when building via the [Combine-Playbook](https://github.com/mi-dpla/combine-playbook.git) ansible route, have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a Docker Compose **service**.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
 
@@ -28,15 +28,28 @@ Docker does a relatively good job protecting named volumes, but this simple comm
 
 ## Installation and First Build
 
+### Windows!! Important note!
+Before you clone the repository on Windows, ensure that you have your git configured not to add Windows-style line endings. I believe you can do this by setting:
+```
+git config --global core.autocrlf false
+```
+
+### General
+
 The first step is to clone this repository and move into it:
 ```
 git clone https://github.com/mi-dpla/combine-docker.git
 cd combine-docker
 ```
 
-Next, run the `first_build.sh` script:
+### Linux
+Ensure that your machine has dependencies and docker correctly set up by working through the steps in `prepare_server.sh`. This script is not particularly refined or idempotent, so I recommend using it as a reference rather than running it outright.
+
+NOTE: All of the scripts assume you are building on Ubuntu 18.04 LTS.
+
+Next, run the `build.sh` script:
 ```
-./first_build.sh
+./build.sh
 ```
 
 **Note:** This script may take some time, anywhere from 5-20 minutes depending on your hardware.  This script accomplishes a few things:
@@ -45,6 +58,9 @@ Next, run the `first_build.sh` script:
   * builds all required docker images
   * runs one-time database initializations and migrations
 
+### Windows again
+
+On Windows you will want to run the `build.ps1` script.
 
 ## Configuration
 
@@ -113,20 +129,20 @@ docker-compose up -d
 
 This dockerized version of Combine includes the following services, where each becomes a single container:
 
-| Service Name          | Internal Network IP | Notes                                                      |
-| --------------------- | ------------------- | ---------------------------------------------------------- |
-| **host machine**      | `10.5.0.1`          | not a container, but part of internal network              |
-| `elasticsearch`       | `10.5.0.2`          |                                                            |
-| `mongo`               | `10.5.0.3`          |                                                            |
-| `mysql`               | `10.5.0.4`          |                                                            |
-| `redis`               | `10.5.0.5`          |                                                            |
-| `hadoop-namenode`     | `10.5.0.6`          |                                                            |
-| `hadoop-datanode`     | `10.5.0.7`          |                                                            |
-| `spark-master`        | `10.5.0.8`          | not currently used                                         |
-| `spark-worker`        | `10.5.0.9`          | not currently used                                         |
-| `combine-django`      | `10.5.0.10`         |                                                            |
-| `livy`                | `10.5.0.11`         | location of spark application running in `local[*]` mode   |
-| `combine-celery`      | `10.5.0.12`         |                                                            |
+| Service Name          | Notes                                                      |
+| --------------------- | ---------------------------------------------------------- |
+| **host machine**      | not a container, but part of internal network              |
+| `elasticsearch`       |                                                            |
+| `mongo`               |                                                            |
+| `mysql`               |                                                            |
+| `redis`               |                                                            |
+| `hadoop-namenode`     |                                                            |
+| `hadoop-datanode`     |                                                            |
+| `spark-master`        | not currently used                                         |
+| `spark-worker`        | not currently used                                         |
+| `combine-django`      |                                                            |
+| `livy`                | location of spark application running in `local[*]` mode   |
+| `combine-celery`      |                                                            |
 
 
 The following tables show Docker volumes and binds that are created to support data sharing between containers, and "long-term" data storage.  The column `Data Storage` indicates which volumes act as data stores for Combine and should not be deleted (unless, of course, a fresh installation is desired).  Conversely, the column `Refreshed on Upgrade` shows which tables are removed during builds.  **Note:** this information is purely for informational purposes only; the build scripts and normal usage of `docker-compose up` and `docker-compose down` will not remove these volumes.
@@ -158,6 +174,10 @@ Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_ma
 
 By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can turned off selectively (or changed) if you have services running on your host that conflict.  Look for the `ports` section for each service in the `docker-compose.yml` to enable or disable them.
 
+### java.lang.ClassNotFoundException: org.elasticsearch.hadoop.mr.LinkedMapWritable
+
+Make sure that the `elasticsearch-hadoop-x.y.z.jar` in `combinelib` matches the version specified in the `ELASTICSEARCH_HADOOP_CONNECTOR_VERSION` environment variable configured in your `.env`.
+
 ### Other issues?
 
 Please don't hesitate to [submit an issue](https://github.com/MI-DPLA/combine-docker/issues)!
@@ -169,5 +189,6 @@ The Combine Django application, where most developments efforts are targeted, is
 
 The folder `./combine/combine` can, for the most part, be treated like a normal GitHub repository.  For example, one could checkout or create a new branch, and then push and pull from there.
 
+## Automated Testing
 
-
+Combine itself has automated tests. If you want to run them from inside here, you will need to uncomment the `ports` sections for mysql and mongo in `docker-compose.yml`, and you will also need to edit your /etc/hosts file to redirect `mysql` and `mongo` to `127.0.0.1`. This is because the host machine needs to have access to the databases for the Django test runner to set up and tear down around each run.

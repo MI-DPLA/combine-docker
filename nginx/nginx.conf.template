@@ -1,0 +1,91 @@
+events {
+}
+
+http {
+  include mime.types;
+  error_log /etc/nginx/error_log.log warn;
+  client_max_body_size 250m;
+# when using SSL, uncomment these lines:
+#  include /etc/letsencrypt/options-ssl-nginx-conf;
+#  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem
+
+  proxy_cache_path /etc/nginx/cache keys_zone=one:500m max_size=1000m;
+
+  server {
+    listen 80;
+# when using SSL, uncomment these lines:
+#    server_name localhost;
+#
+#    location / {
+#      return 301 https://$host$request_uri;
+#    }
+#
+#    location /.well-known/acme-challenge/ {
+#      root /var/www/certbot;
+#    }
+#  }
+#
+#  server {
+#    listen 443 ssl;
+#    ssl_certificate /etc/letsencrypt/live/localhost/fullchain.pem;
+#    ssl_certificate_key /etc/letsencrypt/live/localhost/privkey.pem;
+
+    server_name localhost;
+    proxy_no_cache any;
+
+    location / {
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_pass http://combine-django:8000/;
+    }
+
+    location /es {
+      proxy_pass http://elasticsearch:9200/;
+    }
+
+    location /hadoop-datanode {
+      proxy_pass http://hadoop-datanode:50075/;
+    }
+
+    location /spark/ {
+      proxy_pass http://livy:4040/jobs/;
+    }
+
+    location /jobs/ {
+      proxy_pass http://livy:4040/jobs/;
+    }
+
+    location /stages/ {
+      proxy_pass http://livy:4040/stages/;
+    }
+
+    location /storage/ {
+      proxy_pass http://livy:4040/storage/;
+    }
+
+    location /environment/ {
+      proxy_pass http://livy:4040/environment/;
+    }
+
+    location /executors/ {
+      proxy_pass http://livy:4040/executors/;
+    }
+
+    location /livy/ {
+      proxy_pass http://livy:8998/;
+    }
+
+    location /static/ {
+      alias /static/;
+    }
+
+    location /favicon.ico {
+      alias /static/favicon.ico;
+    }
+
+    rewrite ^/$ /combine redirect;
+
+  }
+}

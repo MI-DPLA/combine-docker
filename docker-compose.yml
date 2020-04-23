@@ -1,9 +1,7 @@
 version: '3.2'
 services:
-
-
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
     environment:
       - cluster.name=combine-elasticsearch
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
@@ -15,23 +13,20 @@ services:
         source: ./elasticsearch/elasticsearch.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
         read_only: false # owner
-    ports:
-      - 9200:9200
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.2
+    expose:
+      - "9200"
 
 
   mongo:
     build: ./mongo
     volumes:
       - mongodata:/data/db
-    ports:
-      - 27018:27017
+    expose:
+      - "27017"
+    # use ports for testing
+    # ports:
+    #   - "127.0.0.1:27017:27017"
     command: "--config /etc/mongod.conf"
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.3
 
 
   mysql:
@@ -40,22 +35,15 @@ services:
       MYSQL_ROOT_PASSWORD: combine
     volumes:
       - mysqldata:/var/lib/mysql
+    # use ports for testing
     # ports:
-    #   - 3306:3306
+    #   - "127.0.0.1:3307:3307"
     command: "--default-authentication-plugin=mysql_native_password"
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.4
-
 
   redis:
     image: redis:4.0
     # ports:
     #   - 6379:6379
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.5
-
 
   spark-cluster-base:
     build:
@@ -75,7 +63,6 @@ services:
       args:
         HADOOP_VERSION: "${HADOOP_VERSION}"
     volumes:
-      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -84,14 +71,10 @@ services:
         source: hadoop_binaries
         target: /opt/hadoop
         read_only: false # owner of dir
-    ports:
-      - 8020:8020
+    expose:
+      - "8020"
     # entrypoint: bash /tmp/entrypoint_namenode.sh
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.6
-
 
   hadoop-datanode:
     build:
@@ -99,27 +82,23 @@ services:
       dockerfile: Dockerfile
       args:
         HADOOP_VERSION: "${HADOOP_VERSION}"
-    volumes:
-      - ./combinelib:/combinelib
-    ports:
-      - 50070:50070
-      - 50075:50075
+    depends_on:
+      - hadoop-namenode
+    expose:
+      - "50071"
+      - "50075"
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.7
-
 
   combine-django:
     build:
-      context: ./combine
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./combine/Dockerfile
       args:
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
         COMBINE_BRANCH: "${COMBINE_BRANCH}"
     volumes:
-      - ./combinelib:/combinelib
+      - ./combine/combine/static:/static
       - type: volume
         source: hdfs
         target: /hdfs
@@ -154,20 +133,20 @@ services:
         source: combine_tmp
         target: /tmp
         read_only: false
-    ports:
-      - ${COMBINE_DJANGO_HOST_PORT}:8000
+    expose:
+      - "8000"
+    # use ports for testing
+    # ports:
+    #   - "127.0.0.1:6767:6767"
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
     depends_on:
       - mysql
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.10
-
 
   combine-celery:
-    image: combine-docker_combine-django
+    build:
+      context: .
+      dockerfile: ./celery/Dockerfile
     volumes:
-      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -203,23 +182,20 @@ services:
         target: /tmp
         read_only: false
     working_dir: /opt/combine
-    command:  celery -A core worker -l info --concurrency 1
+    command: supervisord -c /etc/supervisor/supervisord.conf -n
+    expose:
+      - "9001"
     depends_on:
       - redis
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.12
-
 
   livy:
     build:
-      context: ./livy
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: livy/Dockerfile
       args:
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
     volumes:
-      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -254,14 +230,41 @@ services:
         source: combine_tmp
         target: /tmp
         read_only: false
-    ports:
-      - 8998:8998
-      - 4040:4040
+    expose:
+      - "8998"
+      - "4040"
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && /opt/livy/bin/livy-server"
-    networks:
-      combinenet:
-        ipv4_address: 10.5.0.11
 
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/mime.types:/etc/nginx/mime.types
+      - ./nginx/error.log:/etc/nginx/error_log.log
+      - ./nginx/cache/:/etc/nginx/cache
+      - ./combine/combine/static:/static
+# when using not certbot for SSL, uncomment this line:
+#      - /etc/ssl:/etc/ssl
+# when using certbot for SSL, uncomment these lines:
+#      - ./certbot/conf:/etc/letsencrypt
+#      - ./certbot/www:/var/www/certbot
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+    depends_on:
+      - combine-django
+      - combine-celery
+      - livy
+      - elasticsearch
+      - hadoop-datanode
+
+# when using certbot for SSL, uncomment these lines:
+#  certbot:
+#    image: certbot/certbot
+#    volumes:
+#      - ./certbot/conf:/etc/letsencrypt
+#      - ./certbot/www:/var/www/certbot
 
 volumes:
 
@@ -288,12 +291,3 @@ volumes:
     driver: local
   combine_tmp:
     driver: local
-
-
-networks:
-  combinenet:
-    driver: bridge
-    ipam:
-     driver: default
-     config:
-       - subnet: 10.5.0.0/16

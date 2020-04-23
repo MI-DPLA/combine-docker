@@ -3,8 +3,10 @@ FROM combine-docker_combine-django:latest
 # Arguments
 ARG LIVY_TAGGED_RELEASE
 ARG SCALA_VERSION
+ARG ELASTICSEARCH_HADOOP_CONNECTOR_VERSION
 ENV LIVY_TAGGED_RELEASE=$LIVY_TAGGED_RELEASE
 ENV SCALA_VERSION=$SCALA_VERSION
+ENV ELASTICSEARCH_HADOOP_CONNECTOR_VERSION=$ELASTICSEARCH_HADOOP_CONNECTOR_VERSION
 
 # Download and install Livy
 RUN cd /opt \
@@ -16,11 +18,14 @@ RUN cd /opt \
  && ln -s /combinelib/ingestion3_${SCALA_VERSION}-0.0.1.jar /opt/livy/rsc/target/jars/ingestion3.jar
 
 # Copy configurations
-COPY livy.conf /opt/livy/conf/livy.conf
-COPY livy-env.sh /opt/livy/conf/livy-env.sh
+COPY livy/livy.conf /opt/livy/conf/livy.conf
+RUN cat /opt/livy/conf/livy.conf
+COPY livy/livy-env.sh /opt/livy/conf/livy-env.sh
+COPY livy/log4j.properties /opt/livy/conf/log4j.properties
+COPY combinelib/ /combinelib/
 
 # Create symlink to ElasticSearch/Hadoop connector
-RUN ln -s /combinelib/elasticsearch-hadoop-5.6.2.jar /opt/livy/rsc/target/jars/elasticsearch-hadoop-5.6.2.jar
+RUN ln -s /combinelib/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}.jar /opt/livy/rsc/target/jars/elasticsearch-hadoop-${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}.jar
 
 # Remove ivy cache directory
 # https://github.com/MI-DPLA/combine-docker/issues/5
