@@ -31,7 +31,6 @@ ENV PYTHONIOENCODING UTF-8
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
 # Arguments
-ARG FOO
 ARG SPARK_VERSION
 ENV SPARK_VERSION=$SPARK_VERSION
 ARG HADOOP_VERSION_SHORT
@@ -48,5 +47,4 @@ RUN cd /tmp \
 ENV SPARK_HOME=/opt/spark
 
 # Copy configurations
-ARG BAR
 COPY spark-defaults.conf /opt/spark/conf/spark-defaults.conf
