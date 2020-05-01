@@ -29,7 +29,7 @@ fi
 cd $WORKDIR
 
 # build images
-docker volume rm combine-docker_combine_python_env combine-docker_hadoop_binaries combine-docker_spark_binaries combine-docker_livy_binaries combine-docker_combine_tmp
+docker volume rm combine-docker_combine_python_env combine-docker_hadoop_binaries combine-docker_spark_binaries combine-docker_livy_binaries combine-docker_combine_tmp combine-docker_combinelib
 docker-compose build
 
 # format Hadoop namenode

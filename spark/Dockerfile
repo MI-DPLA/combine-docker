@@ -15,4 +15,3 @@ ENV SPARK_HOME=/opt/spark
 
 # Copy configurations
 COPY spark-defaults.conf /opt/spark/conf/spark-defaults.conf
-COPY combinelib/ /combinelib/
