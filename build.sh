@@ -22,7 +22,7 @@ git pull
 if [[ ! -f "./combine/localsettings.py" ]]; then
     cp ./combine/localsettings.py.docker ./combine/localsettings.py
 fi
-sed -i 's/3306/3307' ./combine/settings.py # mysql port is 3307 in docker, 3306 by default
+sed -i 's/3306/3307/' ./combine/settings.py # mysql port is 3307 in docker, 3306 by default
 
 if [[ ! -d "$WORKDIR/combine/combine/static/js/" ]]; then
   mkdir -p $WORKDIR/combine/combine/static/js/
