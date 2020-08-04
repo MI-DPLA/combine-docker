@@ -3,17 +3,17 @@
 
 ## Overview
 
-This repository provides a "Dockerized" version of [Combine](https://github.com/mi-dpla/combine.git).
+This repository provides a "Dockerized" version of [Combine](https://github.com/mi-dpla/combine.git). Combine is a Django application to facilitate the harvesting, transformation, analysis, and publishing of metadata records by Service Hubs for inclusion in the [Digital Public Library of America (DPLA)](https://dp.la/).
 
 ### How does it work?
 
-Major components that support Combine, all installed on a single server when building via the [Combine-Playbook](https://github.com/mi-dpla/combine-playbook.git) ansible route, have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a Docker Compose **service**.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
+Major components that support Combine have been broken out into distinct Docker images and containers.  Using [Docker Compose](https://docs.docker.com/compose/), each of these major components is associated with a Docker Compose **service**.  Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
 
 Docker Compose provides a way to interact with all the containers that support Combine at once, even providing some improved ability to view logs, restart services, etc.
 
-### Data Integrity
+### Data Integrity Warning
 
-**WARNING:** The containerization of Combine provides arguably easier deployment and upgrading, but introduces some risks to data integrity in Combine.  Combine-Docker stores data that needs to persist between container rebuilding and upgrades in named volumes, specifically the following:
+The containerization of Combine provides arguably easier deployment and upgrading, but introduces some risks to data integrity in Combine.  Combine-Docker stores data that needs to persist between container rebuilding and upgrades in named volumes, specifically the following:
 
   * `esdata`: ElasticSearch data
   * `mongodata`: Mongo data
@@ -25,27 +25,46 @@ Containers are shutdown with the command `docker-compose down`, which is perfect
 
 Docker does a relatively good job protecting named volumes, but this simple command would wipe data from Combine.  You can find [more information about the command `docker-compose down` here](https://docs.docker.com/compose/reference/down/).
 
+### Security Warning
+
+Combine code should be run behind your institution's firewall on a secured server. Access to combine should be protected by your instituion-wide identity and password system, preferably using two-factor authentication. If your institution supports using VPNs for access to the server's network that is a good additional step. 
+
+This is in addition to the combine's own passwords. While we haven't got explicit documentation on how to set up SSL inside the provided nginx in combine it's possible and strongly recommended.
+
+### Version Change Log for v0.11.1
+[V0.11.1 Change Log](https://github.com/MI-DPLA/combine-docker/blob/master/combine_version_change_log.pdf)
+
 
 ## Installation and First Build
 
-### Windows!! Important note!
+### Downloading combine-docker
+
+**Windows only: An important git config before you download code!**
+
 Before you clone the repository on Windows, ensure that you have your git configured not to add Windows-style line endings. I believe you can do this by setting:
 ```
 git config --global core.autocrlf false
 ```
 
-### General
+**Clone combine-docker**
 
-The first step is to clone this repository and move into it:
-```
-git clone https://github.com/mi-dpla/combine-docker.git
-cd combine-docker
-```
+The first install step is to clone this repository and move into it:
+`git clone https://github.com/mi-dpla/combine-docker.git`  
+`cd combine-docker`
 
-### Linux
+### Initializing combine-docker
+The complete instructions include important information on upgrading an existing combine server. Using the detailed instructions is strongly recommended.
+
+[Complete detailed linux instructions](https://github.com/MI-DPLA/combine-docker/blob/master/combine_docker_detailed_installation_instructions.pdf)
+
+
+**Abbriviated Instructions**
+
 Ensure that your machine has dependencies and docker correctly set up by working through the steps in `prepare_server.sh`. This script is not particularly refined or idempotent, so I recommend using it as a reference rather than running it outright.
 
 NOTE: All of the scripts assume you are building on Ubuntu 18.04 LTS.
+
+**Windows only: In the next step run build.ps1 instead of build.sh**
 
 Next, run the `build.sh` script:
 ```
@@ -57,10 +76,6 @@ Next, run the `build.sh` script:
   * initializes Combine Django app as Git submodule at `./combine/combine`
   * builds all required docker images
   * runs one-time database initializations and migrations
-
-### Windows again
-
-On Windows you will want to run the `build.ps1` script.
 
 ## Configuration
 
@@ -75,38 +90,28 @@ docker-compose up -d
 ```
 
 Logs can be viewed with the `logs` command, again, selecting all services, or a subset of:
-```
-# tail all logs
-docker-compose logs -f
 
-# tail logs of specific services
-docker-compose logs -f combine-django combine-celery livy
+**tail all logs:** `docker-compose logs -f`
 
-```
+**tail logs of specific services:** `docker-compose logs -f combine-django combine-celery livy`
+
 
 As outlined in the [Combine-Docker Containers](#docker-images-and-containers) section all services, or a subset of, can be restarted as follows:
-```
-# e.g. restart Combine Django app, background tasks Celery, and Livy
-docker-compose restart combine-django combine-celery
 
-# e.e. restart everything
-docker-compose restart
-```
+**To restart Combine Django app, background tasks Celery, and Livy:** `docker-compose restart combine-django combine-celery`
 
-To stop all services and containers (**NOTE:** Do not include `-v` or `--volumes` flags, as these will wipe ALL data from Combine):
-```
-docker-compose down
-```
+**To restart everything:** `docker-compose restart`
 
-View stats of containers:
-```
-docker stats
-```
 
+**To stop all services and containers** 
+(**Reminder:** Do not include -v or --volumes flags, as these will wipe ALL data from Combine) Just use:`docker-compose down`
+
+
+**To view stats of containers:** `docker stats`
 
 ## Updating
 
-This dockerized version of Combine supports, arguably, easier version updating becaues major components, broken out as images and containers, can be readily rebuilt.  Much like the repository Combine-Playbook, this repository follows the same versioning as Combine.  So checking out the tagged release `v0.7` for this repository, will build Combine version `v0.7`.
+This dockerized version of Combine supports, arguably, easier version updating becaues major components, broken out as images and containers, can be readily rebuilt.  Much like the repository Combine-Playbook, this repository follows the same versioning as Combine.  So checking out the tagged release `v0.11.1` for this repository, will build Combine version `v0.11.1`.
 
 To update, follow these steps from the Combine-Docker repository root folder:
 
@@ -114,8 +119,8 @@ To update, follow these steps from the Combine-Docker repository root folder:
 # pull new changes to Combine-Docker repository
 git pull
 
-# checkout desired release, e.g. v0.7
-git checkout v0.7
+# checkout desired release, e.g. v0.11.1
+git checkout v0.11.1
 
 # run update build script
 ./update_build.sh
@@ -180,7 +185,7 @@ Make sure that the `elasticsearch-hadoop-x.y.z.jar` in `combinelib` matches the 
 
 ### Other issues?
 
-Please don't hesitate to [submit an issue](https://github.com/MI-DPLA/combine-docker/issues)!
+Help is available for combine installation at `combine-support@umich.edu`. Also, please don't hesitate to [submit an issue](https://github.com/MI-DPLA/combine-docker/issues)!
 
 
 ## Development

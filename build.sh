@@ -22,6 +22,7 @@ git pull
 if [[ ! -f "./combine/localsettings.py" ]]; then
     cp ./combine/localsettings.py.docker ./combine/localsettings.py
 fi
+sed -i 's/3306/3307/' ./combine/settings.py # mysql port is 3307 in docker, 3306 by default
 
 if [[ ! -d "$WORKDIR/combine/combine/static/js/" ]]; then
   mkdir -p $WORKDIR/combine/combine/static/js/
@@ -29,7 +30,7 @@ fi
 cd $WORKDIR
 
 # build images
-docker volume rm combine-docker_combine_python_env combine-docker_hadoop_binaries combine-docker_spark_binaries combine-docker_livy_binaries combine-docker_combine_tmp
+docker volume rm combine-docker_combine_python_env combine-docker_hadoop_binaries combine-docker_spark_binaries combine-docker_livy_binaries combine-docker_combine_tmp combine-docker_combinelib
 docker-compose build
 
 # format Hadoop namenode

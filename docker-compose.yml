@@ -99,6 +99,7 @@ services:
         COMBINE_BRANCH: "${COMBINE_BRANCH}"
     volumes:
       - ./combine/combine/static:/static
+      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -147,6 +148,7 @@ services:
       context: .
       dockerfile: ./celery/Dockerfile
     volumes:
+      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -196,6 +198,7 @@ services:
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
     volumes:
+      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
