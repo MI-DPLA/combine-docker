@@ -27,7 +27,7 @@ Docker does a relatively good job protecting named volumes, but this simple comm
 
 ### Security Warning
 
-Combine code should be run behind your institution's firewall on a secured server. Access to combine should be protected by your instituion-wide identity and password system, preferably using two-factor authentication. If your institution supports using VPNs for access to the server's network that is a good additional step. 
+Combine code should be run behind your institution's firewall on a secured server. Access to combine should be protected by your institution-wide identity and password system, preferably using two-factor authentication. If your institution supports using VPNs for access to the server's network that is a good additional step. 
 
 This is in addition to the combine's own passwords. While we haven't got explicit documentation on how to set up SSL inside the provided nginx in combine it's possible and strongly recommended.
 
