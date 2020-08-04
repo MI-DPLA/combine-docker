@@ -29,7 +29,7 @@ Docker does a relatively good job protecting named volumes, but this simple comm
 
 Combine code should be run behind your institution's firewall on a secured server. Access to combine should be protected by your institution-wide identity and password system, preferably using two-factor authentication. If your institution supports using VPNs for access to the server's network that is a good additional step. 
 
-This is in addition to the combine's own passwords. While we haven't got explicit documentation on how to set up SSL inside the provided nginx in combine it's possible and strongly recommended.
+This is in addition to Combine's own passwords. While we don't yet have explicit documentation on how to set up SSL inside the provided nginx in Combine, it's possible and strongly recommended to do so.
 
 ### Version Change Log for v0.11.1
 [V0.11.1 Change Log](https://github.com/MI-DPLA/combine-docker/blob/master/combine_version_change_log.pdf)
@@ -49,18 +49,17 @@ git config --global core.autocrlf false
 **Clone combine-docker**
 
 The first install step is to clone this repository and move into it:
+
 `git clone https://github.com/mi-dpla/combine-docker.git`  
 `cd combine-docker`
 
 ### Initializing combine-docker
-The complete instructions include important information on upgrading an existing combine server. Using the detailed instructions is strongly recommended.
+The complete instructions include important information on upgrading an existing Combine server. Using the detailed instructions is strongly recommended.
 
-[Complete detailed linux instructions](https://github.com/MI-DPLA/combine-docker/blob/master/combine_docker_detailed_installation_instructions.pdf)
+[Complete detailed Linux instructions](https://github.com/MI-DPLA/combine-docker/blob/master/combine_docker_detailed_installation_instructions.pdf)
 
 
-**Abbriviated Instructions**
-
-Ensure that your machine has dependencies and docker correctly set up by working through the steps in `prepare_server.sh`. This script is not particularly refined or idempotent, so I recommend using it as a reference rather than running it outright.
+**Abbreviated Instructions**
 
 NOTE: All of the scripts assume you are building on Ubuntu 18.04 LTS.
 
@@ -74,7 +73,7 @@ Next, run the `build.sh` script:
 **Note:** This script may take some time, anywhere from 5-20 minutes depending on your hardware.  This script accomplishes a few things:
 
   * initializes Combine Django app as Git submodule at `./combine/combine`
-  * builds all required docker images
+  * builds all required Docker images
   * runs one-time database initializations and migrations
 
 ## Configuration
@@ -111,7 +110,7 @@ As outlined in the [Combine-Docker Containers](#docker-images-and-containers) se
 
 ## Updating
 
-This dockerized version of Combine supports, arguably, easier version updating becaues major components, broken out as images and containers, can be readily rebuilt.  Much like the repository Combine-Playbook, this repository follows the same versioning as Combine.  So checking out the tagged release `v0.11.1` for this repository, will build Combine version `v0.11.1`.
+This Dockerized version of Combine supports, arguably, easier version updating because major components, broken out as images and containers, can be readily rebuilt.  Much like the repository Combine-Playbook, this repository follows the same versioning as Combine.  So checking out the tagged release `v0.11.1` for this repository, will build Combine version `v0.11.1`.
 
 To update, follow these steps from the Combine-Docker repository root folder:
 
@@ -132,7 +131,7 @@ docker-compose up -d
 
 ## Docker Services and Volumes & Binds
 
-This dockerized version of Combine includes the following services, where each becomes a single container:
+This Dockerized version of Combine includes the following services, where each becomes a single container:
 
 | Service Name          | Notes                                                      |
 | --------------------- | ---------------------------------------------------------- |
@@ -172,7 +171,7 @@ The following tables show Docker volumes and binds that are created to support d
 
 ### ElasticSearch container dies because of `vm.max_map_count`
 
-Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_map_count` on Docker host machine (seems to be particulary true on older ones):
+Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_map_count` on Docker host machine (seems to be particularly true on older ones):
 [https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode)
 
 ### Port collision error: `port is already allocated`
