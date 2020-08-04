@@ -61,8 +61,6 @@ The complete instructions include important information on upgrading an existing
 
 **Abbreviated Instructions**
 
-Ensure that your machine has dependencies and Docker correctly set up by working through the steps in `prepare_server.sh`. This script is not particularly refined or idempotent, so I recommend using it as a reference rather than running it outright.
-
 NOTE: All of the scripts assume you are building on Ubuntu 18.04 LTS.
 
 **Windows only: In the next step run build.ps1 instead of build.sh**
