@@ -49,6 +49,10 @@ http {
       proxy_pass http://hadoop-datanode:50075/;
     }
 
+    location /hadoop-namenode {
+      proxy_pass http://hadoop-namenode:8020/;
+    }
+
     location /spark/ {
       proxy_pass http://livy:4040/jobs/;
     }
