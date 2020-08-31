@@ -26,4 +26,8 @@
         <value>file:///hdfs/namenode</value>
         <description>Path on the local filesystem where the NameNode stores the namespace and transaction logs persistently.</description>
     </property>
+    <property>
+        <name>dfs.namenode.datanode.registration.ip-hostname-check</name>                   
+        <value>false</value>
+    </property>
 </configuration>
