@@ -8,19 +8,29 @@ services:
       - xpack.security.enabled=false
       - http.max_initial_line_length=5m
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      # - esdata:/usr/share/elasticsearch/data
+      - type: bind
+        source: /var/lib/combine/esdata
+        target: /usr/share/elasticsearch/data
+        read_only: false
       - type: bind
         source: ./elasticsearch/elasticsearch.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
         read_only: false # owner
+        bind:
+          propagation: shared            
     expose:
       - "9200"
-
 
   mongo:
     build: ./mongo
     volumes:
-      - mongodata:/data/db
+      - type: bind
+        source: /var/lib/combine/mongodata
+        target: /data/db
+        read_only: false
+        bind:
+          propagation: shared     
     expose:
       - "27017"
     # use ports for testing
@@ -34,7 +44,14 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: combine
     volumes:
-      - mysqldata:/var/lib/mysql
+    volumes:
+      - type: bind
+        source: /var/lib/combine/mysqldata
+        target: /var/lib/mysql
+        read_only: false
+        bind:
+          propagation: shared  
+      # - mysqldata:/var/lib/mysql
     # use ports for testing
     # ports:
     #   - "127.0.0.1:3307:3307"
@@ -63,8 +80,8 @@ services:
       args:
         HADOOP_VERSION: "${HADOOP_VERSION}"
     volumes:
-      - type: volume
-        source: hdfs
+      - type: bind
+        source: /var/lib/combine/hdfs
         target: /hdfs
         read_only: false
       - type: volume
@@ -100,8 +117,8 @@ services:
     volumes:
       - ./combine/combine/static:/static
       - ./combinelib:/combinelib
-      - type: volume
-        source: hdfs
+      - type: bind
+        source: /var/lib/combine/hdfs
         target: /hdfs
         read_only: true
       - type: volume
@@ -122,8 +139,8 @@ services:
         read_only: false # owner
         bind:
           propagation: shared
-      - type: volume
-        source: combine_home
+      - type: bind
+        source: /var/lib/combine/combine_home
         target: /home/combine
         read_only: false # owner
       - type: volume
@@ -149,8 +166,8 @@ services:
       dockerfile: ./celery/Dockerfile
     volumes:
       - ./combinelib:/combinelib
-      - type: volume
-        source: hdfs
+      - type: bind
+        source: /var/lib/combine/hdfs
         target: /hdfs
         read_only: true
       - type: volume
@@ -171,8 +188,8 @@ services:
         read_only: false # owner
         bind:
           propagation: shared
-      - type: volume
-        source: combine_home
+      - type: bind
+        source: /var/lib/combine/combine_home
         target: /home/combine
         read_only: false # owner
       - type: volume
@@ -199,8 +216,8 @@ services:
         SCALA_VERSION: "${SCALA_VERSION}"
     volumes:
       - ./combinelib:/combinelib
-      - type: volume
-        source: hdfs
+      - type: bind
+        source: /var/lib/combine/hdfs
         target: /hdfs
         read_only: true
       - type: volume
@@ -221,8 +238,8 @@ services:
         read_only: false # owner
         bind:
           propagation: shared
-      - type: volume
-        source: combine_home
+      - type: bind
+        source: /var/lib/combine/combine_home
         target: /home/combine
         read_only: false
       - type: volume
@@ -248,13 +265,13 @@ services:
       - ./nginx/cache/:/etc/nginx/cache
       - ./combine/combine/static:/static
 # when using not certbot for SSL, uncomment this line:
-#      - /etc/ssl:/etc/ssl
+      - /etc/ssl:/etc/ssl
 # when using certbot for SSL, uncomment these lines:
 #      - ./certbot/conf:/etc/letsencrypt
 #      - ./certbot/www:/var/www/certbot
     ports:
-      - "127.0.0.1:80:80"
-      - "127.0.0.1:443:443"
+      - "80:80"
+      - "443:443"
     depends_on:
       - combine-django
       - combine-celery
