@@ -11,11 +11,11 @@ services:
       - xpack.security.enabled=false
       - http.max_initial_line_length=5m
     volumes:
-      - esdata:/usr/share/elasticsearch/data
-      # - type: bind
-      #   source: /var/lib/combine/esdata
-      #    target: /usr/share/elasticsearch/data
-      #   read_only: false
+      # - esdata:/usr/share/elasticsearch/data
+      - type: bind
+        source: /var/lib/combine/esdata
+        target: /usr/share/elasticsearch/data
+        read_only: false
       - type: bind
         source: ./elasticsearch/elasticsearch.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
@@ -29,13 +29,13 @@ services:
   mongo:
     build: ./mongo
     volumes:
-      - mongodata:/data/db
-      # - type: bind
-      #   source: /var/lib/combine/mongodata
-      #   target: /data/db
-      #   read_only: false
-      #   bind:
-      #     propagation: shared   
+      # - mongodata:/data/db
+      - type: bind
+        source: /var/lib/combine/mongodata
+        target: /data/db
+        read_only: false
+        bind:
+          propagation: shared   
     expose:
       - "27017"
     # use ports for testing
@@ -49,13 +49,13 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: combine
     volumes:
-      - mysqldata:/var/lib/mysql
-      # - type: bind
-      # source: /var/lib/combine/mysqldata
-      #   target: /var/lib/mysql
-      #   read_only: false
-      #   bind:
-      #     propagation: shared   
+      # - mysqldata:/var/lib/mysql
+      - type: bind
+        source: /var/lib/combine/mysqldata
+        target: /var/lib/mysql
+        read_only: false
+        bind:
+          propagation: shared   
     # use ports for testing
     # ports:
     #   - "127.0.0.1:3307:3307"
@@ -84,10 +84,10 @@ services:
       args:
         HADOOP_VERSION: "${HADOOP_VERSION}"
     volumes:
-      - type: volume
-        source: hdfs
-      # - type: bind
-      #   source: /var/lib/combine/hdfs 
+       # - type: volume
+       #   source: hdfs
+      - type: bind
+        source: /var/lib/combine/hdfs 
         target: /hdfs
         read_only: false
       - type: volume
@@ -123,10 +123,10 @@ services:
     volumes:
       - ./combine/combine/static:/static
       - ./combinelib:/combinelib
-      - type: volume
-        source: hdfs
-      # - type: bind
-      #   source: /var/lib/combine/hdfs 
+      # - type: volume
+      # source: hdfs
+      - type: bind
+        source: /var/lib/combine/hdfs 
         target: /hdfs
         read_only: true
       - type: volume
@@ -147,8 +147,10 @@ services:
         read_only: false # owner
         bind:
           propagation: shared
-      - type: volume
-        source: combine_home
+      # - type: volume
+      #   source: combine_home
+      - type: bind
+        source: /var/lib/combine/combine_home
         target: /home/combine
         read_only: false # owner
       - type: volume
@@ -174,8 +176,10 @@ services:
       dockerfile: ./celery/Dockerfile
     volumes:
       - ./combinelib:/combinelib
-      - type: volume
-        source: hdfs
+      # - type: volume
+      #   source: hdfs
+      - type: bind
+        source: /var/lib/combine/hdfs
         target: /hdfs
         read_only: true
       - type: volume
@@ -196,10 +200,10 @@ services:
         read_only: false # owner
         bind:
           propagation: shared
-      - type: volume
-        source: combine_home
-      # - type: bind
-      #   source: /var/lib/combine/combine_home  
+        # - type: volume
+        # source: combine_home
+      - type: bind
+        source: /var/lib/combine/combine_home  
         target: /home/combine
         read_only: false # owner
       - type: volume
@@ -226,10 +230,10 @@ services:
         SCALA_VERSION: "${SCALA_VERSION}"
     volumes:
       - ./combinelib:/combinelib
-      - type: volume
-        source: hdfs
-      # - type: bind
-      #   source: /var/lib/combine/hdfs  
+      # - type: volume
+      #   source: hdfs
+      - type: bind
+        source: /var/lib/combine/hdfs  
         target: /hdfs
         read_only: true
       - type: volume
@@ -250,10 +254,10 @@ services:
         read_only: false # owner
         bind:
           propagation: shared
-      - type: volume
-        source: combine_home
-      # - type: bind
-      #   source: /var/lib/combine/combine_home
+        # - type: volume
+        # source: combine_home
+      - type: bind
+        source: /var/lib/combine/combine_home
         target: /home/combine
         read_only: false
       - type: volume
