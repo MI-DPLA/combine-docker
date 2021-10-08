@@ -8,7 +8,7 @@ ENV HADOOP_VERSION=$HADOOP_VERSION
 RUN mkdir /opt/hadoop \
  && cd /opt/hadoop \
  && wget https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
- && tar --strip-components=1 -xvf hadoop-${HADOOP_VERSION}.tar.gz \
+ && tar --strip-components=1 -xf hadoop-${HADOOP_VERSION}.tar.gz \
  && rm /opt/hadoop/hadoop-${HADOOP_VERSION}.tar.gz
 
 # Copy configurations
