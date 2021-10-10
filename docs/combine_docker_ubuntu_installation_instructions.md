@@ -13,13 +13,13 @@ Combine is a metadata aggregator; an application designed to facilitate the harv
 
 Combine-Docker is a version of Combine that has been "dockerized"; preconfigured to run in a set of Docker containers.  
 
-These technical instructions are for metadata experts or system administrators who wish to install Combine-Docker on their institution's servers to process and publish metadata records to DPLA. This version of Combine (v0.11.1) includes a number of bug fixes and improvements. The [version change documentation](https://github.com/MI-DPLA/combine-docker/blob/master/combine_version_change_log.pdf) is available with details about the release.  
+These technical instructions are for metadata experts or system administrators who wish to install Combine-Docker on their institution's servers to process and publish metadata records to DPLA. This version of Combine (v0.11.1) includes a number of bug fixes and improvements. The [version change documentation](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log.pdf) is available with details about the release.  
 
 These installation instructions have been tested on Ubuntu 18.04 and on Ubuntu Server 20.04.  
 
 These instructions are for installing v0.11.1 of Combine-Docker, and include steps for migrating from an earlier version of Combine.  Docker is now required; the Vagrant/Ansible installation options are no longer supported.  
 
-Help is available for Combine-Docker installation at combine-support@umich.edu. You can also add issues to the Combine github at [https://github.com/MI-DPLA/combine](https://github.com/MI-DPLA/combine).  
+You can add support issues for Combine via github at [https://github.com/fruviad/combine](https://github.com/fruviad/combine).  
 
 
 
@@ -38,14 +38,14 @@ To install Combine-Docker in your own environment, you must have:
   
 ##3.  INSTALLING COMBINE-DOCKER AND DEPENDENCIES
   
-We start by cloning the git repository `https://github.com/MI-DPLA/combine-docker.git` to the location on your server where you wish to install the Combine application.  (Choosing `/opt/combine-docker` is not required, but it offers consistency with the old installation methods.  The documentation which follows uses `/opt/combine-docker` as the installation location.)
+We start by cloning the git repository `https://github.com/fruviad/combine-docker.git` to the location on your server where you wish to install the Combine application.  (Choosing `/opt/combine-docker` is not required, but it offers consistency with the old installation methods.  The documentation which follows uses `/opt/combine-docker` as the installation location.)
 
 After you login to the server as the user who will be running the Combine application...  
 
         $ sudo mkdir /opt/combine-docker
         $ sudo chown ${USER}:${USER} /opt/combine-docker
         $ cd /opt/
-        $ git clone https://github.com/mi-dpla/combine-docker.git
+        $ git clone https://github.com/fruviad/combine-docker.git
 
 Next, we install Docker:  
 
@@ -141,7 +141,7 @@ In theory, with all settings at default, the following should work:
 
 IF your version of Combine is old enough that it still has the bug where jobs with no upstream or downstream job can't be exported, you can work around that by creating a meaningless Analysis job that takes all the singletons as inputs.
 
-Each imported job has a button that allows you to rebuild the elasticsearch index for that job. (We at Michigan are looking into a more global way to do this.)
+Each imported job has a button that allows you to rebuild the elasticsearch index for that job. (U. Michigan is looking into a more global way to do this.)
 
 
 ##5  TROUBLESHOOTING
@@ -225,10 +225,3 @@ You can test if dns is even kind of working with:
         docker run busybox /bin/sh -c "nslookup github.com"
 
 If that times out, nothing at all is working.  Search Google for the terms "docker resolved" for a set of results that might prove helpful.
-
----
-
-Other issues?
-Please don't hesitate to submit an issue!
-
-If you find additional errors or have suggested improvements please let us know so we can improve these instructions at at combine-support@umich.edu.
