@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Running Combine-Docker build script.  Note: this may take some time, anywhere from 5-20 minutes depending on your hardware."
 
 # source .env file
