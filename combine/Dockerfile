@@ -31,8 +31,7 @@ COPY combine/combine.sql /tmp/combine.sql
 COPY combine/combine_db_prepare.sh /tmp/combine_db_prepare.sh
 COPY mysql/root.my.cnf /etc/.my.cnf
 
-# downgrade pip and install dependencies
-RUN pip install pip==9.0.3
+# install python dependencies
 RUN cd /opt/combine \
  && pip install -r requirements.txt
 
@@ -46,11 +45,7 @@ ENV SCALA_VERSION=$SCALA_VERSION
 RUN pip install livy
 
 # install ElasticDump
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
- && apt-get install -y nodejs \
- && npm install elasticdump -g
-
-# install es2csv
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \ && apt-get install -y nodejs \ && npm install elasticdump -g
 RUN pip install git+https://github.com/MI-DPLA/es2csv.git@python3
 
 # install mongo tools
