@@ -45,7 +45,8 @@ ENV SCALA_VERSION=$SCALA_VERSION
 RUN pip install livy
 
 # install ElasticDump
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \ && apt-get install -y nodejs \ && npm install elasticdump -g
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - 
+RUN apt-get install -y nodejs && npm install elasticdump -g
 RUN pip install git+https://github.com/MI-DPLA/es2csv.git@python3
 
 # install mongo tools
