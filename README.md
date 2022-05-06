@@ -194,7 +194,7 @@ Find the first point in the script at which it failed and try running each line 
  _Assuming that the container is mounting part of the host filesystem_ there are two options here: (1) rework permissions on the host machine to allow Combine to access that part of the filesystem or (2) stop using a bind mount and use a Docker volume instead.
  
  #### Rework host machine permissions
- **PROS**: makes it easier to back up Combine data. Harder to accidentally delete than docker volumes.
+ **PROS**: makes it easier to back up Combine data. Harder to accidentally delete than docker volumes.  
  **CONS**: deep Linux magic. Incredibly fussy. There are additional details hiding in the linked blog post.
  
  _(Instructions cribbed from [a helpful blog post](https://www.jujens.eu/posts/en/2017/Jul/02/docker-userns-remap/)_
@@ -206,7 +206,7 @@ Find the first point in the script at which it failed and try running each line 
  4. Take the files and directories you need combine to be able to access and give ownership to those subuid/subgid starting values (e.g. `chown -R 123456:234567 /var/combine/mongodata`)
 
 #### Stop using a bind mount, use Docker volumes
-**PROS**: Incredibly simple.
+**PROS**: Incredibly simple.  
 **CONS**: Means the data is stored in opaque layers of sandbox filesystems. Semi-easy to accidentally delete all your data.
 
 (Most of the volume mounts in [this docker-compose.yml](https://github.com/MI-DPLA/combine-docker/blob/ffd3a22ec830af05721cba78ecb3b611cc193ce5/docker-compose.yml) are using bind mounts.)
