@@ -169,6 +169,48 @@ The following tables show Docker volumes and binds that are created to support d
 
 ## Troubleshooting
 
+A couple general tips:
+
+* It's a good idea to run Combine in the background, especially if you don't want to open up like five ssh sessions into your server. Do this with `docker-compose up -d` (the `-d` is for "daemon mode").
+* You can get the logs for any single service with `docker-compose logs [service]`.
+
+### Something weird is happening! D:
+
+When in doubt, if something weird is happening in a container, try running it or execing into it independently.
+
+* Before doing any troubleshooting, `docker-compose down` so you don't get interference from other containers running.
+* If you have changed a dockerfile, `docker-compose build [service]` to make sure the changes get taken up.
+    * If the changes still aren't taking, you may need to delete a volume that the service uses. Try deleting volumes listed in the `volatile` section of the `docker-compose.yml` first; the `non-volatile` volumes have data!
+* To run and attempt to start a service by itself, `docker-compose run --rm [service]` (it will build all the declared dependencies for the service first. `--rm` means it will delete the temporary run container when it's done, which helps keep things tidy).
+* To get into a running container, first get the container name with `docker container ls` and then `docker exec -it [container name] bash` (the `-it` means it will be interactive and use a TTY, so basically you get a terminal to work in).
+* If you can't diagnose the weird thing from within the service you are running, maybe you need to investigate one of the services it depends on.
+
+### A script fails or throws errors
+
+Find the first point in the script at which it failed and try running each line of the script individually -- this cuts down on the noise and makes it easier to isolate the problem.
+
+### Something is unable to access bits of its filesystem
+
+ _Assuming that the container is mounting part of the host filesystem_ there are two options here: (1) rework permissions on the host machine to allow Combine to access that part of the filesystem or (2) stop using a bind mount and use a Docker volume instead.
+ 
+ #### Rework host machine permissions
+ **PROS**: makes it easier to back up Combine data. Harder to accidentally delete than docker volumes.
+ **CONS**: deep Linux magic. Incredibly fussy. There are additional details hiding in the linked blog post.
+ 
+ _(Instructions cribbed from [a helpful blog post](https://www.jujens.eu/posts/en/2017/Jul/02/docker-userns-remap/)_
+ 
+ 0. Create a user on the host specifically for combine purposes
+ 1. Create or modify /etc/docker/daemon.json to include `"userns-remap": "[combine user]"`
+ 2. Restart the docker daemon: `systemctl restart docker`
+ 3. Identify the starting values of the _subuid_ and _subgid_ of the combine user by checking `/etc/subuid` and `/etc/subgid` (e.g. it might be `combine:123456:65536` in subuid and `combine:234567:65536` in subgid)
+ 4. Take the files and directories you need combine to be able to access and give ownership to those subuid/subgid starting values (e.g. `chown -R 123456:234567 /var/combine/mongodata`)
+
+#### Stop using a bind mount, use Docker volumes
+**PROS**: Incredibly simple.
+**CONS**: Means the data is stored in opaque layers of sandbox filesystems. Semi-easy to accidentally delete all your data.
+
+(Most of the volume mounts in [this docker-compose.yml](https://github.com/MI-DPLA/combine-docker/blob/ffd3a22ec830af05721cba78ecb3b611cc193ce5/docker-compose.yml) are using bind mounts.)
+
 ### ElasticSearch container dies because of `vm.max_map_count`
 
 Depending on machine and OS (Linux, Mac, Windows), might need to bump `vm.max_map_count` on Docker host machine (seems to be particularly true on older ones):
