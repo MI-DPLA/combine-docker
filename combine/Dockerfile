@@ -12,7 +12,7 @@ RUN apt-get update --fix-missing && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/lib/x86_64-linux-gnu/libmariadb.so.3 /usr/lib/x86_64-linux-gnu/libmariadbclient.so.18
 
-RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh -O ~/miniconda.sh && \
+RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh && \
     /opt/conda/bin/conda clean -tipsy && \
@@ -24,7 +24,7 @@ RUN /opt/conda/bin/conda create -n combine python=3.7 --yes
 ENV PATH /opt/conda/envs/combine/bin:$PATH
 
 # copy Combine app submodule
-COPY combine/combine /opt/combine/
+COPY combine/combine /opt/combine
 
 # Copy scripts
 COPY combine/combine.sql /tmp/combine.sql
@@ -47,7 +47,7 @@ RUN pip install livy
 # install ElasticDump
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - 
 RUN apt-get install -y nodejs && npm install elasticdump -g
-RUN pip install git+https://github.com/MI-DPLA/es2csv.git@python3
+RUN pip install git+https://github.com/fruviad/es2csv.git@python3
 
 # install mongo tools
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E52529D4 \

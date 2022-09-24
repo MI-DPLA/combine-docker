@@ -14,7 +14,7 @@ then
 fi
 BUILDLOGDIR=$WORKDIR/buildlogs/build-log_$RUNDATE
 mkdir $BUILDLOGDIR
-BUILDLOG=$BUILDLOGDIR/build-log_$RUNDATE.log
+export BUILDLOG=$BUILDLOGDIR/build-log_$RUNDATE.log
 
 echo ""
 echo ""
@@ -22,7 +22,7 @@ echo ""
 echo "####################################################################################################"
 echo "### BUILDLOG:  Running Combine-Docker build script. "
 echo "### BUILDLOG:  Note: this may take some time, depending on your hardware and remote server response"
-echo "### BUILDLOG"
+echo "### BUILDLOG" | tee -a $BUILDLOG
 echo "### BUILDLOG:  Base install directory (WORKDIR) is:  $WORKDIR" | tee -a $BUILDLOG
 echo "### BUILDLOG:  " | tee -a $BUILDLOG
 echo "### BUILDLOG:  To see logs as they're created:  tail -f $BUILDLOG "
@@ -30,12 +30,14 @@ echo "### BUILDLOG:"
 echo "### BUILDLOG:  hit ENTER to continue..."
 read ANSWER
 echo "### BUILDLOG:  Base install directory (WORKDIR) is:  $WORKDIR" | tee -a $BUILDLOG
-
+echo "### BUILDLOG: "
 
 # bring down Combine docker containers, if running
 echo "### BUILDLOG:  Bringing down Docker containers (if they're running)"  | tee -a $BUILDLOG
-docker-compose down
+docker-compose down 2>&1 | sed -e 's/^/    /g'
+echo | tee -a $BUILDLOG
 
+echo "### BUILDLOG:  Setting up nginx with basic config"  | tee -a $BUILDLOG
 # basic setup for nginx
 touch $WORKDIR/nginx/error.log
 if [[ ! -f "$WORKDIR/nginx/nginx.conf" ]]; then
@@ -47,15 +49,30 @@ echo "### BUILDLOG:  Current COMBINE_BRANCH is:  $COMBINE_BRANCH"
 # init Combine app submodule and use localsettings docker template
 echo "### BUILDLOG:     Initializing Combine app submodule" 2>&1 | tee -a $BUILDLOG
 echo "### BUILDLOG:     Working with Combine git branch:  $COMBINE_BRANCH" 2>&1 | tee -a $BUILDLOG
+echo "### BUILDLOG:"   | tee -a $BUILDLOG
+#echo "### BUILDLOG:     Run:  git submodule init"   | tee -a $BUILDLOG
+#git submodule init 2>&1 | sed -e 's/^/    /g' | tee -a $BUILDLOG
+#echo ""   | tee -a $BUILDLOG
 
-git submodule init   2>&1 | tee -a $BUILDLOG
-git submodule update 2>&1 | tee -a $BUILDLOG
+#echo "### BUILDLOG:     Run:  git submodule update"   | tee -a $BUILDLOG
+#git submodule update 2>&1 | sed -e 's/^/    /g' | tee -a $BUILDLOG
+#echo ""   | tee -a $BUILDLOG
 
-echo "### BUILDLOG:  Fetching desired Combine git branch" 2>&1 | tee -a $BUILDLOG
-cd $WORKDIR/combine/combine
-git fetch
-git checkout $COMBINE_BRANCH
-git pull
+
+#echo "### BUILDLOG:  Git fetching desired Combine git branch" 2>&1 | tee -a $BUILDLOG
+#cd $WORKDIR/combine/combine
+#git fetch 2>&1 | sed -e 's/^/    /g' | tee -a $BUILDLOG
+#echo ""  | tee -a $BUILDLOG
+
+#echo "### BUILDLOG:  Git checkout desired Combine git branch" 2>&1 | tee -a $BUILDLOG
+#git checkout $COMBINE_BRANCH | sed -e 's/^/    /g' | tee -a $BUILDLOG
+#echo "" | tee -a $BUILDLOG
+
+#echo "### BUILDLOG:  Git pull" 2>&1 | tee -a $BUILDLOG
+#git pull | sed -e 's/^/    /g' | tee -a $BUILDLOG
+#echo "" | tee -a $BUILDLOG
+
+echo "### BUILDLOG:  Configure some defaults" 2>&1 | tee -a $BUILDLOG
 
 if [[ ! -f "./combine/localsettings.py" ]]; then
     cp ./combine/localsettings.py.docker ./combine/localsettings.py
@@ -65,26 +82,62 @@ sed -i 's/3306/3307/' ./combine/settings.py # mysql port is 3307 in docker, 3306
 if [[ ! -d "$WORKDIR/combine/combine/static/js/" ]]; then
   mkdir -p $WORKDIR/combine/combine/static/js/
 fi
+echo "" | tee -a $BUILDLOG
+
 cd $WORKDIR
 
 # build images
-echo 
-echo 
 echo "### BUILDLOG:  Removing existing Docker images" 2>&1 | tee -a $BUILDLOG
-docker volume rm combine-docker_combine_python_env combine-docker_hadoop_binaries combine-docker_spark_binaries combine-docker_livy_binaries combine-docker_combine_tmp combine-docker_combinelib
-docker-compose build  | tee -a $BUILDLOG
+docker volume rm combine-docker_combine_python_env \
+                 combine-docker_combine_tmp \
+                 combine-docker_combinelib \
+                 combine-docker_hadoop_binaries \
+                 combine-docker_livy_binaries \
+                 combine-docker_spark_binaries \
+                 combine-docker_livy_binaries \
+		 2>&1 | sed -e 's/^/    /g' | tee -a $BUILDLOG
+echo ""   | tee -a $BUILDLOG
 
-echo  2>&1 | tee -a $BUILDLOG
+
+echo "### BUILDLOG:  run:  docker-compose build"   | tee -a $BUILDLOG
+docker-compose build 2>&1 | sed -e 's/^/    /g' | tee -a $BUILDLOG
+echo ""   | tee -a $BUILDLOG
 
 # format Hadoop namenode
 echo "### BUILDLOG:  formatting hadoop-namenode" 2>&1 | tee -a $BUILDLOG
-docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode"  1>>$BUILDLOG 2>&1
-docker-compose run hadoop-namenode /bin/bash -c "echo 'Y' | /opt/hadoop/bin/hdfs namenode -format"  1>>$BUILDLOG 2>&1
+echo "### BUILDLOG:"   | tee -a $BUILDLOG
+docker-compose run hadoop-namenode /bin/bash -c "mkdir -p /hdfs/namenode"   2>&1 | sed -e 's/^/    /g' | tee -a $BUILDLOG
+docker-compose run hadoop-namenode /bin/bash -c "echo 'Y' | /opt/hadoop/bin/hdfs namenode -format"  2>&1| sed -e 's/^/    /g' | tee -a $BUILDLOG
+echo ""   | tee -a $BUILDLOG
 
 
 # Combine db migrations and superuser create
 echo "### BUILDLOG:  Combine db migrations and creation of superuser" 2>&1 | tee -a $BUILDLOG
-docker-compose run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh"
-
+docker-compose 2>&1 run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh $BUILDLOG"  | sed -e 's/^/    /g' | tee -a $BUILDLOG
+echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
+echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
+echo "### BUILDLOG:"   | tee -a $BUILDLOG
+echo "" | tee -a $BUILDLOG
 echo "### BUILDLOG:  Passing control to buildstatic.sh" 2>&1 | tee -a $BUILDLOG
+echo "### BUILDLOG:"   | tee -a $BUILDLOG
+echo "### BUILDLOG:"   | tee -a $BUILDLOG
+echo ""   | tee -a $BUILDLOG
 $WORKDIR/buildstatic.sh
+
+echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
+echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
+echo "### BUILDLOG:"   | tee -a $BUILDLOG
+echo "### BUILDLOG:  build.sh complete" 2>&1 | tee -a $BUILDLOG
+echo ""   | tee -a $BUILDLOG
+echo ""   | tee -a $BUILDLOG
+
+
+echo "### BUILDLOG:  Docker containers"    | tee -a $BUILDLOG
+docker container ls --all | sed -e 's/^/    /g' | tee -a $BUILDLOG
+echo ""    | tee -a $BUILDLOG
+
+
+echo "### BUILDLOG:  Docker volumes"    | tee -a $BUILDLOG
+docker volume ls | sed -e 's/^/    /g' | tee -a $BUILDLOG
+echo ""    | tee -a $BUILDLOG
+
