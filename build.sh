@@ -4,7 +4,7 @@
 RUNDATE=`date +%Y-%m-%d_%H-%m-%S`
 WORKDIR=$(pwd)
 
-# source .env file
+# source .env file containing details about software versions, Django host port used
 source ./.env
 
 # we will log output in output files in subdirectories named according to date-time of build run
@@ -50,7 +50,7 @@ echo "### BUILDLOG:  Current COMBINE_BRANCH is:  $COMBINE_BRANCH"
 echo "### BUILDLOG:     Initializing Combine app submodule" 2>&1 | tee -a $BUILDLOG
 echo "### BUILDLOG:     Working with Combine git branch:  $COMBINE_BRANCH" 2>&1 | tee -a $BUILDLOG
 echo "### BUILDLOG:"   | tee -a $BUILDLOG
-#echo "### BUILDLOG:     Run:  git submodule init"   | tee -a $BUILDLOG
+echo "### BUILDLOG:     Run:  git submodule init"   | tee -a $BUILDLOG
 #git submodule init 2>&1 | sed -e 's/^/    /g' | tee -a $BUILDLOG
 #echo ""   | tee -a $BUILDLOG
 
@@ -75,9 +75,9 @@ echo "### BUILDLOG:"   | tee -a $BUILDLOG
 echo "### BUILDLOG:  Configure some defaults" 2>&1 | tee -a $BUILDLOG
 
 if [[ ! -f "./combine/localsettings.py" ]]; then
-    cp ./combine/localsettings.py.docker ./combine/localsettings.py
+    cp ./combine/combine/combine/localsettings.py.docker ./combine/localsettings.py
 fi
-sed -i 's/3306/3307/' ./combine/settings.py # mysql port is 3307 in docker, 3306 by default
+sed -i 's/3306/3307/' ./combine/combine/combine/settings.py # mysql port is 3307 in docker, 3306 by default
 
 if [[ ! -d "$WORKDIR/combine/combine/static/js/" ]]; then
   mkdir -p $WORKDIR/combine/combine/static/js/
@@ -87,7 +87,7 @@ echo "" | tee -a $BUILDLOG
 cd $WORKDIR
 
 # build images
-echo "### BUILDLOG:  Removing existing Docker images" 2>&1 | tee -a $BUILDLOG
+echo "### BUILDLOG:  Removing existing Docker images...they may not exist" 2>&1 | tee -a $BUILDLOG
 docker volume rm combine-docker_combine_python_env \
                  combine-docker_combine_tmp \
                  combine-docker_combinelib \
@@ -112,8 +112,21 @@ echo ""   | tee -a $BUILDLOG
 
 
 # Combine db migrations and superuser create
-echo "### BUILDLOG:  Combine db migrations and creation of superuser" 2>&1 | tee -a $BUILDLOG
+
+echo "########################################################################"
+echo " The next step will take a LONG time to run.  CTRL-C now if you want to "
+echo " terminate the script early.  Otherwise:"
+echo " "
+echo "     Hit ENTER to continue"
+
+read junk
+
+
+echo "### BUILDLOG:  Combine db migrations and creation of superuser; Be patient...this takes some time" 2>&1 | tee -a $BUILDLOG
+# The /tmp/combine_db_prepare.sh script creates "combine" mysql db in the mysql docker container,
+# and runs "python /opt/combine/manage.py <various operations>"
 docker-compose 2>&1 run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh $BUILDLOG"  | sed -e 's/^/    /g' | tee -a $BUILDLOG
+
 echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
 echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
 echo "### BUILDLOG:"   | tee -a $BUILDLOG
