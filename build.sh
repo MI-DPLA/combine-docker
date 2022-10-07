@@ -123,8 +123,8 @@ read junk
 
 
 echo "### BUILDLOG:  Combine db migrations and creation of superuser; Be patient...this takes some time" 2>&1 | tee -a $BUILDLOG
-# The /tmp/combine_db_prepare.sh script creates "combine" mysql db in the mysql docker container,
-# and runs "python /opt/combine/manage.py <various operations>"
+echo "###   The /tmp/combine_db_prepare.sh script creates 'combine' mysql db in the mysql docker container," 2>&1 | tee -a $BUILDLOG
+echo "###   and runs 'python /opt/combine/manage.py <various operations>'" 2>&1 | tee -a $BUILDLOG
 docker-compose 2>&1 run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh $BUILDLOG"  | sed -e 's/^/    /g' | tee -a $BUILDLOG
 
 echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
