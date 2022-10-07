@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "### BUILDLOG:  beginning the /tmp/combine_db_prepare.sh script" | tee -a $BUILDLOG
+
 BUILDLOG=$1
 
 # run combine migrations
@@ -16,3 +18,5 @@ python /opt/combine/manage.py makemigrations core 2>&1 | tee -a $BUILDLOG
 python /opt/combine/manage.py migrate core 2>&1 | tee -a $BUILDLOG
 python /opt/combine/manage.py createsuperuser 2>&1 | tee -a $BUILDLOG
 python /opt/combine/manage.py collectstatic --noinput --clear 2>&1 | tee -a $BUILDLOG
+
+echo "### BUILDLOG:  /tmp/combine_db_prepare.sh script has finished" | tee -a $BUILDLOG
