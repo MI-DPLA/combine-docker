@@ -1,4 +1,4 @@
-FROM combine-docker_combine-django:latest
+FROM combine_combine-django:latest
 
 # Arguments
 ARG LIVY_TAGGED_RELEASE
