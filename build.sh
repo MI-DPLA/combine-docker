@@ -129,8 +129,8 @@ echo ""   | tee -a $BUILDLOG
 # Combine db migrations and superuser create
 
 echo "########################################################################"
-echo " The next step will take a LONG time to run.  CTRL-C now if you want to "
-echo " terminate the script early.  Otherwise:"
+echo " The next step might take a LONG time to run.  CTRL-C now if you want to "
+echo " terminate the installer early for debugging purposes.  Otherwise:"
 echo " "
 echo "     Hit ENTER to continue"
 
@@ -143,7 +143,7 @@ echo "###   and runs 'python /opt/combine/manage.py <various operations>'" 2>&1 
 echo "###" 2>&1 | tee -a $BUILDLOG
 echo "###   combine_db_prepare.sh begin time:  `date`" 2>&1 | tee -a $BUILDLOG
 echo "" 2>&1 | tee -a $BUILDLOG
-docker-compose 2>&1 run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh $BUILDLOG"  | sed -e 's/^/    /g' | tee -a $BUILDLOG
+docker-compose 2>&1 run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh"  | sed -e 's/^/    /g' | tee -a $BUILDLOG
 echo "" 2>&1 | tee -a $BUILDLOG
 echo "###   combine_db_prepare.sh end time:  `date`" 2>&1 | tee -a $BUILDLOG
 echo "" 2>&1 | tee -a $BUILDLOG
