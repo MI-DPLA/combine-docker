@@ -1,5 +1,20 @@
 #!/bin/bash
 
+#######################################################################
+### 
+### The intent of this script is to install the Combine-Docker
+### application and log messages to an output file in the process.
+### It's not pretty code; sorry.  My shell scripts are typically
+### cobbled-together hacks, and this is no exception.
+###
+### This script also invokes the scripts:
+###
+###  - buildstatic.sh
+###  - combine_db_prepare.sh
+###
+###
+
+
 # get datetime when script is run; use this for logfile names
 RUNDATE=`date +%Y-%m-%d_%H-%m-%S`
 WORKDIR=$(pwd)
@@ -125,7 +140,13 @@ read junk
 echo "### BUILDLOG:  Combine db migrations and creation of superuser; Be patient...this takes some time" 2>&1 | tee -a $BUILDLOG
 echo "###   The /tmp/combine_db_prepare.sh script creates 'combine' mysql db in the mysql docker container," 2>&1 | tee -a $BUILDLOG
 echo "###   and runs 'python /opt/combine/manage.py <various operations>'" 2>&1 | tee -a $BUILDLOG
+echo "###" 2>&1 | tee -a $BUILDLOG
+echo "###   combine_db_prepare.sh begin time:  `date`" 2>&1 | tee -a $BUILDLOG
+echo "" 2>&1 | tee -a $BUILDLOG
 docker-compose 2>&1 run combine-django /bin/bash -c "bash /tmp/combine_db_prepare.sh $BUILDLOG"  | sed -e 's/^/    /g' | tee -a $BUILDLOG
+echo "" 2>&1 | tee -a $BUILDLOG
+echo "###   combine_db_prepare.sh end time:  `date`" 2>&1 | tee -a $BUILDLOG
+echo "" 2>&1 | tee -a $BUILDLOG
 
 echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
 echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
