@@ -161,17 +161,40 @@ $WORKDIR/buildstatic.sh
 echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
 echo "### BUILDLOG ###############################################################################################:"   | tee -a $BUILDLOG
 echo "### BUILDLOG:"   | tee -a $BUILDLOG
-echo "### BUILDLOG:  build.sh complete" 2>&1 | tee -a $BUILDLOG
-echo ""   | tee -a $BUILDLOG
+echo "### BUILDLOG:  build.sh has completed." 2>&1 | tee -a $BUILDLOG
+echo "### BUILDLOG:"   | tee -a $BUILDLOG
 echo ""   | tee -a $BUILDLOG
 
 
-echo "### BUILDLOG:  Docker containers"    | tee -a $BUILDLOG
+echo "### BUILDLOG:  Docker containers on the system:"    | tee -a $BUILDLOG
 docker container ls --all | sed -e 's/^/    /g' | tee -a $BUILDLOG
 echo ""    | tee -a $BUILDLOG
 
 
-echo "### BUILDLOG:  Docker volumes"    | tee -a $BUILDLOG
+echo "### BUILDLOG:  Docker volumes on the system:"    | tee -a $BUILDLOG
 docker volume ls | sed -e 's/^/    /g' | tee -a $BUILDLOG
 echo ""    | tee -a $BUILDLOG
+
+cat | tee -a $BUILDLOG <<EOF
+
+The installation of the Combine-Docker application is complete.
+
+If all went well, then you can start the application by running:
+
+    docker-compose up
+
+By default, the application will listen to ports 80/443 of localhost
+on this system.  Add an external-facing IP or hostname to the app
+by editing the configuration file:
+
+    ./docker-compose.yml
+
+The changes needed are more fully documented in the
+./docs/combine_docker_ubuntu_installation_instructions.md file.
+
+Output from this installer can be found in the file:
+
+    $BUILDLOG
+
+EOF
 
