@@ -212,7 +212,7 @@ _Problem:_  Seeing DNS errors
 _Fix:_  It is possible that Docker isn't aware of your DNS server.  Edit the `/etc/docker/daemon.json` file (or add it, if it doesn't exist already) and add the following to the file:
 
         {
-            "dns": ["{your dns server address}"]
+            "dns": ["{your DNS server address}"]
         }
 
 Then make the docker service read the new service configuration with:
@@ -220,7 +220,7 @@ Then make the docker service read the new service configuration with:
         sudo systemctl reload docker
 
 
-You can test if dns is even kind of working with:
+You can test if DNS is even kind of working with:
 
         docker run busybox /bin/sh -c "nslookup github.com"
 
