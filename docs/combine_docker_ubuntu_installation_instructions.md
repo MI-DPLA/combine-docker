@@ -15,7 +15,7 @@ Combine-Docker is a version of Combine that has been "dockerized"; preconfigured
 
 These technical instructions are for metadata experts or system administrators who wish to install Combine-Docker on their institution's servers to process and publish metadata records to DPLA. This version of Combine (v0.11.1) includes a number of bug fixes and improvements. The [version change documentation](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log.pdf) is available with details about the release.  
 
-These installation instructions have been tested on Ubuntu 18.04 and on Ubuntu Server 20.04.  
+These installation instructions have been tested on Ubuntu Server 20.04.  
 
 These instructions are for installing v0.11.1 of Combine-Docker, and include steps for migrating from an earlier version of Combine.  Docker is now required; the Vagrant/Ansible installation options are no longer supported.  
 
@@ -30,7 +30,7 @@ You can add support issues for Combine via github at [https://github.com/fruviad
 To install Combine-Docker in your own environment, you must have:  
 
 * A Linux server on which you have superuser privileges (i.e. you can run sudo commands or have the `root` password).  In the instructions that follow, a non-`root` user is assumed to be the user account you'll use for running Combine.  
-* A new Combine installation will consume ~10 Gb of drive storage.  You will need additional storage proportional to the amount of data you're working with.  
+* A new Combine installation will consume ~10 Gb of drive storage.  You will need additional storage proportional to the amount of data you're working with.  (`adduser combine`, `usermod -a -G sudo combine`)
 * Virtual Memory / `vm.max_map_count` set to at least 262144.  
     * To check the current setting for this value on your server, run:  `sysctl vm.max_map_count`
     * To change the value on your server, update the `/etc/sysctl.conf` file and reboot  
@@ -47,15 +47,7 @@ After you login to the server as the user who will be running the Combine applic
         $ cd /opt/
         $ git clone https://github.com/fruviad/combine-docker.git
 
-Next, we install Docker:  
-
-        $ sudo apt update
-        $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        $ echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-        $ sudo apt update
-        $ sudo apt-get install docker-ce
+Next, install Docker as described here:  https://docs.docker.com/engine/install/ubuntu/
 
 Add the current user to the docker group.  This allows docker commands to be run without sudo, and is needed for docker-compose:
 
@@ -63,12 +55,11 @@ Add the current user to the docker group.  This allows docker commands to be run
 
 More dependencies:  Install Docker-Compose:  
 
-        $ sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        $ sudo chmod +x /usr/local/bin/docker-compose
+        $ sudo apt install docker-compose
 
 Still more dependencies:  Install Subversion, which is needed to pull down the spark/livy static files without pulling down the entire repository:  
 
-        $ sudo apt-get install subversion
+        $ sudo apt install subversion
 
 Logout, then login again as the user running your Combine service.  This forces the changes to the user account to take effect:  
 
