@@ -65,7 +65,7 @@ echo "### BUILDLOG:  Current COMBINE_BRANCH is:  $COMBINE_BRANCH"
 echo "### BUILDLOG:     Initializing Combine app submodule" 2>&1 | tee -a $BUILDLOG
 echo "### BUILDLOG:     Working with Combine git branch:  $COMBINE_BRANCH" 2>&1 | tee -a $BUILDLOG
 echo "### BUILDLOG:"   | tee -a $BUILDLOG
-echo "### BUILDLOG:     Run:  git submodule init"   | tee -a $BUILDLOG
+#echo "### BUILDLOG:     Run:  git submodule init"   | tee -a $BUILDLOG
 #git submodule init 2>&1 | sed -e 's/^/    /g' | tee -a $BUILDLOG
 #echo ""   | tee -a $BUILDLOG
 
@@ -87,7 +87,7 @@ echo "### BUILDLOG:     Run:  git submodule init"   | tee -a $BUILDLOG
 #git pull | sed -e 's/^/    /g' | tee -a $BUILDLOG
 #echo "" | tee -a $BUILDLOG
 
-echo "### BUILDLOG:  Configure some defaults" 2>&1 | tee -a $BUILDLOG
+echo "### BUILDLOG:  Configure some default settings for the Combine application" 2>&1 | tee -a $BUILDLOG
 
 if [[ ! -f "./combine/localsettings.py" ]]; then
     cp ./combine/combine/combine/localsettings.py.docker ./combine/localsettings.py
