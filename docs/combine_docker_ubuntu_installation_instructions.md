@@ -67,6 +67,8 @@ Now we begin installing Combine-Docker.  Go back to the Combine installation dir
 
         $ cd /opt/combine-docker
         $ git checkout master
+        $ git submodule init
+        $ git submodule update
 
 Finally, we run the `build.sh` script which retrieves the appropriate Docker images and sets everything up on the local system.  This script can run for quite a while (it's downloading a bunch of data which can be a bottleneck) and it produces a ton of output:
 
