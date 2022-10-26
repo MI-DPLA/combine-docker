@@ -46,7 +46,9 @@ Login to the server as the user who will be running the Combine application...
         $ cd /opt/
         $ git clone https://github.com/fruviad/combine-docker.git
 
-Next, install Docker as described here:  https://docs.docker.com/engine/install/ubuntu/
+Next, install Docker as described here:
+
+        https://docs.docker.com/engine/install/ubuntu/
 
 Add the current user to the docker group.  This allows docker commands to be run without sudo, and is needed for docker-compose:
 
