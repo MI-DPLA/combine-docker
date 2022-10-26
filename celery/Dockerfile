@@ -1,4 +1,4 @@
-FROM combine_combine-django:latest
+FROM combine-docker_combine-django:latest
 
 ENV RUNLEVEL=1
 RUN echo exit 0 > /usr/sbin/policy-rc.d
