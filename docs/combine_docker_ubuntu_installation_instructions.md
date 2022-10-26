@@ -65,6 +65,7 @@ Still more dependencies:  Install Subversion, which is needed to pull down the s
 Logout, then login again as the user running your Combine service.  This forces the changes to the user account to take effect:  
 
         $ logout
+        $ su - combine
 
 Now we begin installing Combine-Docker.  Go back to the Combine installation directory and setup our git environment.  This is needed by the `build.sh` shell script which we run next:
 
