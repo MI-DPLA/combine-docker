@@ -26,7 +26,7 @@ You can add support issues for Combine via github at [https://github.com/fruviad
 
 To install Combine-Docker in your own environment, you must have:  
 
-* A Linux server on which you have superuser privileges (i.e. you can run sudo commands or have the `root` password).  In the instructions that follow, a non-`root` user is assumed to be the user account you'll use for running Combine.  
+* A Linux server on which you have superuser privileges (i.e. you can run sudo commands or have the `root` password).  In the instructions that follow, a non-`root` user "combine" is assumed to be the user account you'll use for running Combine.  
 * A new Combine installation will consume ~10 Gb of drive storage.  You will need additional storage proportional to the amount of data you're working with.  (`adduser combine`, `usermod -a -G sudo combine`)
 * Virtual Memory / `vm.max_map_count` set to at least 262144.  
     * To check the current setting for this value on your server, run:  `sysctl vm.max_map_count`
@@ -38,10 +38,11 @@ To install Combine-Docker in your own environment, you must have:
   
 We start by cloning the git repository `https://github.com/fruviad/combine-docker.git` to the location on your server where you wish to install the Combine application.  (Choosing `/opt/combine-docker` is not required, but it offers consistency with the old installation methods.  The documentation which follows uses `/opt/combine-docker` as the installation location.)
 
-After you login to the server as the user who will be running the Combine application...  
+Login to the server as the user who will be running the Combine application...  
 
+        $ su - combine
         $ sudo mkdir /opt/combine-docker
-        $ sudo chown ${USER}:${USER} /opt/combine-docker
+        $ sudo chown combine:combine /opt/combine-docker
         $ cd /opt/
         $ git clone https://github.com/fruviad/combine-docker.git
 
@@ -49,7 +50,7 @@ Next, install Docker as described here:  https://docs.docker.com/engine/install/
 
 Add the current user to the docker group.  This allows docker commands to be run without sudo, and is needed for docker-compose:
 
-        $ sudo usermod -aG docker ${USER}
+        $ sudo usermod -aG docker combine
 
 More dependencies:  Install Docker-Compose:  
 
@@ -100,7 +101,7 @@ Docker will attempt to run the containers, and the containers will dump output t
 
 Point a web browser at the IP/hostname & port you configured Nginx to listen to (e.g. http://11.12.13.14:28080).
 
-If all is working well, then you should be presented with a login screen; Login with username `combine` and password `combine`.
+If all is working well, then you should be presented with a login screen; Login with application username `combine` and password `combine`.
 
 
 ## 4  MIGRATING DATA FROM PREVIOUS VERSIONS OF COMBINE
