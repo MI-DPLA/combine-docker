@@ -1,14 +1,14 @@
-#DRAFT COMBINE-DOCKER v0.11.1.   Installation Instructions DRAFT  
+# DRAFT COMBINE-DOCKER v0.11.1.   Installation Instructions DRAFT  
   
-##TOC  
+## TOC  
 1.  Introduction  
 2.  Requirements  
 3.  Installing Combine-Docker and dependencies  
 4.  Migrating data from previous versions of Combine  
 5.  Troubleshooting  
-</a>
 
-##1.  INTRODUCTION  
+
+## 1.  INTRODUCTION  
 Combine is a metadata aggregator; an application designed to facilitate the harvesting, transformation, analysis, and republishing of metadata records.  Combine can be used by Service Hubs for inclusion in the Digital Public Library of America (DPLA).  
 
 Combine-Docker is a version of Combine that has been "dockerized"; preconfigured to run in a set of Docker containers.  
@@ -22,10 +22,7 @@ These instructions are for installing v0.11.1 of Combine-Docker, and include ste
 You can add support issues for Combine via github at [https://github.com/fruviad/combine](https://github.com/fruviad/combine).  
 
 
-
-
-
-##2.  REQUIREMENTS
+## 2.  REQUIREMENTS
 
 To install Combine-Docker in your own environment, you must have:  
 
@@ -35,8 +32,9 @@ To install Combine-Docker in your own environment, you must have:
     * To check the current setting for this value on your server, run:  `sysctl vm.max_map_count`
     * To change the value on your server, update the `/etc/sysctl.conf` file and reboot  
 * If you are migrating from an older release of Combine, then plan to have enough storage to run the old and new Combine instances in parallel while migrating data, plus the space needed for the exported state data files from the older version. Note that some of the Docker images are large!
-  
-##3.  INSTALLING COMBINE-DOCKER AND DEPENDENCIES
+
+
+## 3.  INSTALLING COMBINE-DOCKER AND DEPENDENCIES
   
 We start by cloning the git repository `https://github.com/fruviad/combine-docker.git` to the location on your server where you wish to install the Combine application.  (Choosing `/opt/combine-docker` is not required, but it offers consistency with the old installation methods.  The documentation which follows uses `/opt/combine-docker` as the installation location.)
 
@@ -103,9 +101,9 @@ Point a web browser at the IP/hostname & port you configured Nginx to listen to 
 If all is working well, then you should be presented with a login screen; Login with username `combine` and password `combine`.
 
 
-##4  MIGRATING DATA FROM PREVIOUS VERSIONS OF COMBINE
+## 4  MIGRATING DATA FROM PREVIOUS VERSIONS OF COMBINE
 
-*Background:* Exporting and Importing of "States" in Combine is the ability to select various level of hierarchy (Organizations, Record Groups, and/or Jobs), and optionally Configuration Scenarios (OAI Endpoints, Transformations, Validations, etc.), and export to a fully serialized, downloadable, archive file.  This file can then be imported into the same, or another, instance of Combine and reconstitute all the pieces that would support those Jobs and Configurations.
+Background: Exporting and Importing of "States" in Combine is the ability to select various level of hierarchy (Organizations, Record Groups, and/or Jobs), and optionally Configuration Scenarios (OAI Endpoints, Transformations, Validations, etc.), and export to a fully serialized, downloadable, archive file.  This file can then be imported into the same, or another, instance of Combine and reconstitute all the pieces that would support those Jobs and Configurations.
 
 NOTE:  If your old Combine has more than one user account, make sure you create the SAME NUMBER OF USERS for your new Combine. This is an unfortunate required workaround for the moment to import your existing Combine data.  
 
@@ -137,25 +135,23 @@ IF your version of Combine is old enough that it still has the bug where jobs wi
 Each imported job has a button that allows you to rebuild the elasticsearch index for that job. (U. Michigan is looking into a more global way to do this.)
 
 
-##5  TROUBLESHOOTING
+## 5  TROUBLESHOOTING
 
+__Problem:  Seeing "waiting for MySQL container to be ready", but it never becomes ready?__
 
-
-_Problem:_  Seeing "waiting for MySQL container to be ready", but it never becomes ready?  
-
-_Tip:_  That MySQL Docker container is being started by the script `/opt/combine-docker/combine/combine_db_prepare.sh`.  Try running the commands listed in that script interactively to see where it errors out, and if any more useful error information is displayed when running it interactively.
+__Tip:__  That MySQL Docker container is being started by the script `/opt/combine-docker/combine/combine_db_prepare.sh`.  Try running the commands listed in that script interactively to see where it errors out, and if any more useful error information is displayed when running it interactively.
 
 ---
 
-_Problem:_  Port collision error: port is already allocated  
+__Problem:  Port collision error: port is already allocated__
 
-_Tip:_  By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can turned off selectively (or changed) if you have services running on your host that conflict. Look for the ports section for each service in the docker-compose.yml to enable or disable them.
+__Tip:__  By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can turned off selectively (or changed) if you have services running on your host that conflict. Look for the ports section for each service in the docker-compose.yml to enable or disable them.
 
 ---
 
-_Problem:_  When I point my browser at Combine, I get a "Connection Refused" error.  
+__Problem:  When I point my browser at Combine, I get a "Connection Refused" error.__
 
-_Tip:_  Check the nginx configuration in the `/opt/combine/docker-compose.yml` file.  
+__Tip:__  Check the nginx configuration in the `/opt/combine/docker-compose.yml` file.  
 
 By default, the Combine web service is only available to "localhost", so IF you haven't updated the "ports" section for nginx in the `docker-compose.yml` file AND you are not pointing your web browser at either "localhost" or "127.0.0.1" for the Combine URL, then this will occur.  
 
@@ -192,17 +188,17 @@ Note:  When you're entering a new `ports` option, be aware that the port is list
 
 ---
 
-_Problem:_  java.lang.ClassNotFoundException: org.elasticsearch.hadoop.mr.LinkedMapWritable  
+__Problem:  java.lang.ClassNotFoundException: org.elasticsearch.hadoop.mr.LinkedMapWritable__
 
-_Fix:_  Make sure that the elasticsearch-hadoop-x.y.z.jar in combinelib matches the version
+__Fix:__  Make sure that the elasticsearch-hadoop-x.y.z.jar in combinelib matches the version
 specified in the ELASTICSEARCH_HADOOP_CONNECTOR_VERSION environment variable
 configured in your .env.
 
 ---
 
-_Problem:_  Seeing DNS errors  
+__Problem:  Seeing DNS errors__
 
-_Fix:_  It is possible that Docker isn't aware of your DNS server.  Edit the `/etc/docker/daemon.json` file (or add it, if it doesn't exist already) and add the following to the file:
+__Fix:__  It is possible that Docker isn't aware of your DNS server.  Edit the `/etc/docker/daemon.json` file (or add it, if it doesn't exist already) and add the following to the file:
 
         {
             "dns": ["{your DNS server address}"]
