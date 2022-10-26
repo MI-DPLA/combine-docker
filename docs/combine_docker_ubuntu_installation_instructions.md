@@ -46,7 +46,9 @@ Login to the server as the user who will be running the Combine application...
         $ cd /opt/
         $ git clone https://github.com/fruviad/combine-docker.git
 
-Next, install Docker as described here:  https://docs.docker.com/engine/install/ubuntu/
+Next, install Docker as described here:
+
+        https://docs.docker.com/engine/install/ubuntu/
 
 Add the current user to the docker group.  This allows docker commands to be run without sudo, and is needed for docker-compose:
 
@@ -63,6 +65,7 @@ Still more dependencies:  Install Subversion, which is needed to pull down the s
 Logout, then login again as the user running your Combine service.  This forces the changes to the user account to take effect:  
 
         $ logout
+        $ su - combine
 
 Now we begin installing Combine-Docker.  Go back to the Combine installation directory and setup our git environment.  This is needed by the `build.sh` shell script which we run next:
 
