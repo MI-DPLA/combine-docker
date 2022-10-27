@@ -89,8 +89,8 @@ echo "### BUILDLOG:"   | tee -a $BUILDLOG
 
 echo "### BUILDLOG:  Configure some default settings for the Combine application" 2>&1 | tee -a $BUILDLOG
 
-if [[ ! -f "./combine/localsettings.py" ]]; then
-    cp ./combine/combine/combine/localsettings.py.docker ./combine/localsettings.py
+if [[ ! -f "./combine/combine/combine/localsettings.py" ]]; then
+    cp ./combine/combine/combine/localsettings.py.docker ./combine/combine/combine/localsettings.py
 fi
 sed -i 's/3306/3307/' ./combine/combine/combine/settings.py # mysql port is 3307 in docker, 3306 by default
 
