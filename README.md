@@ -56,12 +56,10 @@ The first install step is to clone this repository and move into it:
 ### Initializing combine-docker
 The complete instructions include important information on upgrading an existing Combine server. Using the detailed instructions is strongly recommended.
 
-[Complete detailed Linux instructions](https://github.com/MI-DPLA/combine-docker/blob/master/combine_docker_detailed_installation_instructions.pdf)
+[Complete detailed Linux instructions](https://github.com/fruviad/combine-docker/blob/master/combine_docker_ubuntu_installation_instructions.md), as tested on Ubuntu 20.04 Server.
 
 
 **Abbreviated Instructions**
-
-NOTE: All of the scripts assume you are building on Ubuntu 18.04 LTS.
 
 **Windows only: In the next step run build.ps1 instead of build.sh**
 
