@@ -32,7 +32,7 @@ Combine code should be run behind your institution's firewall on a secured serve
 This is in addition to Combine's own passwords. While we don't yet have explicit documentation on how to set up SSL inside the provided nginx in Combine, it's possible and strongly recommended to do so.
 
 ### Version Change Log for v0.11.1
-[V0.11.1 Change Log](https://github.com/MI-DPLA/combine-docker/blob/master/combine_version_change_log.pdf)
+[v0.11.1 Change Log](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log.pdf), [v0.11.1-SNAPSHOT Change Log](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log_0_1_11-SNAPSHOT.md)
 
 
 ## Installation and First Build
@@ -207,7 +207,7 @@ Find the first point in the script at which it failed and try running each line 
 **PROS**: Incredibly simple.  
 **CONS**: Means the data is stored in opaque layers of sandbox filesystems. Semi-easy to accidentally delete all your data.
 
-(Most of the volume mounts in [this docker-compose.yml](https://github.com/MI-DPLA/combine-docker/blob/ffd3a22ec830af05721cba78ecb3b611cc193ce5/docker-compose.yml) are using bind mounts.)
+(Most of the volume mounts in [this docker-compose.yml](https://github.com/fruviad/combine-docker/blob/ffd3a22ec830af05721cba78ecb3b611cc193ce5/docker-compose.yml) are using bind mounts.)
 
 ### ElasticSearch container dies because of `vm.max_map_count`
 
@@ -224,7 +224,7 @@ Make sure that the `elasticsearch-hadoop-x.y.z.jar` in `combinelib` matches the 
 
 ### Other issues?
 
-Help is available for combine installation at `combine-support@umich.edu`. Also, please don't hesitate to [submit an issue](https://github.com/MI-DPLA/combine-docker/issues)!
+Help is available for combine installation at `combine-support@umich.edu`. Also, please don't hesitate to [submit an issue](https://github.com/fruviad/combine-docker/issues)!
 
 
 ## Development
