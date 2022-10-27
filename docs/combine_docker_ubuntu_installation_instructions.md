@@ -1,4 +1,4 @@
-# DRAFT COMBINE-DOCKER v0.11.1.   Installation Instructions DRAFT  
+COMBINE-DOCKER v0.11.1-SNAPSHOT.   Installation Instructions
   
 ## TOC  
 1.  Introduction  
@@ -13,11 +13,11 @@ Combine is a metadata aggregator; an application designed to facilitate the harv
 
 Combine-Docker is a version of Combine that has been "dockerized"; preconfigured to run in a set of Docker containers.  
 
-These technical instructions are for metadata experts or system administrators who wish to install Combine-Docker on their institution's servers to process and publish metadata records to DPLA. This version of Combine (v0.11.1) includes a number of bug fixes and improvements. The [version change documentation](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log.pdf) is available with details about the release.  
+These technical instructions are for metadata experts or system administrators who wish to install Combine-Docker on their institution's servers to process and publish metadata records to DPLA. This version of Combine (v0.11.1-SNAPSHOT) includes a number of bug fixes and improvements. The [version change documentation](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log.pdf) is available with details about the release.  
 
 These installation instructions have been tested on Ubuntu Server 20.04.  
 
-These instructions are for installing v0.11.1 of Combine-Docker, and include steps for migrating from an earlier version of Combine.  Docker is now required; the Vagrant/Ansible installation options are no longer supported.  
+These instructions are for installing v0.11.1-SNAPSHOT of Combine-Docker, and include steps for migrating from an earlier version of Combine.  Docker is now required; the Vagrant/Ansible installation options are no longer supported.  
 
 You can add support issues for Combine via github at [https://github.com/fruviad/combine](https://github.com/fruviad/combine).  
 
@@ -27,10 +27,10 @@ You can add support issues for Combine via github at [https://github.com/fruviad
 To install Combine-Docker in your own environment, you must have:  
 
 * A Linux server on which you have superuser privileges (i.e. you can run sudo commands or have the `root` password).  In the instructions that follow, a non-`root` user "combine" is assumed to be the user account you'll use for running Combine.  
-* A new Combine installation will consume ~10 Gb of drive storage.  You will need additional storage proportional to the amount of data you're working with.  (`adduser combine`, `usermod -a -G sudo combine`)
-* Virtual Memory / `vm.max_map_count` set to at least 262144.  
+* A new Combine installation will consume ~10 Gb of drive storage.  You will need additional storage proportional to the amount of data you're working with.  (`adduser combine`, `usermod -aG sudo combine`)
+* Virtual Memory / `vm.max_map_count` set to at least 262144.
     * To check the current setting for this value on your server, run:  `sysctl vm.max_map_count`
-    * To change the value on your server, update the `/etc/sysctl.conf` file and reboot  
+    * To change the value on your server, update the `/etc/sysctl.conf` file and reboot
 * If you are migrating from an older release of Combine, then plan to have enough storage to run the old and new Combine instances in parallel while migrating data, plus the space needed for the exported state data files from the older version. Note that some of the Docker images are large!
 
 
