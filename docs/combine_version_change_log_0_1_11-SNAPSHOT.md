@@ -37,4 +37,7 @@ in debugging problems.
 Output to the screen during the installation via "build.sh" has
 been improved for a better user experience.
 
-
+The installation documentation for the Linux platform was in PDF
+format.  The content has been migrated to a .md file to make it
+possible to easily update details without replacing the entire
+document.
