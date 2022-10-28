@@ -15,7 +15,7 @@ Combine-Docker is a version of Combine that has been "dockerized"; preconfigured
 
 These technical instructions are for metadata experts or system administrators who wish to install Combine-Docker on their institution's servers to process and publish metadata records to DPLA. This version of Combine (v0.11.2-SNAPSHOT) includes a number of bug fixes and improvements. The [version change documentation](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log.pdf) is available with details about the release.  
 
-These installation instructions have been tested on Ubuntu Server 20.04.  
+These installation instructions have been tested on Ubuntu Server 20.04 and Ubuntu Server 22.04.  
 
 These instructions are for installing v0.11.2-SNAPSHOT of Combine-Docker, and include steps for migrating from an earlier version of Combine.  Docker is now required; the Vagrant/Ansible installation options are no longer supported.  
 
