@@ -1,10 +1,11 @@
-## COMBINE-DOCKER v0.11.1-SNAPSHOT change log
+## COMBINE-DOCKER v0.11.2-SNAPSHOT change log
 
 These changes have not been tested against a Windows install.
 
 Changes in this code are mostly targeted at improving the
 installation documentation and installation scripts on Linux.
-Ubuntu 20.04 is the platform that was used for testing.
+The installer has been tested on Ubuntu Server 22.04 and
+Ubuntu Server 20.04.
 
 The LIVY release changed from 0.6.0-incubating to 0.7.0-incubating.
 
@@ -17,7 +18,6 @@ to:
     repo.continuum.io/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh
 
 ...in the combine/Dockerfile.
-
 
 Verbosity has been reduced for tar commands run by the build
 scripts.  Intent is to make it easier to examine logs.

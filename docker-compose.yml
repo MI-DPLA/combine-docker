@@ -261,6 +261,8 @@ services:
     ports:
       - "127.0.0.1:80:80"
       - "127.0.0.1:443:443"
+      - "172.16.17.68:80:80"
+      - "172.16.17.68:443:443" 
     depends_on:
       - combine-django
       - combine-celery
