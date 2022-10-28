@@ -163,29 +163,29 @@ By default, the Combine web service is only available to "localhost", so IF you 
 
 From `/opt/combine/docker-compose.yml`, in which Combine has been opened up to the 192.168.122.224 IP address:
 
-        240 
-        241   nginx:
-        242     image: nginx:latest
-        243     container_name: nginx
-        244     volumes:
-        245       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-        246       - ./nginx/mime.types:/etc/nginx/mime.types
-        247       - ./nginx/error.log:/etc/nginx/error_log.log
-        248       - ./nginx/cache/:/etc/nginx/cache
-        249       - ./combine/combine/static:/static
-        250 # when using not certbot for SSL, uncomment this line:
-        251 #      - /etc/ssl:/etc/ssl
-        252 # when using certbot for SSL, uncomment these lines:
-        253 #      - ./certbot/conf:/etc/letsencrypt
-        254 #      - ./certbot/www:/var/www/certbot
-        255     ports:
-        256       - "192.168.122.224:80:80"
-        257       - "192.168.122.224:443:443"
-        258       - "127.0.0.1:80:80"
-        259       - "127.0.0.1:443:443"
-        260     depends_on:
-        261       - combine-django
-        262       - combine-celery
+         
+           nginx:
+             image: nginx:latest
+             container_name: nginx
+             volumes:
+               - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+               - ./nginx/mime.types:/etc/nginx/mime.types
+               - ./nginx/error.log:/etc/nginx/error_log.log
+               - ./nginx/cache/:/etc/nginx/cache
+               - ./combine/combine/static:/static
+         # when using not certbot for SSL, uncomment this line:
+         #      - /etc/ssl:/etc/ssl
+         # when using certbot for SSL, uncomment these lines:
+         #      - ./certbot/conf:/etc/letsencrypt
+         #      - ./certbot/www:/var/www/certbot
+             ports:
+               - "192.168.122.224:80:80"
+               - "192.168.122.224:443:443"
+               - "127.0.0.1:80:80"
+               - "127.0.0.1:443:443"
+             depends_on:
+               - combine-django
+               - combine-celery
 
 Note:  When you're entering a new `ports` option, be aware that the port is listed twice.  It's easy to make the mistake of automatically entering `host:port`, in which case the `docker-compose up` command will error out with:
 
