@@ -104,7 +104,7 @@ Docker will attempt to run the containers, and the containers will dump output t
 
 Point a web browser at the IP/hostname & port you configured Nginx to listen to (e.g. http://11.12.13.14:28080).
 
-If all is working well, then you should be presented with a login screen; Login with application username `combine` and password `combine`.
+If all is working well, then you should be presented with a login screen; Login with application username `combine` and password `combine`.  To change the Combine application password, go to the "Configuration" screen in the Combine application and click on the "Django Admin Console" button; you can change your password using the Django administration interface.
 
 
 ## 4  MIGRATING DATA FROM PREVIOUS VERSIONS OF COMBINE
