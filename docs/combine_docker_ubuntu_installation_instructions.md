@@ -82,7 +82,7 @@ The output produced by `build.sh` can contain many warnings that are safe to ign
 
 Assuming all went well (knock on wood) Combine is now installed and needs to be configured.
 
-The Nginx web server used as the Combine user interface will, by default, only answer requests made to "127.0.0.1" a.k.a. "localhost"; you will need to update the configuration to expose additional IPs/ports to allow other systems to access Combine.  Edit the `/opt/combine-docker/docker-compose.yml` file.  The "nginx:" section (around line 240 of the file) contains a "ports:" section that looks like:
+The Nginx web server used as the Combine user interface will, by default, only answer requests made to "127.0.0.1" a.k.a. "localhost".  This is fine if you have Combine-Docker installed on a workstation as a standalone application that will never be accessed from another computer, but you will need to update the Nginx configuration to expose additional IPs/ports if you want to allow systems to access Combine remotely.  To make the Combine application to available to other systems, edit the `/opt/combine-docker/docker-compose.yml` file.  The "nginx:" section (around line 265 of the file) contains a "ports:" section that looks like:
 
         ports:
         - "127.0.0.1:80:80"
@@ -102,9 +102,9 @@ That's it.  You now just need to start the Docker containers to get Combine runn
 
 Docker will attempt to run the containers, and the containers will dump output to this terminal window; Closing this window or hitting Control-C will kill the Combine application.  (The output dumped to this window is a firehose of debugging information that can be handy when you're trying to solve problems.)
 
-Point a web browser at the IP/hostname & port you configured Nginx to listen to (e.g. http://11.12.13.14:28080).
+To access the Combine user interface, point a web browser at the IP/hostname & port you configured Nginx to listen to (e.g. http://11.12.13.14:28080).
 
-If all is working well, then you should be presented with a login screen; Login with application username `combine` and password `combine`.  To change the Combine application password, go to the "Configuration" screen in the Combine application and click on the "Django Admin Console" button; you can change your password using the Django administration interface.
+If all is working well, then you should be presented with a login screen; Login with application username `combine` and password `combine`.  To change the Combine application password, go to the "Configuration" screen in the Combine application and click on the "Django Admin Console" button; you can change your password using a link in the upper right corner of the Django administration interface.
 
 
 ## 4.  MIGRATING DATA FROM PREVIOUS VERSIONS OF COMBINE
