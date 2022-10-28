@@ -107,7 +107,7 @@ Point a web browser at the IP/hostname & port you configured Nginx to listen to 
 If all is working well, then you should be presented with a login screen; Login with application username `combine` and password `combine`.  To change the Combine application password, go to the "Configuration" screen in the Combine application and click on the "Django Admin Console" button; you can change your password using the Django administration interface.
 
 
-## 4  MIGRATING DATA FROM PREVIOUS VERSIONS OF COMBINE
+## 4.  MIGRATING DATA FROM PREVIOUS VERSIONS OF COMBINE
 
 Background: Exporting and Importing of "States" in Combine is the ability to select various level of hierarchy (Organizations, Record Groups, and/or Jobs), and optionally Configuration Scenarios (OAI Endpoints, Transformations, Validations, etc.), and export to a fully serialized, downloadable, archive file.  This file can then be imported into the same, or another, instance of Combine and reconstitute all the pieces that would support those Jobs and Configurations.
 
@@ -141,7 +141,7 @@ IF your version of Combine is old enough that it still has the bug where jobs wi
 Each imported job has a button that allows you to rebuild the elasticsearch index for that job. (U. Michigan is looking into a more global way to do this.)
 
 
-## 5  TROUBLESHOOTING
+## 5.  TROUBLESHOOTING
 
 __Problem:  Seeing "waiting for MySQL container to be ready", but it never becomes ready?__
 
