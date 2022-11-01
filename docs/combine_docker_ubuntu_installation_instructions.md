@@ -93,7 +93,7 @@ If your server has an IP address 11.12.13.14, and you also wish to make Combine 
         ports:
         - "127.0.0.1:80:80"
         - "127.0.0.1:443:443"
-        - "11.12.13.14:28080:28080"
+        - "11.12.13.14:28080:80"
         - "11.12.13.14:80:80"
 
 That's it.  You now just need to start the Docker containers to get Combine running:
