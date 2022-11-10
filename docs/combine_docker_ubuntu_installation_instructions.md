@@ -73,16 +73,23 @@ Now we begin installing Combine-Docker.  Go back to the Combine installation dir
         $ git checkout master
         $ git submodule init
         $ git submodule update
+        $ cd combine/combine
+        $ git checkout master
+        $ cd ../..
 
 Finally, we run the `build.sh` script which retrieves the appropriate Docker images and sets everything up on the local system.  This script can run for quite a while (it's downloading a bunch of data which can be a bottleneck) and it produces a ton of output:
 
         $ ./build.sh
 
-The output produced by `build.sh` can contain many warnings that are safe to ignore (for instance, Livy wants to build off a Zinc server, throws a warning when it doesn't find one).  Additionally, the first time `build.sh` is run you will see several "No such volume" errors in the output at the beginning of the process (e.g. "Error: No such volume: combine-docker_combine_python_env"); these are not problematic.
+The output produced by `build.sh` can contain many warnings that are safe to ignore (for instance, Livy wants to build off a Zinc server, throws a warning when it doesn't find one).  Additionally, the first time `build.sh` is run you will see several "No such volume" errors in the output at the beginning of the process (e.g. "Error: No such volume: combine-docker_combine_python_env"); these are not problematic.  The installer pauses several times during the installation script to give you the chance to terminate the installation early, and these pauses can be helpful in debugging problems, but just hit ENTER to continue the process unless you see problems.
 
 Assuming all went well (knock on wood) Combine is now installed and needs to be configured.
 
-The Nginx web server used as the Combine user interface will, by default, only answer requests made to "127.0.0.1" a.k.a. "localhost".  This is fine if you have Combine-Docker installed on a workstation as a standalone application that will never be accessed from another computer, but you will need to update the Nginx configuration to expose additional IPs/ports if you want to allow systems to access Combine remotely.  To make the Combine application to available to other systems, edit the `/opt/combine-docker/docker-compose.yml` file.  The "nginx:" section (around line 265 of the file) contains a "ports:" section that looks like:
+The Nginx web server used as the Combine user interface will, by default, only answer requests made to "127.0.0.1" a.k.a. "localhost".  This is fine if you have Combine-Docker installed on a workstation as a standalone application that will never be accessed from another computer, but you will need to update the Nginx configuration to expose additional IPs/ports if you want to allow systems to access Combine remotely.  To make the Combine application to available to other systems, edit the `/opt/combine-docker/docker-compose.yml` file:
+
+        $ vi /opt/combine-docker/docker-compose.yml
+
+The "nginx:" section (around line 265 of the file) contains a "ports:" section that looks like:
 
         ports:
         - "127.0.0.1:80:80"
