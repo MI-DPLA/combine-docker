@@ -31,8 +31,9 @@ Combine code should be run behind your institution's firewall on a secured serve
 
 This is in addition to Combine's own passwords. While we don't yet have explicit documentation on how to set up SSL inside the provided nginx in Combine, it's possible and strongly recommended to do so.
 
-### Version Change Log for v0.11.1
-[v0.11.1 Change Log](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log.pdf), [v0.11.2-SNAPSHOT Change Log](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log_0_11_2-SNAPSHOT.md)
+### Version Change Logs
+* [v0.11.1 Change Log](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log.pdf)
+* [v0.11.2-SNAPSHOT Change Log](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log_0_11_2-SNAPSHOT.md)
 
 
 ## Installation and First Build
@@ -56,7 +57,7 @@ The first install step is to clone this repository and move into it:
 ### Initializing combine-docker
 The complete instructions include important information on upgrading an existing Combine server. Using the detailed instructions is strongly recommended.
 
-[Complete detailed Linux instructions](https://github.com/fruviad/combine-docker/blob/master/combine_docker_ubuntu_installation_instructions.md), as tested on Ubuntu 20.04 Server.
+[Complete detailed Linux instructions](https://github.com/fruviad/combine-docker/blob/master/docs/combine_docker_ubuntu_installation_instructions.md), as tested on Ubuntu 20.04 Server.
 
 
 **Abbreviated Instructions**
