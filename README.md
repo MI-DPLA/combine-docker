@@ -77,12 +77,12 @@ Next, run the `build.sh` script:
 
 ## Configuration
 
-Once a build is complete, configurations may be performed on Combine's `localsettings.py`.  This file is found at `./combine/combine/combine/localsettings.py`.  This file will be maintained between upgrades.
+Once a build is complete, you can change the Combine configuration by editing Combine's `localsettings.py`.  This file is found at `./combine/combine/combine/localsettings.py`.  This file will be maintained between upgrades.
 
 
 ## Running and Managing
 
-Ensuring that `first_build.sh` (or `update_build.sh` if appropriate) has been run, fire up all containers with the following:
+After the Combine-Docker application has been installed, fire up all containers with the following:
 ```
 docker-compose up -d
 ```
@@ -109,7 +109,7 @@ As outlined in the [Combine-Docker Containers](#docker-images-and-containers) se
 
 ## Updating
 
-This Dockerized version of Combine supports, arguably, easier version updating because major components, broken out as images and containers, can be readily rebuilt.  Much like the repository Combine-Playbook, this repository follows the same versioning as Combine.  So checking out the tagged release `v0.11.1` for this repository, will build Combine version `v0.11.1`.
+This Dockerized version of Combine supports, arguably, easier version updating because major components, broken out as images and containers, can be readily rebuilt.  Much like the (now deprecated) repository Combine-Playbook, this repository follows the same versioning as Combine.  So checking out the tagged release `v0.11.1` for this Combine-Docker repository will build Combine version `v0.11.1`.
 
 To update, follow these steps from the Combine-Docker repository root folder:
 
