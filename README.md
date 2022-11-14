@@ -32,7 +32,7 @@ Combine code should be run behind your institution's firewall on a secured serve
 This is in addition to Combine's own passwords. While we don't yet have explicit documentation on how to set up SSL inside the provided nginx in Combine, it's possible and strongly recommended to do so.
 
 ### Version Change Logs
-* [v0.11.1 Change Log](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log.pdf)
+* [v0.11.1 Change Log](https://github.com/fruviad/combine-docker/blob/master/docs/combine_version_change_log_0_11_0.pdf)
 * [v0.11.2-SNAPSHOT Change Log](https://github.com/fruviad/combine-docker/blob/master/combine_version_change_log_0_11_2-SNAPSHOT.md)
 
 
