@@ -1,0 +1,80 @@
+---
+layout: default
+---
+
+<div class="home">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  {{ content }}
+
+  <!-- {%- if site.posts.size > 0 -%}
+    <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
+    <ul class="post-list">
+      {%- for post in site.posts -%}
+      <li>
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        <span class="post-meta">{{ post.date | date: date_format }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        {%- if site.show_excerpts -%}
+          {{ post.excerpt }}
+        {%- endif -%}
+      </li>
+      {%- endfor -%}
+    </ul>  -->
+  
+  <!--    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+  {%- endif -%}  -->
+
+<h1>Introduction</h1>
+
+
+<h2>Overview</h2>
+
+<p>Combine is an application to facilitate the harvesting, transformation, analysis, and publishing of metadata records by Service Hubs for inclusion in the <a href="https://dp.la/">Digital Public Library of America (DPLA)</a>. Installing and maintaining Combine requires the skills of a web administrator, but users of Combine will not need a technical background to work with metadata.</p>
+
+The name “Combine”, pronounced /kämˌbīn/ with a long i, is a nod to the <a href="https://en.wikipedia.org/wiki/Combine_harvester">combine harvester</a> used in farming for, “combining three separate harvesting operations - reaping, threshing, and winnowing - into a single process.” Instead of grains, we have metadata records! These metadata records may come in a variety of metadata formats, various states of transformation, and may or may not be valid in the context of a particular data model. Like the combine equipment used for farming, this application is designed to provide a single point of interaction for multiple steps along the way of harvesting, transforming, and analyzing metadata in preparation for inclusion in the DPLA.</p>
+
+<h2>Things You Need to Know Before Installing Combine</h2>
+
+<p>Combine is not a simple application. It requires a working knowledge of several server components, dependencies, and configurations that must be in place to work.</p> 
+
+<p>It leverages <a href="https://spark.apache.org/">Apache Spark</a>, among other applications, for processing on the backend.</p>
+
+<p>The current version of Combine, called combine-docker, has simplified the installation process by leveraging <a href="https://www.docker.com/">Docker</a>. This version is available in the Github directory: <a href="https://github.com/MI-DPLA/combine-docker">MI-DPLA/combine-docker</a>. We recommend having a system administrator experienced with linux and web servers install Combine.</p>
+
+<h2>Table of Contents</h2>
+
+<ul>
+  <li>Part 1: Introduction (this page)</li>
+  <li>Part 2: Installation and Server Maintenance</li>
+  <li>Part 3: Command Line</li>
+  <li>Part 4: Background Tasks</li>
+  <li>Part 5: <a href="/PureJekyll/datamodel">Data Model</a></li>
+  <li>Part 6: Configuration</li>
+  <li>Part 7: Running Jobs</li>
+  <li>Part 8: Harvesting Records</li>
+  <li>Part 9: Transforming Records</li>
+  <li>Part 10: Merging Records</li>
+  <li>Part 11: Validation</li>
+  <li>Part 12: Job Results and Record Details</li>
+  <li>Part 13: Publishing Records</li>
+  <li>Part 14: Exporting</li>
+  <li>Appendix: Deprecated Features</li>
+</ul>
+ 
+
+<h2>The Current State of Combine</h2>
+
+<p>Recent development work on Combine focused on updating and confirming its essential core functions. As of April 2022, Combine is a reliable application for preparing and managing metadata for DPLA harvests. Its current state of development is now complete, and the project has been sunsetted for now.</p>
+
+<p>During its initial design phase, the primary developer experimented with various features which have since been deprecated by fixes, updates, and improvements in other areas. The documentation for these features can now be found in the appendix. Combine would benefit from having these features brought up to date, but we don’t consider them essential to Combine’s core functionality. Nonetheless, we hope future teams will consider revisiting these deprecated features someday and make them viable parts of Combine.</p>
+
+  
+  
+</div>
