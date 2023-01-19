@@ -98,3 +98,6 @@ title: Data Model
   <li> Not necessarily unique for all Records, this identifier is used for publishing</li>
   <li> When harvesting from an OAI-PMH feed, this is usually populated from the OAI identifier that came with the Record</li>
 </ul>
+
+<p>Next: <a href="/combine-docker/configuration">Configuration</a></p>
+
