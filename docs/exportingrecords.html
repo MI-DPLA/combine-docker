@@ -28,7 +28,7 @@ There are different ways and level of granularites for exporting and importing d
 
 Exporting and Importing of “States” in Combine is the ability to select various level of hierarchy (Organizations, Record Groups, and/or Jobs), and optionally Configuration Scenarios (OAI Endpoints, Transformations, Validations, etc.), and export to a fully serialized, downloadable, archive file. This file can then be imported into the same, or another, instance of Combine and reconstitute all the pieces that would support those Jobs and Configurations.
 
-<s>Note:</s> Importantly, when exporting Jobs, the export process takes into account:
+<strong>Note:</strong> Importantly, when exporting Jobs, the export process takes into account:
 
 <ul>
   <li>what other Jobs are connected – either upstream or downstream – and would need to be exported as well for that Job’s pipeline to function</li>
@@ -98,15 +98,15 @@ As you can see, it’s a virtual duplication of the Jobs and linkages, and behin
 To export a state in Combine, first navigate to “Configuration” from the navbar at the top, and then “Combine State Export/Import” at the very bottom. This should land you at a screen that looks like the following:
 
 State Export/Import main view
-The page is defined by two tables, <s>Exports</s> and <s>Imports</s>. Exports originated from this instance of Combine, Imports may come from this instance of Combine or another. When an export is conducted, it is stamped with a unique identifier. This identifier is referenced during the import process, allowing the tethering of imports to exports. This will become more clear as you click around the Export and Import views.
+The page is defined by two tables, <strong>Exports</strong> and <strong>Imports</strong>. Exports originated from this instance of Combine, Imports may come from this instance of Combine or another. When an export is conducted, it is stamped with a unique identifier. This identifier is referenced during the import process, allowing the tethering of imports to exports. This will become more clear as you click around the Export and Import views.
 To begin an export, click “Export State” under the Export table. On the next screen, you will be presented with something similar to the following:
 
 State export form
-Names for exports (and imports) are optional. The idea is to select <s>Organizations</s>, <s>Record Groups</s>, <s>Jobs</s>, and <s>Configuration Scenarios</s> that will be included in the Export, from the hierarchical trees. The trees are searchable, and have some capacity for selecting search matches.
+Names for exports (and imports) are optional. The idea is to select <strong>Organizations</strong>, <strong>Record Groups</strong>, <strong>Jobs</strong>, and <strong>Configuration Scenarios</strong> that will be included in the Export, from the hierarchical trees. The trees are searchable, and have some capacity for selecting search matches.
 For example, a search for “static” brings up a couple of Job matches, and clicking “Select Matches” would include these in the export:
 
 Export: Searching for Jobs
-<s>Note:</s> While there is a dedicated “Configurations and Scenarios” tree to select items from, it is worth remembering that any configurations used by selected Jobs will automatically be included in the Export. Think about a fictional Job foo that has two Validation Scenarios applied, bar and baz. If foo were to be imported into another instance of Combine, it would require those Validation Scenarios to exist such that they could be rerun and referenced.
+<strong>Note:</strong> While there is a dedicated “Configurations and Scenarios” tree to select items from, it is worth remembering that any configurations used by selected Jobs will automatically be included in the Export. Think about a fictional Job foo that has two Validation Scenarios applied, bar and baz. If foo were to be imported into another instance of Combine, it would require those Validation Scenarios to exist such that they could be rerun and referenced.
 When all desired export objects have been selected from both “Organizations, Record Groups, Jobs” and “Configurations and Scenarios”, click “Export State” at the bottom. This will redirect back to the State Export/Import overview table, with the export running as a background tasks, and the following has been created:
 
 Export for Job C
@@ -135,10 +135,10 @@ Details for Job C export
 Clicking into this Import’s details, we see the following:
 
 Details for Job C import
-The first table is details about this <s>Import</s>, but the following table shows what <s>Export</s> was used. This linkage is only possible when the Export exists in the same instance of Combine. Finally, at the bottom, a similar “results” tree to the Export, but this time showing what objects were imported.
+The first table is details about this <strong>Import</strong>, but the following table shows what <strong>Export</strong> was used. This linkage is only possible when the Export exists in the same instance of Combine. Finally, at the bottom, a similar “results” tree to the Export, but this time showing what objects were imported.
 However, the tree showing what objects were imported has a warning message about not all objects being imported, and looks suspiciously smaller than the amount of exported objects. What’s going on here?
 
-<s>State Import and Duplication</s>
+<strong>State Import and Duplication</strong>
 
 When importing, the import process attempts to skip the duplication of:
 
@@ -148,7 +148,7 @@ When importing, the import process attempts to skip the duplication of:
 </ul>
 
 Jobs are happily duplicated, as this is often the point of state export / import, and have value even in the duplicate. But all “supporting” infrastructure like Organizations or Record Groups, or any configuration scenarios like OAI Endpoints, Transformations, or Validations, as long as they function identically, nothing is gained by having a duplicate.
-For configuration scenarios, a duplicated is deemed identical when <s>the name and “payload” of the scenario is identical</s>. So, if an export contains a Transformation called MODS to Dublin Core, but one already exists by that name, and the XLST payload is byte-for-byte identical, a new Transformation scenario will not be created, and all references will now point to this pre-existing Transformation Scenario.
+For configuration scenarios, a duplicated is deemed identical when <strong>the name and “payload” of the scenario is identical</strong>. So, if an export contains a Transformation called MODS to Dublin Core, but one already exists by that name, and the XLST payload is byte-for-byte identical, a new Transformation scenario will not be created, and all references will now point to this pre-existing Transformation Scenario.
 For Organizations and Record Groups, the decision was a bit more complicated, but feedback suggested it would be most beneficial to have Jobs “slot in” to pre-existing Record Groups if they existed under an identically named Organization. For example, if Job C was exported under Record Group foo, which was under Organization bar, but a Record Group with name foo already exists under an Organization named bar, neither will be created, and Job C will import under the pre-existing foo Record Group. This decisions hints at the singularly organizational role of Organizations and Record Groups, with their uncontrolled, human readable name as their primary characteristic.
 
 <h3>Final Thoughts</h3>
@@ -218,14 +218,14 @@ Mapped fields from Records may also be exported, in one of two ways:
 Both default to exporting all fields, but these may be limited by selecting specific fields to include in the export by clicking the “Select Mapped Fields for Export”.
 Both styles may be exported with an optional compression for output.
 
-<s>JSON Documents</s>
+<strong>JSON Documents</strong>
 
 This is the preferred way to export mapped fields, as it handles characters for field values that may disrupt column delimiters and/or newlines.
 
 Export Mapped Fields as JSON documents
 Combine uses ElasticSearch-Dump to export Records as line-delimited JSON documents. This library handles well special characters and newlines, and as such, is recommended. This output format also handles multivalued fields and maintains field type (integer, string).
 
-<s>CSV</s>
+<strong>CSV</strong>
 
 Alternatively, mapped fields can be exported as comma-seperated, tabular data in .csv format. As mentioned, this does not as deftly handle characters that may disrupt column delimiters
 
@@ -249,7 +249,7 @@ These export parameters – either configured at the time of export, or loaded f
 <h2>Exporting to S3</h2>
 
 It is also possible to export assets directly to Amazon AWS S3 buckets from some locations in Combine. At the time of this writing, it is possible to export to S3 for all types of Record exports, but each type of export varies slightly in how it exports to S3.
-<s>Note:</s> All examples below are of exporting Published Records to S3, but the same workflows apply to a single Job as well.
+<strong>Note:</strong> All examples below are of exporting Published Records to S3, but the same workflows apply to a single Job as well.
 
 <h3>Motivation</h3>
 
@@ -296,7 +296,7 @@ If exporting as Spark DataFrame, a couple particularly important columns are:
 <ul>
   <li>document: the XML string of the Record document</li>
   <li>record_id: The Record identifier that would have been used during OAI publishing, but is accessible in this DataFrame</li>
-  <li><s>Note:</s> This identifier will no longer contain the OAI server identifier or Publish Set identifier that would have accompanied it in the OAI output.</li>
+  <li><strong>Note:</strong> This identifier will no longer contain the OAI server identifier or Publish Set identifier that would have accompanied it in the OAI output.</li>
 </ul>
 
 <h3>Exporting Mapped Fields to S3</h3>

@@ -5,17 +5,19 @@ title: Data Model
 <h1>Validation</h1>
 
 Combine validates Records by applying pre-configured Validation Scenarios. (See Part 6: Configuration for instructions on how to create Scenarios.)
-Validation Test Results
+
+<h2>Validation Test Results</h2>
+
 Combine validates Records by applying pre-configured Validation Scenarios to a Job while it’s running. (“Part 6: Configuration” explains how to create Scenarios.) A Scenario can be applied to any Job in Combine (as described in Parts 8-10), so the results of Validation tests can appear on several different pages. 
 
-The Record Group Page
+<h3>The Record Group Page</h3>
 
 The “Is Valid” column in the table of a Record Group page
 
 Validation information on the Record Group page appears as a column in the Jobs table. The column simply gives a true/false to the question of whether all of the Records in the Job were valid or not. (See Part 12: Job Results and Record Details)
 When a Record fails any test from any Validation Scenario applied to its Job, Combine considers the Record to be “invalid.” So even one Record in a very large Record Group can trip this result to “false.”
 
-The Job Details Page
+<h3>The Job Details Page</h3>
 
 Column and tab showing Validation information on a Job Details page
 
@@ -29,7 +31,7 @@ Table display of invalid Records for a Job
 If we go back to the Job Details page, we see that the table also displays a red button to “Remove Validation from Job.” Pressing this button will NOT fix whatever problem an invalid Record may have. It simply removes the Validation Scenario from that Job, as if the Scenario was never applied to the Job in the first place. If that Job was showing a “false” result for “Is Valid” on the table of its Record Group page, that value will now show “true.” But any validation problem with any Record(s) in the Job will continue to be there until the user actually fixes it.  
 Below the table is a green button to “Run new Validations for this Job.” This is a simple way to test whether a fix to an invalid Record has worked or not.
 
-The Record Details Page
+<h3>The Record Details Page</h3>
 
 Validation Results for an invalid Record
 

@@ -15,9 +15,14 @@ Below the blue bar is a red alert bar indicating the one required parameter for 
 Input Jobs for a Duplicate/Merge Job
 
 If you do have a large number of Jobs--even within one Record Group--you can use the ‘lineage graph,’ the graphic space above the table of Jobs, to reduce the number of displayed jobs:
-Click on a Harvest Job: the table will be filtered to display only that Job; all other Jobs in the lineage graph will be grayed out
-Click on a Transform Job, and the table will be filtered to display only that Job and Jobs that directly input to it; all other Jobs in the lineage graph will be grayed out
+
+<ul>
+  <li>Click on a Harvest Job: the table will be filtered to display only that Job; all other Jobs in the lineage graph will be grayed out</li>
+  <li>Click on a Transform Job, and the table will be filtered to display only that Job and Jobs that directly input to it; all other Jobs in the lineage graph will be grayed out</li>
+</ul>
+
 Click outside of the Job to clear the filter and display all Jobs in the Record Group again.
+
 
 A lineage graph filtered to a single Harvest Job
 
@@ -32,7 +37,7 @@ As an alternative, on the Duplicate/Merge page each row in the table has an addi
 The popup window for setting specific input filters
 
 
-You can select multiple Jobs for Duplicate/Merge Jobs. When Jobs are merged, a duplicate check is run for the Record Identifiers only.
+You can select <strong>multiple</strong> Jobs for Duplicate/Merge Jobs. When Jobs are merged, a duplicate check is run for the <strong>Record Identifiers only</strong>.
 Below this section you will find a gold alert bar for the ‘optional parameters’ that were explained in “Part 7: Running Jobs,” including “Record Input Filter,” “Validation Tests,” “Transform Identifier,” and “DPLA Bulk Data Compare.”
 Once all of these configurations are set, you are ready to scroll to the bottom of the page and click the green “Run Duplicate/Merge Job” button to begin.
 The following screenshot shows the results of a Merge Job with two input Jobs from a Record Group’s overview screen:
@@ -41,23 +46,32 @@ The following screenshot shows the results of a Merge Job with two input Jobs fr
 
 
 
-Merging two Jobs into one Job
+<h2>Merging two Jobs into one Job</h2>
 
 
 Why Merge or Duplicate Records?
 Combine’s data model is quite flexible...
+
 Organization --> Record Group --> Job --> Record
 
 ...but the price of that flexibility is additional complexity in execution.
+
 Duplicate/Merge Jobs have a variety of possible uses:
-Create a Duplicate Job so you can use it for analysis 
-Within a single Record Group, perform multiple, small harvests, and then Merge them into one large Job in preparation for publishing
-Merge Jobs are the only Job type that can pull Jobs from across Organizations or Record Groups
-Analysis Jobs, in reality, are Merge Jobs behind-the-scenes 
-Separate a subset of valid or invalid records from a Job to allow more precise Transformation or Analysis Jobs
+
+<ul>
+  <li>Create a Duplicate Job so you can use it for analysis</li> 
+  <li>Within a single Record Group, perform multiple, small harvests, and then Merge them into one large Job in preparation for publishing</li>
+  <li>Merge Jobs are the only Job type that can pull Jobs from across Organizations or Record Groups</li>
+  <li>Analysis Jobs, in reality, are Merge Jobs behind-the-scenes</li> 
+  <li>Separate a subset of valid or invalid records from a Job to allow more precise Transformation or Analysis Jobs</li>
+</ul>
+
 That last use case--separating a subset of valid/invalid records from a Job deserves more explanation.  In that scenario you could: 
-With a Duplicate/Merge Job, select only invalid Records from Job A and use them to create Job B
-Apply a Transform Job to Job B to fix those Records’ validation problems. Then Merge the valid Records from Job A with the now valid records from Job B to create Job C
+
+<ul>
+  <li>With a Duplicate/Merge Job, select only invalid Records from Job A and use them to create Job B</li>
+  <li>Apply a Transform Job to Job B to fix those Records’ validation problems. Then Merge the valid Records from Job A with the now valid records from Job B to create Job C</li>
+</ul>
 
 Creating a ‘Job B’ of invalid Records from Job A; applying a Transform Job only to those invalid Records; and then merging Job A and Transformed Job B together into a fully valid Job C
 
