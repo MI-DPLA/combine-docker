@@ -2,54 +2,77 @@
 layout: default
 title: Data Model
 ---
-Configuration
+<h1>Configuration</h1>
+
 Combine relies heavily on front-loading configuration so running Jobs can be a relatively simple process of selecting pre-existing “scenarios” that have already been tested and configured.
 This section covers configuration options and their pages:
-OAI-PMH Harvesting Endpoints
-Transformation Scenarios
-Validation Scenarios
-Organizations
-Record Identifier Transformation Scenarios (RITS)
-Built-In OAI-PMH server
+
+<ul>
+  <li>OAI-PMH Harvesting Endpoints</li>
+  <li>Transformation Scenarios</li>
+  <li>Validation Scenarios</li>
+  <li>Organizations</li>
+  <li>Record Identifier Transformation Scenarios (RITS)</li>
+  <li>Built-In OAI-PMH server</li>
+</ul>
+
 Previous versions of  Combine relied on  Django’s built-in admin interface for editing and creating transformations, validations, and other scenarios. These can now be created with the current Combine interface, but a link to the Django admin panel can still be found on the Configuration page for users who prefer to use it. .
+
 Settings that cannot be configured by the GUI in Combine, are accessible in the file combine/localsettings.py.
-OAI-PMH Server Endpoints
+
+<h2>OAI-PMH Server Endpoints</h2>
+
 The first step in harvesting is to configure OAI endpoints. This can be done in two places: 
-“OAI Endpoints for Harvest” on the Configuration page
-“OAI endpoints” on the Django administration page
+
+<ul>
+  <ili>“OAI Endpoints for Harvest” on the Configuration page</li>
+  <li>“OAI endpoints” on the Django administration page</li>
+</ul>
+
 Both locations present a workflow and require information that should be familiar to users who have worked with OAI feeds before. 
+
 In both places the same fields are required, with some exceptions as noted below:
-Name - A human readable name for the OAI endpoint. This will be included in a dropdown menu selected when running a harvest
-Endpoint - A URL for the OAI server endpoint. This should include the full URL up to, but not including, the GET parameters that begin with a question mark.
-Verb - The OAI-PMH verb that will be used for harvesting. The value here is almost always ListRecords so that appears as a default in the Django admin page, though not in the Combine interface. 
-MetadataPrefix - Another OAI-PMH term, this indicates the metadata schema being used by the endpoint. 
-Scope type - Not an OAI term, this refers to what kind of harvesting should be performed. There are three options: 
-“Harvest records from all sets” (harvestAllSets):   This will harvest all of the comma separated sets available from that endpoint. 
-“Comma separated lists of sets to include in the harvest” 
-“Comma separated lists of sets to exclude from the harvest” blacklist - Comma separated list of OAI sets to exclude from harvesting.
-Scope value - This string is used in conjunction with the Scope type above.
-If the Scope type is “harvestAllSets,” this value should be left as “true”
-If the Scope type is “include” or “exclude” this value should list the sets that are desired or not desired from the endpoint.
+
+<ul>
+  <li>Name - A human readable name for the OAI endpoint. This will be included in a dropdown menu selected when running a harvest
+  <li>Endpoint - A URL for the OAI server endpoint. This should include the full URL up to, but not including, the GET parameters that begin with a question mark.
+  <li>Verb - The OAI-PMH verb that will be used for harvesting. The value here is almost always ListRecords so that appears as a default in the Django admin page, though not in the Combine interface. 
+  <li>MetadataPrefix - Another OAI-PMH term, this indicates the metadata schema being used by the endpoint. 
+  <li>Scope type - Not an OAI term, this refers to what kind of harvesting should be performed. There are three options: 
+  <li>“Harvest records from all sets” (harvestAllSets):   This will harvest all of the comma separated sets available from that endpoint. 
+  <li>“Comma separated lists of sets to include in the harvest” 
+  <li>“Comma separated lists of sets to exclude from the harvest” blacklist - Comma separated list of OAI sets to exclude from harvesting.
+  <li>Scope value - This string is used in conjunction with the Scope type above.
+  <li>If the Scope type is “harvestAllSets,” this value should be left as “true”
+  <li>If the Scope type is “include” or “exclude” this value should list the sets that are desired or not desired from the endpoint.
+</ul>
+
 Once an OAI endpoint has been added it will be included in a table on the Combine Configuration page, in a corresponding page in a Django admin page, and  in the dropdown menu displayed on the Harvest page
-Question: What should I do if my OAI endpoint has no sets?
+
+<s>Question:</s> What should I do if my OAI endpoint has no sets?
 In the event that your OAI endpoint does not have sets, or there are records you would like to harvest that may not belong to a set, choose the “harvestAllSets” option from the dropdown menu on the Harvest page. This effectively unsets the Scope Type and Scope Value, triggering the DPLA Ingestion 3 OAI harvester to harvest all records. 
-Organizations
+
+<h2>Organizations</h2>
+
 Organizations are not included on Combine’s Configuration page, but you will need to define them at some point in your Configuration process. When you do this is up to you, but it would be a natural next step after configuring Endpoints. 
 A link to the Organizations page appears on the left of the gray administration bar at the top of Combine’s display.  (Be careful not to confuse this page with Combine’s ‘Welcome’ page, which also displays your configured Organizations, although this page also provides a link to the actual Organizations page.) 
 At the bottom of the Organizations page there is a section called “Create new Organization.” Simply add a Name and Description in the appropriate fields and press the green button. That will take you to another page which will prompt you to provide a name for that Organization’s first Record Group. Pressing the green button here will take you in turn to that Record Group’s page, and so on through the configuration process. 
 With your Organizations configured, you can move on to Transformations.
 
-Transformation Scenarios
+<h2>Transformation Scenarios</h2>
+
 Transformation Scenarios are used to transform the XML of Records in a Transformation Job. Note the distinction between ‘Scenario’ and ‘Job’ here. The Scenario includes the XSLT markup or the code that will be used to make a set of changes. The Job is a particular instance when such a set of changes are applied to the Records in a given Record Group. 
 Combine currently supports transformation by XSLT. Some preliminary work has been done on creating Transformation Scenarios that would rely on Python code snippets or actions performed in Open Refine, but these require additional development and testing to ensure their reliability and would need to avoid introducing vulnerabilities to Combine’s security. 
 Combine can perform multiple transformations on the same Record, “chaining” them together as separate Jobs. For example, Transformation A could map a metadata schema used by a contributing institution to a different metadata schema used by its state’s service hub. Transformation B could then fix some particular date formats. Finally, Transformation C could look for a particular identifier field and create a new field based on it. Each of these transformations would make use of a different Transformation Scenario and run as a separate Job in Combine, but a user could “chain” their effects by applying them one-after-another to the Records of a particular Record Group. 
 Transformation Scenarios can be added using the Django Administration page or using the Combine Configuration page, which is the recommended method. Transformations require the following information:
-Name: A human readable name for Transformation Scenario
-Transformation Code/Payload: This is where the actual transformation code is added (more on the different types below)
-Transformation Type: XSLT Stylesheet,
-Filepath (Django only): This may be ignored. In earlier versions, some  Transformation Scenarios were written to disk, but this has been deprecated in the current version. 
-Use as Include (checkbox): Check this box when the Transformation Scenario is intended to be used within another Scenario. This is a complex XSLT option, and can be ignored by most users.
 
+<ul>
+  <li>Name: A human readable name for Transformation Scenario</li>
+  <li>Transformation Code/Payload: This is where the actual transformation code is added (more on the different types below)</li>
+  <li>Transformation Type: XSLT Stylesheet,</li>
+  <li>Filepath (Django only): This may be ignored. In earlier versions, some  Transformation Scenarios were written to disk, but this has been deprecated in the current version. </li>
+  <li>Use as Include (checkbox): Check this box when the Transformation Scenario is intended to be used within another Scenario. This is a complex XSLT option, and can be ignored by most users.</li>
+</ul>
 
 
 
@@ -64,19 +87,30 @@ Screenshot of a Transformation Validation test
 
 
 In this screenshot, a few things are happening:
-a single Record has been clicked from the sortable, searchable table, indicating it will be used for the Transformation testing
-a pre-existing Transformation Scenario has been selected from the dropdown menu, automatically populating the payload and transformation type inputs
-however, a user may also add or edit the payload and transformation types live here, for testing purposes
-at the very bottom, you can see the immediate results of the Transformation as applied to the selected Record
-Currently, there is no way to save changes to a Transformation Scenario, or add a new one, from this screen, but it allows for real-time testing of Transformation Scenarios.
 
-XSLT Transformations using an Include or Import
+<ul>
+  <li>a single Record has been clicked from the sortable, searchable table, indicating it will be used for the Transformation testing</li>
+  <li>a pre-existing Transformation Scenario has been selected from the dropdown menu, automatically populating the payload and transformation type inputs</li>
+  <li>however, a user may also add or edit the payload and transformation types live here, for testing purposes</li>
+  <li>at the very bottom, you can see the immediate results of the Transformation as applied to the selected Record</li>
+</ul>
+
+<em>Currently, there is no way to save changes to a Transformation Scenario, or add a new one, from this screen, but it allows for real-time testing of Transformation Scenarios.</em>
+
+<h3>XSLT Transformations using an Include or Import</h3>
+
 XSLT transformations are performed by a small XSLT processor servlet called via pyjxslt. Pyjxslt uses a built-in Saxon HE XSLT processor that supports XSLT 2.0.
 When creating an XSLT Transformation Scenario, one important thing to consider are XSLT includes and imports. XSL stylesheets allow the inclusion of other, external stylesheets. Usually, these includes come in two flavors:
-locally on the same filesystem, e.g. <xsl:include href="mimeType.xsl"/>
-remote, retrieved via HTTP request, e.g. <xsl:include href="http://www.loc.gov/standards/mods/inc/mimeType.xsl"/>
+
+<ul>
+  <li>locally on the same filesystem, e.g. <xsl:include href="mimeType.xsl"/></li>
+  <li>remote, retrieved via HTTP request, e.g. <xsl:include href="http://www.loc.gov/standards/mods/inc/mimeType.xsl"/></li>
+</ul>
+
 In Combine, the primary XSL stylesheet provided for a Transformation Scenario is uploaded to the pyjxslt servlet to be run by Spark. This has the effect of breaking an XSL include that uses a local, filesystem href. Additionally, depending on server configurations, pyjxslt sometimes has trouble accessing a remote XSL include. Combine provides workarounds for both cases.
-Using a local Include
+
+<h3>Using a local Include</h3>
+
 For XSL stylesheets that require local, filesystem include s, Combine offers a workaround by allowing the user to create a Transformation Scenario for each XSL stylesheet that is imported by the primary stylesheet. Then, use the local filesystem path that Combine creates for that Transformation Scenario, and update the <xsl:include> in the original stylesheet with this new location on disk.
 For example, let’s imagine a stylesheet called DC2MODS.xsl that has the following <xsl:include> s:
 <xsl:include href="dcmiType.xsl"/>
@@ -96,11 +130,16 @@ This Filepath value can then be used to replace the original <xsl:include> s in 
 
 
 
-Using a remote Include
+<h3>Using a remote Include</h3>
+
 When the href s for XSL includes s are remote HTTP URLs, Combine attempts to rewrite the primary XSL stylesheet automatically by:
-downloading the external, remote include s from the primary stylesheet
-saving them locally
-rewriting the <xsl:include> element with this local filesystem location
+
+<ul>
+  <li>downloading the external, remote include s from the primary stylesheet</li>
+  <li>saving them locally</li>
+  <li>rewriting the <xsl:include> element with this local filesystem location</li>
+</ul>
+
 This has the added advantage of effectively caching the remote include, such that it is not retrieved each transformation.
 For example, let’s imagine our trusty stylesheet called DC2MODS.xsl, but with this time external, remote URLs for href s:
 <xsl:include href="http://www.loc.gov/standards/mods/inc/dcmiType.xsl"/>
@@ -110,23 +149,27 @@ With no action by the user, when this Transformation Scenario is saved, Combine 
 <xsl:include href="/home/combine/data/combine/transformations/dcmiType.xsl"/>
 <xsl:include href="/home/combine/data/combine/transformations/mimeType.xsl"/>
 
-Note: If stylesheets that remote include s rely on external stylesheets that may change or update, the primary Transformation stylesheet – e.g. DC2MODS.xsl – will have to be re-entered, with the original URLs, and re-saved in Combine to update the local dependencies.
+<s>Note:</s> If stylesheets that remote include s rely on external stylesheets that may change or update, the primary Transformation stylesheet – e.g. DC2MODS.xsl – will have to be re-entered, with the original URLs, and re-saved in Combine to update the local dependencies.
 
-Validation Scenarios
+<h2>Validation Scenarios</h2>
+
 Validations are not separate Jobs. Instead, a user can add a Validation Scenario to a Harvest or Transformation Job by selecting a “Validation Test” as part of the workflow when creating either type of Job. 
 Validation Scenarios can be created using the Django Administration page or using the Combine Configuration page, which is the recommended method. Scenarios can take the following formats: XML Schema (XSD), Schematron, and ElasticSearch Query DSL. Python code snippets could be another option, but that would require additional development before they can be supported in a safe and reliable manner.
 Transformations require the following information:
-Name - A human readable name for the Validation Scenario.
-Validation Code/Payload - The actual code for the Validation should be pasted into this box.
-Validation type - A drop down menu offers Schematron, ElasticSearch Query DSL, or XSL Search. The Django administration page dropdown also includes Python Code Snippet, but as noted above, this option is currently deprecated.
-Filepath (Django only) - This may be ignored. In earlier versions, some Validation Scenarios were written to disk, but this has been deprecated in the current version. 
-Default run - if selected, the Validation Scenario will be automatically checked when running a new Job
 
+<ul>
+  <li>Name - A human readable name for the Validation Scenario.
+  <li>Validation Code/Payload - The actual code for the Validation should be pasted into this box.</li>
+  <li>Validation type - A drop down menu offers Schematron, ElasticSearch Query DSL, or XSL Search. The Django administration page dropdown also includes Python Code Snippet, but as noted above, this option is currently deprecated.</li>
+  <li>Filepath (Django only) - This may be ignored. In earlier versions, some Validation Scenarios were written to disk, but this has been deprecated in the current version.</li>
+  <li>Default run - if selected, the Validation Scenario will be automatically checked when running a new Job</li>
+</ul>
 
 Combine interface form for creating a new Validation Scenario
 
 
-Scenarios and Tests
+<h3>Scenarios and Tests</h3>
+
 Validation Scenarios are flexible. One Job might include multiple Scenarios with each Scenario running a single test on every Record. Or the Job could include one Validation Scenario that includes all of the tests bundled together. 
 For example, a user could create a Validation Scenario “A” that includes a “test 1” for the DPLA’s required metadata and a “test 2” for a preferred date format. Then she could create a Validation Scenario “B” including a “test 3” for language metadata and a “test 4” for location metadata. Now that she has both Scenarios configured, she creates “Job 01,” selecting both Scenarios, and then runs the Job which applies all four tests to each Record. 
 The choice whether to put each test in its own Scenario or to include multiple tests in one Scenario is up to the user’s preference. Given how Spark passes Records to Validation Scenarios in Combine, there is some reason to think that including multiple Scenarios in a single Job may degrade performance more than bundling all of the desired tests into a single Scenario. But more testing will be needed to confirm this.
@@ -137,19 +180,29 @@ Combine interface page for testing a Validation scenario
 
 
 In this screenshot, we can see the following:
-The user has selected one Record from the table to use for testing the Validation Scenario. The user can only select one Record for testing, but the table can be sorted and searched to find a specific Record.
-A drop down menu allows the user to select one of the Validation Scenarios previously configured for this instance of Combine. When selected, that Scenario populated the ‘payload’ field. 
-A user may choose to edit or input their own validation payload here, but that payload will not be saved, only used for testing. 
-A second drop down menu allows the user to select the Validation Scenario type (Schematron, ElasticSearch Query DSL, or XSL Search) 
+
+<ul>
+  <li>The user has selected one Record from the table to use for testing the Validation Scenario. The user can only select one Record for testing, but the table can be sorted and searched to find a specific Record.
+  <li>A drop down menu allows the user to select one of the Validation Scenarios previously configured for this instance of Combine. When selected, that Scenario populated the ‘payload’ field. 
+  <li>A user may choose to edit or input their own validation payload here, but that payload will not be saved, only used for testing. 
+  <li>A second drop down menu allows the user to select the Validation Scenario type (Schematron, ElasticSearch Query DSL, or XSL Search) 
+</ul>
 
 The results of the test will appear at the bottom of the page two areas:
-Parsed Validation Results - These show the tests that have passed and failed, and also give a total count of failures
-Raw Validation Results - These results will depend on the type of Scenario selected. 
 
-Validation Scenario Types
-XML Schema (XSD)
+<ul>
+  <li>Parsed Validation Results - These show the tests that have passed and failed, and also give a total count of failures</li>
+  <li>Raw Validation Results - These results will depend on the type of Scenario selected.</li>
+</ul>
+
+<h2>Validation Scenario Types</h2>
+
+<h3>XML Schema (XSD)</h3>
+
 One limitation of XML Schema is that many Python-based validators will stop with the first error encountered in a document, meaning the resulting Validation failure will only show the first invalid XML segment encountered, though there may be many. However, knowing that a Record has failed even one part of an XML Schema the user can turn to an external validator to determine if the Record is invalid in other respects. 
-Schematron
+
+<h3>Schematron</h3>
+
 A valid Schematron XML document cay be used as a Validation Scenario on a Record’s raw XML. Schematron validations are rule-based, and in Combine the results will be returned as XML. The XML is parsed, and each distinct, defined test is noted and parsed.
 Below is an example of a small Schematron validation that looks for some fields that are required to make an XML document DPLA compliant:
 
@@ -188,7 +241,8 @@ Below is an example of a small Schematron validation that looks for some fields 
 </schema>
 
 
-ElasticSearch Query DSL
+<h3>ElasticSearch Query DSL</h3>
+
 ElasticSearch Query DSL Validation Scenarios are a bit different. ElasticSearch DSL validates by performing ElasticSearch queries against mapped fields for a Job, and marking Records as valid or invalid based on whether they match those queries. Queries may be written to identify matches as valid, or written to identify matches as invalid.
 Below is an example of ElasticSearch Query DSL:
 
@@ -221,29 +275,40 @@ Below is an example of ElasticSearch Query DSL:
 
 
 This example contains two tests in a single Validation Scenario: the first checks that field “foo” exists, and the second checks that field “bar” does not have the value “baz.” Each test must contain the following properties:
-test_name: a name that the validation can report in case of a failure
-matches: the string being used in the query, either to identify a valid match or an invalid one
-es_query: the raw query
+
+<ul>
+  <li>test_name: a name that the validation can report in case of a failure</li>
+  <li>matches: the string being used in the query, either to identify a valid match or an invalid one</li>
+  <li>es_query: the raw query</li>
+</ul>
+
 ElasticSearch Query DSL supports complex querying (boolean, and/or, fuzzy, regex, etc.).
 
-Record Identifier Transformation Scenarios (RITS)
+<h2>Record Identifier Transformation Scenarios (RITS)</h2>
+
 Another configurable “Scenario” in Combine is a Record Identifier Transformation Scenario or “RITS” for short. A RITS allows the transformation of a Record’s “Record Identifier”. A Record has three identifiers in Combine, with the Record Identifier (record_id) as the only changeable, mutable of the three. The Record ID is what is used for publishing, and for all intents and purposes, the unique identifier for the Record outside of Combine.
 Record Identifiers are created during Harvest Jobs, when a Record is first created. This Record Identifier may come from the OAI server in which the Record was harvested from, it might be derived from an identifier in the Record’s XML in the case of a static harvest, or it may be minted as a UUID4 on creation. Where the Record ID is picked up from OAI or the Record’s XML itself, it might not need transformation before publishing, and can “go out” just as it “came in.” However, there are instances where transforming the Record’s ID can be quite helpful.
 Take the following scenario. A digital object’s metadata is harvested from Repository A with the ID foo, as part of OAI set bar, by Metadata Aggregator A. Inside Metadata Aggregator A, which has its own OAI server prefix of baz considers the full identifier of this record: baz:bar:foo. Next, Metadata Aggregator B harvests this record from Metadata Aggregator A, under the OAI set scrog. Metadata Aggregator B has its own OAI server prefix of tronic. Finally, when a terminal harvester like DPLA harvests this record from Metadata Aggregator B under the set goober, it might have a motley identifier, constructed through all these OAI “hops” of something like: tronic:scrog:goober:baz:bar:foo.
 If one of these hops were replaced by an instance of Combine, one of the OAI “hops” would be removed, and the dynamically crafted identifier for that same record would change. Combine allows the ability to transform the identifier – emulating previous OAI “hops”, completely re-writing them, or making any other transformation to them – through a Record Identifier Transformation Scenario (RITS).
 RITS are performed, just like Transformation Scenarios or Validation Scenarios, for every Record in the Job. RITS may be in the form of:
-Regular Expressions - specifically, python flavored regex
-Python code snippet - a snippet of code that will transform the identifier
-XPATH expression - given the Record’s raw XML, an XPath expression may be given to extract a value to be used as the Record Identifier
-All RITS have the following values:
-Name - Human readable name for RITS
-Transformation type - regex for Regular Expression, python for Python code snippet, or xpath for XPath expression
-Transformation target - the RITS payload and type may use the pre-existing Record Identifier as input, or the Record’s raw, XML record
-Regex match payload - If using regex, the regular expression to match
-Regex replace payload - If using regex, the regular expression to replace that match with (allows values from groups)
-Python payload - python code snippet, that will be passed an instance of a PythonUDFRecord
-Xpath payload - single XPath expression as a string
 
+<ul>
+  <li>Regular Expressions - specifically, python flavored regex</li>
+  <li>Python code snippet - a snippet of code that will transform the identifier</li>
+  <li>XPATH expression - given the Record’s raw XML, an XPath expression may be given to extract a value to be used as the Record Identifier</li>
+</ul>
+
+All RITS have the following values:
+
+<ul>
+  <li>Name - Human readable name for RITS
+  <li>Transformation type - regex for Regular Expression, python for Python code snippet, or xpath for XPath expression</li>
+  <li>Transformation target - the RITS payload and type may use the pre-existing Record Identifier as input, or the Record’s raw, XML record</li>
+  <li>Regex match payload - If using regex, the regular expression to match</li>
+  <li>Regex replace payload - If using regex, the regular expression to replace that match with (allows values from groups)</li>
+  <li>Python payload - python code snippet, that will be passed an instance of a PythonUDFRecord</li>
+  <li>Xpath payload - single XPath expression as a string</li>
+</ul>
 
 Django admin form for adding a Record Identifier Transformation Scenario (RITS)
 
@@ -255,7 +320,9 @@ Form on the Configuration page for creating a Record Identifier Transformation S
 Payloads that do not pertain to the Transformation type may be left blank (e.g. if using python code snippet, regex match and replace payloads, and xpath payloads, may be left blank).
 Similar to Transformation and Validation scenarios, RITS can be tested by clicking the “Test Record Identifier Transformation Scenario” button at the bottom. You will be presented with a familiar screen of a table of Records, and the ability to select a pre-existing RITS, edit that RITS, and/or create a new one. Similarly, without the ability to update or save a new one, merely to test the results of one.
 These different types will be outline in a bit more detail below.
-Regular Expression
+
+<h3>Regular Expression</h3>
+
 If transforming the Record ID with regex, two “payloads” are required for the RITS scenario: a match expression, and a replace expression. Also of note, these regex match and replace expressions follow the python convention of regex matching, performed with python’s re.sub().
 The screenshot belows shows an example of a regex match / replace used to replace digital.library.wayne.edu with goober.tronic.org, also highlighting the ability to use groups:
 
@@ -264,7 +331,10 @@ Example of a RITS with a Regular Expression
 
 
 A contrived example, this shows a regex expression applied to the input Record identifier of oai:digital.library.wayne.edu:wayne:Livingto1876b22354748`.
-Python Code Snippet
+
+
+<h3>Python Code Snippet</h3>
+
 Python code snippets for RITS operate similarly to Transformation and Validation scenarios in that the python code snippet is given an instance of a PythonUDFRecord for each Record. However, it differs slightly in that if the RITS Transformation target is the Record ID only, the PythonUDFRecord will have only the .record_id attribute to work with.
 For a python code snippet RITS, a function named transform_identifier is required, with a single unnamed, passed argument of a PythonUDFRecord instance. An example may look like the following:
 
@@ -295,17 +365,21 @@ And a screenshot of this RITS in action:
 Example of a RITS with a Python code snippet
 
 
-XPath Expression
+<h3>XPath Expression</h3>
+
 Finally, a single XPath expression may be used to extract a new Record Identifier from the Record’s XML record. Note: The input must be the Record’s Document, not the current Record Identifier, as the XPath must have valid XML to retrieve a value from. Below is a an example screenshot:
 
 
 Example of a RITS with an XPath expression
 
 
-Built-In OAI-PMH Server
-Combine comes with a built-in OAI-PMH server to serve published Records. Configurations for the OAI server, at this time, are not configured with Django’s admin, but may be found in combine/localsettings.py. These settings include:
-OAI_RESPONSE_SIZE - How many records to return per OAI paged response
-COMBINE_OAI_IDENTIFIER - It is common for OAI servers (producers) to prefix Record identifiers on the way out with an identifier unique to the server. This setting can also be configured to mirror the identifier used in other/previous OAI servers to mimic downstream identifiers
+<h2>Built-In OAI-PMH Server</h2>
 
+Combine comes with a built-in OAI-PMH server to serve published Records. Configurations for the OAI server, at this time, are not configured with Django’s admin, but may be found in combine/localsettings.py. These settings include:
+
+<ul>
+  <li>OAI_RESPONSE_SIZE - How many records to return per OAI paged response</li>
+  <li>COMBINE_OAI_IDENTIFIER - It is common for OAI servers (producers) to prefix Record identifiers on the way out with an identifier unique to the server. This setting can also be configured to mirror the identifier used in other/previous OAI servers to mimic downstream identifiers</li>
+</ul>
 <p>Next: <a href="/combine-docker/runningjobs">Running Jobs</a></p>
 
