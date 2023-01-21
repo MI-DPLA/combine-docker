@@ -4,18 +4,21 @@ title: Data Model
 ---
 <h1>Installing Combine</h1>
 
-Combine has a number of server components, dependencies, and configurations that must be in place to work, as it leverages Apache Spark, among other applications, for processing on the backend. Combine installation using Docker manages most (but not all) of these dependencies for you.
-The complete Linux Combine installation instructions are available as the last section on this page. The overview below is a good starting point for understanding the broad process.
+<p>Combine has a number of server components, dependencies, and configurations that must be in place to work, as it leverages Apache Spark, among other applications, for processing on the backend. Combine installation using Docker manages most (but not all) of these dependencies for you.</p>
+
+<p>The complete Linux Combine installation instructions are available as the last section on this page. The overview below is a good starting point for understanding the broad process.</p>
 
 <h3>Docker</h3>
 
-A GitHub repository Combine-Docker exists to help stand up an instance of Combine as a set of interconnected Docker containers. This repository provides a "Dockerized" version of Combine. Combine is a Django application to facilitate the harvesting, transformation, analysis, and publishing of metadata records by Service Hubs for inclusion in the Digital Public Library of America (DPLA). The Combine-Docker repository includes detailed instructions for installing Combine on a linux server.
+A GitHub repository Combine-Docker exists to help stand up an instance of Combine as a set of interconnected Docker containers. This repository provides a "Dockerized" version of Combine. Combine is a Django application to facilitate the harvesting, transformation, analysis, and publishing of metadata records by Service Hubs for inclusion in the Digital Public Library of America (DPLA). The Combine-Docker repository includes detailed instructions for installing Combine on a linux server.</p>
 
 <h3>How does it work?</h3>
 
-Major components that support Combine have been broken out into distinct Docker images and containers. Using Docker Compose, each of these major components is associated with a Docker Compose service. Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).
-Docker Compose provides a way to interact with all the containers that support Combine at once, even providing some improved ability to view logs, restart services, etc.
-The file docker-compose.yml contains most of the instructions used to describe the services and dependencies that comprise combine-docker.
+<p>Major components that support Combine have been broken out into distinct Docker images and containers. Using Docker Compose, each of these major components is associated with a Docker Compose service. Some share base images, others are pulled from 3rd party Docker images (like ElasticSearch and Mongo).</p>
+
+<p>Docker Compose provides a way to interact with all the containers that support Combine at once, even providing some improved ability to view logs, restart services, etc.</p>
+
+<p>The file docker-compose.yml contains most of the instructions used to describe the services and dependencies that comprise combine-docker.</p>
 
 <h2>Installation Overview</h2>
 
@@ -23,28 +26,35 @@ The file docker-compose.yml contains most of the instructions used to describe t
 
 <strong>Downloading combine-docker</strong>
 
-Windows only: An important git config before you download code!
-Before you clone the repository on Windows, ensure that you have your git configured not to add Windows-style line endings. I believe you can do this by setting:
-git config --global core.autocrlf false
+<p>Windows only: An important git config before you download code!</p>
+
+<p>Before you clone the repository on Windows, ensure that you have your git configured not to add Windows-style line endings. I believe you can do this by setting:</p>
+
+<p>git config --global core.autocrlf false</p>
 
 <strong>Clone combine-docker</strong>
 
-The first install step is to clone this repository and move into it:
+<p>The first install step is to clone this repository and move into it:</p>
 
-git clone https://github.com/mi-dpla/combine-docker.git
-cd combine-docker
+<p>git clone https://github.com/mi-dpla/combine-docker.git</p>
+
+<p>cd combine-docker</p>
 
 <h3>Initializing combine-docker</h3>
 
-The complete instructions include important information on upgrading an existing Combine server. Using the detailed instructions is strongly recommended. The complete Linux Combine installation instructions are available as the last section on this page.
+<p>The complete instructions include important information on upgrading an existing Combine server. Using the detailed instructions is strongly recommended. The complete Linux Combine installation instructions are available as the last section on this page.</p>
 
 <strong>Abbreviated Instructions</strong>
 
-NOTE: All of the scripts assume you are building on Ubuntu 18.04 LTS.
-Windows only: In the next step run build.ps1 instead of build.sh
-Next, run the build.sh script:
-./build.sh
-Note: This script may take some time, anywhere from 5-20 minutes depending on your hardware. This script accomplishes a few things:
+<p><strong>NOTE:</strong> All of the scripts assume you are building on Ubuntu 18.04 LTS.</p>
+
+<p>Windows only: In the next step run build.ps1 instead of build.sh</p>
+
+<p>Next, run the build.sh script:</p>
+
+<p>./build.sh</p>
+
+<p><strong>Note:</strong> This script may take some time, anywhere from 5-20 minutes depending on your hardware. This script accomplishes a few things:</p>
 
 <ul>
   <li>initializes Combine Django app as Git submodule at ./combine/combine</li>
@@ -54,254 +64,303 @@ Note: This script may take some time, anywhere from 5-20 minutes depending on yo
 
 <h3>Configuration</h3>
 
-Once a build is complete, configurations may be performed on Combine's localsettings.py. This file is found at ./combine/combine/combine/localsettings.py. This file will be maintained between upgrades.
+<p>Once a build is complete, configurations may be performed on Combine's localsettings.py. This file is found at ./combine/combine/combine/localsettings.py. This file will be maintained between upgrades.</p>
 
 <h2>Running and Managing</h2>
 
-Ensuring that first_build.sh (or update_build.sh if appropriate) has been run, fire up all containers with the following:
-docker-compose up -d
-Logs can be viewed with the logs command, again, selecting all services, or a subset of:
-tail all logs: docker-compose logs -f
-tail logs of specific services: docker-compose logs -f combine-django combine-celery livy
-As outlined in the Combine-Docker Containers section all services, or a subset of, can be restarted as follows:
-To restart Combine Django app, background tasks Celery, and Livy: docker-compose restart combine-django combine-celery
-To restart everything: docker-compose restart
-To stop all services and containers (Reminder: Do not include -v or --volumes flags, as these will wipe ALL data from Combine) Just use: docker-compose down
-To view stats of containers: docker stats
+<p>Ensuring that first_build.sh (or update_build.sh if appropriate) has been run, fire up all containers with the following:</p>
+
+<p>docker-compose up -d</p>
+
+<p>Logs can be viewed with the logs command, again, selecting all services, or a subset of:</p>
+
+<p>tail all logs: docker-compose logs -f</p>
+
+<p>tail logs of specific services: docker-compose logs -f combine-django combine-celery livy</p>
+
+<p>As outlined in the Combine-Docker Containers section all services, or a subset of, can be restarted as follows:</p>
+
+<p>To restart Combine Django app, background tasks Celery, and Livy: docker-compose restart combine-django combine-celery</p>
+
+<p>To restart everything: docker-compose restart</p>
+
+<p>To stop all services and containers (Reminder: Do not include -v or --volumes flags, as these will wipe ALL data from Combine) Just use: docker-compose down</p>
+
+<p>To view stats of containers: docker stats</p>
 
 <h2>Basic Operations</h2>
 
-This section assumes that combine installation was successful and the server web page is available at http://<server>.<domain>/combine which we will indicate simply with combine.
+<p>This section assumes that combine installation was successful and the server web page is available at http://<server>.<domain>/combine which we will indicate simply with combine.</p>
 
 <h2>SSHing into server</h2>
 
-The most reliable way is to ssh into the server as an administrative user who can authenticate themselves:
-ssh <username>@<server>.<domain>
+<p>The most reliable way is to ssh into the server as an administrative user who can authenticate themselves:</p>
+
+<p>ssh <username>@<server>.<domain></p>
 
 <h2>Starting / Stopping Combine</h2>
 
 <h3>Docker-Compose</h3>
 
-Once Combine is installed, docker-compose commands are used to start and stop the application. In the /opt/combine-docker directory use:
+<p>Once Combine is installed, docker-compose commands are used to start and stop the application. In the /opt/combine-docker directory use:</p>
 
-The command docker-compose up to start combine and
+<p>The command docker-compose up to start combine and</p>
 
-docker-compose down to stop combine.
+<p>docker-compose down to stop combine.</p>
 
-You can confirm that Combine is running by visiting http://combine, where you should be prompted to login with a username and password. For default/testing installations, you can use combine / combine for these credentials.
+<p>You can confirm that Combine is running by visiting http://combine, where you should be prompted to login with a username and password. For default/testing installations, you can use combine / combine for these credentials.</p>
 
 <h3>Livy Sessions</h3>
 
-Combine makes use of the DPLA’s Ingestion 3 codebase where possible.  Like Ingestion 3, it relies on Apache Spark to process large numbers of records. Spark is a fast and general processing engine that can handle thousands of metadata records quickly. Apache Livy is a service that enables easy interaction with a Spark service over a REST interface. It enables easy submission and monitoring of Spark jobs from Combine.
-This architecture allows users to submit records to Livy jobs (and hence to Spark) for batch processing and it makes Combine relatively fast and efficient, but adds a level of complexity by requiring Livy to run.
-In Combine, only one active Livy Session is allowed at a time. This is partially for performance reasons, to keep Livy from consuming all of the server’s resources, and partially to ensure that Spark Jobs are run in an order
-To run any Jobs, Combine relies on an active (idle) Apache Livy session. Livy is what makes running Spark jobs possible via the request/response cycle of a Django application.
-Currently, users are responsible for determining if the Livy session is ready.
-To check and/or start a new Livy session, select the System: Spark item in the navigation bar. The important column is status which should read idle. If not, click Stop or Remove under the actions column, and once stopped, click the start new session button near the top.
-Removing and creating a new Spark Session will usually be unnecessary, but a user can resort to that option if the current Session cannot be restarted.
+<p>Combine makes use of the DPLA’s Ingestion 3 codebase where possible.  Like Ingestion 3, it relies on Apache Spark to process large numbers of records. Spark is a fast and general processing engine that can handle thousands of metadata records quickly. Apache Livy is a service that enables easy interaction with a Spark service over a REST interface. It enables easy submission and monitoring of Spark jobs from Combine.</p>
+
+<p>This architecture allows users to submit records to Livy jobs (and hence to Spark) for batch processing and it makes Combine relatively fast and efficient, but adds a level of complexity by requiring Livy to run.</p>
+
+<p>In Combine, only one active Livy Session is allowed at a time. This is partially for performance reasons, to keep Livy from consuming all of the server’s resources, and partially to ensure that Spark Jobs are run in an order</p>
+
+<p>To run any Jobs, Combine relies on an active (idle) Apache Livy session. Livy is what makes running Spark jobs possible via the request/response cycle of a Django application.</p>
+
+<p>Currently, users are responsible for determining if the Livy session is ready.</p>
+
+<p>To check and/or start a new Livy session, select the System: Spark item in the navigation bar. The important column is status which should read idle. If not, click Stop or Remove under the actions column, and once stopped, click the start new session button near the top.</p>
+
+<p>Removing and creating a new Spark Session will usually be unnecessary, but a user can resort to that option if the current Session cannot be restarted.</p>
+
+
+<p>Livy takes anywhere from 10-20 seconds to start and become idle.</p>
 
 
 
- Livy takes anywhere from 10-20 seconds to start and become idle.
-
-
-
-
-You can check the status of the Livy session at a glance from the Combine navigation bar, where the workSpark next to System should have a green colored lettering if active or red if it is not active.
+<p>You can check the status of the Livy session at a glance from the Combine navigation bar, where the workSpark next to System should have a green colored lettering if active or red if it is not active.</p>
 
 <h2>Troubleshooting</h2>
 
-Undoubtedly, things might go sideways! As Combine is still quite rough around some edges, here are some common gotchas you may encounter.
+<p>Undoubtedly, things might go sideways! As Combine is still quite rough around some edges, here are some common gotchas you may encounter.</p>
 
 <strong>ElasticSearch container dies because of vm.max_map_count</strong>
 
-Depending on machine and OS (Linux, Mac, Windows), might need to bump vm.max_map_count on Docker host machine (seems to be particularly true on older ones):https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode
+<p>Depending on machine and OS (Linux, Mac, Windows), might need to bump vm.max_map_count on Docker host machine (seems to be particularly true on older ones):https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode</p>
 
 <strong>Port collision error: port is already allocated</strong>
 
-By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can be turned off selectively (or changed) if you have services running on your host that conflict. Look for the ports section for each service in the docker-compose.yml to enable or disable them.
+<p>By default, nearly all relevant ports are exposed from the containers that conspire to run Combine, but these can be turned off selectively (or changed) if you have services running on your host that conflict. Look for the ports section for each service in the docker-compose.yml to enable or disable them.</p>
 
-java.lang.ClassNotFoundException: org.elasticsearch.hadoop.mr.LinkedMapWritable
+<p>java.lang.ClassNotFoundException: org.elasticsearch.hadoop.mr.LinkedMapWritable</p>
 
-Make sure that the elasticsearch-hadoop-x.y.z.jar in combinelib matches the version specified in the ELASTICSEARCH_HADOOP_CONNECTOR_VERSION environment variable configured in your .env.
+<p>Make sure that the elasticsearch-hadoop-x.y.z.jar in combinelib matches the version specified in the ELASTICSEARCH_HADOOP_CONNECTOR_VERSION environment variable configured in your .env.</p>
 
 <h3>Run a job, status immediately flip to available, and has no records</h3>
 
-The best way to diagnose why a job may have failed, from the RecordGroup screen, is to click “Livy Statement” link under the Monitor column. This returns the raw output from the Spark job, via Livy which dispatches jobs to Spark.
-A common error is a stale Livy connection, specifically its MySQL connection, which is revealed at the end of the Livy statement output by:
-MySQL server has gone away
-This can be fixed by restarting the Livy session.
+<p>The best way to diagnose why a job may have failed, from the RecordGroup screen, is to click “Livy Statement” link under the Monitor column. This returns the raw output from the Spark job, via Livy which dispatches jobs to Spark.</p>
+
+<p>A common error is a stale Livy connection, specifically its MySQL connection, which is revealed at the end of the Livy statement output by:</p>
+
+<p>MySQL server has gone away</p>
+
+<p>This can be fixed by restarting the Livy session.</p>
 
 <h3>Cannot start a Livy session</h3>
 
-Information for diagnosing can be found in the Livy logs at /var/log/livy/livy.stderr..
+<p>Information for diagnosing can be found in the Livy logs at /var/log/livy/livy.stderr..</p>
 
 <h2>Updating</h2>
 
-This Dockerized version of Combine supports, arguably, easier version updating because major components, broken out as images and containers, can be readily rebuilt. Much like the repository Combine-Playbook, this repository follows the same versioning as Combine. So checking out the tagged release v0.11.1 for this repository, will build Combine version v0.11.1.
-To update, follow these steps from the Combine-Docker repository root folder:
-# pull new changes to Combine-Docker repository
-git pull
+<p>This Dockerized version of Combine supports, arguably, easier version updating because major components, broken out as images and containers, can be readily rebuilt. Much like the repository Combine-Playbook, this repository follows the same versioning as Combine. So checking out the tagged release v0.11.1 for this repository, will build Combine version v0.11.1.</p>
 
-# checkout desired release, e.g. v0.11.1
-git checkout v0.11.1
+<p>To update, follow these steps from the Combine-Docker repository root folder:</p>
 
-# run update build script
-./update_build.sh
+<p># pull new changes to Combine-Docker repository</p>
 
-# Restart as per normal
-docker-compose up -d
+<p>git pull</p>
+
+<p># checkout desired release, e.g. v0.11.1</p>
+
+<p>git checkout v0.11.1</p>
+
+<p># run update build script</p>
+
+<p>./update_build.sh</p>
+
+<p># Restart as per normal</p>
+
+<p>docker-compose up -d</p>
 
 <h2>Docker Services and Volumes & Binds</h2>
 
-This Dockerized version of Combine includes the following services, where each becomes a single container:
+<p>This Dockerized version of Combine includes the following services, where each becomes a single container:</p>
 
-Service Name
-Notes
-host machine
-not a container, but part of internal network
-elasticsearch
+<table>
+  <tr>
+    <th>Service Name</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <th>host machine</th>
+    <th>not a container, but part of internal network</th>
+  </tr>
+  <tr>
+    <th>elasticsearch</th>
+  </tr>
+  <tr>
+    <th>mongo</th>
+  </tr>
+  <tr>
+    <th>mysql</th>
+  </tr>
+  <tr>
+    <th>redis</th>
+  </tr>
+  <tr>
+    <th>hadoop-namenode</th>
+  </tr>
+  <tr>
+    <th>hadoop-datanode</th>
+  </tr>
+  <tr>
+    <th>spark-master</th>
+    <th>not currently used</th>
+  </tr>
+  <tr>
+    <th>spark-worker</th>
+    <th>not currently used</th>
+  </tr>
+  <tr>
+    <th>combine-django</th>
+  </tr>
+  <tr>
+  	<th>livy</th>
+    <th>location of spark application running in local[*] mode</th>
+  </tr>
+  <tr>
+    <th>combine-celery</th>
+  </tr>
+</table>
 
+<p>The following tables show Docker volumes and binds that are created to support data sharing between containers, and "long-term" data storage. The column Data Storage indicates which volumes act as data stores for Combine and should not be deleted (unless, of course, a fresh installation is desired). Conversely, the column Refreshed on Upgrade shows which tables are removed during builds.  Note: this information is purely for informational purposes only; the build scripts and normal usage of docker-compose up and docker-compose down will not remove these volumes.</p>
 
-mongo
-
-
-mysql
-
-
-redis
-
-
-hadoop-namenode
-
-
-hadoop-datanode
-
-
-spark-master
-not currently used
-spark-worker
-not currently used
-combine-django
-
-
-livy
-location of spark application running in local[*] mode
-combine-celery
-
-
-
-
-The following tables show Docker volumes and binds that are created to support data sharing between containers, and "long-term" data storage. The column Data Storage indicates which volumes act as data stores for Combine and should not be deleted (unless, of course, a fresh installation is desired). Conversely, the column Refreshed on Upgrade shows which tables are removed during builds.  Note: this information is purely for informational purposes only; the build scripts and normal usage of docker-compose up and docker-compose down will not remove these volumes.
-Volume Name
-Type
-Source
-Target
-Data Storage
-RefreshedonUpdate
-AssociatedServices
-esdata
-namedvolume
-n/a
-/usr/share/elasticsearch/data
-TRUE
-
-
-elasticsearch
-mongodata
-namedvolume
-n/a
-/data/db
-TRUE
-
-
-mongo
-mysqldata
-namedvolume
-n/a
-/var/lib/mysql
-TRUE
-
-
-mysql
-hdfs
-namedvolume
-n/a
-/hdfs
-TRUE
-
-
-hadoop-namenode,hadoop-datanode
-combine_home
-namedvolume
-n/a
-/home/combine
-TRUE
-
-
-[spark-cluster-base]
-combine_django_app
-bind
-./combine/combine
-/opt/combine
-
-
-TRUE
-combine-django,combine-celery,livy
-combine_python_env
-namedvolume
-n/a
-/opt/conda/envs/combine
-
-
-TRUE
-combine-django,combine-celery,livy
-hadoop_binaries
-namedvolume
-n/a
-/opt/hadoop
-
-
-TRUE
-[spark-cluster-base]
-spark_binaries
-namedvolume
-n/a
-/opt/spark
-
-
-TRUE
-[spark-cluster-base]
-livy_binaries
-namedvolume
-n/a
-/opt/livy
-
-
-TRUE
-[spark-cluster-base]
-combine_tmp
-namedvolume
-n/a
-/tmp
-
-
-TRUE
-[spark-cluster-base]
-
-
+<table>
+  <tr>
+    <th>Volume Name
+    <th>Type
+    <th>Source
+    <th>Target
+    <th>Data Storage
+    <th>Refreshed on Update
+    <th>Associated Services
+  </tr>
+  <tr>
+    <th>esdata
+    <th>namedvolume
+    <th>n/a
+    <th>/usr/share/elasticsearch/data
+    <th>TRUE
+    <th>
+    <th>elasticsearch
+  </tr>
+  <tr>
+    <th>mongodata
+    <th>namedvolume
+    <th>n/a
+    <th>/data/db
+    <th>TRUE
+    <th>
+    <th>mongo
+  </tr>
+  <tr>
+    <th>mysqldata
+    <th>namedvolume
+    <th>n/a
+    <th>/var/lib/mysql
+    <th>TRUE
+    <th>
+    <th>mysql
+  </tr>
+  <tr>
+    <th>hdfs
+    <th>namedvolume
+    <th>n/a
+    <th>/hdfs
+    <th>TRUE
+    <th>
+    <th>hadoop-namenode,hadoop-datanode
+  </tr>
+  <tr>
+    <th>combine_home
+    <th>namedvolume
+    <th>n/a
+    <th>/home/combine
+    <th>TRUE
+    <th>
+    <th>[spark-cluster-base]
+  </tr>
+  <tr>
+    <th>combine_django_app
+    <th>bind
+    <th>./combine/combine
+    <th>/opt/combine
+    <th>
+    <th>TRUE
+    <th>combine-django,combine-celery,livy
+  </tr>
+  <tr>
+    <th>combine_python_env
+    <th>namedvolume
+    <th>n/a
+    <th>/opt/conda/envs/combine
+    <th>
+    <th>TRUE
+    <th>combine-django,combine-celery,livy
+  </tr>
+  <tr>
+    <th>hadoop_binaries
+    <th>namedvolume
+    <th>n/a
+    <th>/opt/hadoop
+    <th>
+    <th>TRUE
+    <th>[spark-cluster-base]
+  </tr>
+  <tr>
+    <th>spark_binaries
+    <th>namedvolume
+    <th>n/a
+    <th>/opt/spark
+    <th>
+    <th>TRUE
+    <th>[spark-cluster-base]
+  </tr>
+  <tr>
+    <th>livy_binaries
+    <th>namedvolume
+    <th>n/a
+    <th>/opt/livy
+    <th>
+    <th>TRUE
+    <th>[spark-cluster-base]
+  </tr>
+  <tr>
+    <th>combine_tmp
+    <th>namedvolume
+    <th>n/a
+    <th>/tmp
+    <th>
+    <th>TRUE
+    <th>[spark-cluster-base]
+  </tr>
+  
 <h2>Development</h2>
 
-The Combine Django application, where most development efforts are targeted, is a bind mount volume from the location of this cloned repository on disk at ./combine/combine. Though the application is copied to the docker images during build, to support the installation of dependencies, the location /opt/combine is overwritten by this bind volume at docker-compose up or run. This allows live editing of the local folder ./combine/combine, which is updating the folder /opt/combine in services combine-django, combine-celery, and livy.
-The folder ./combine/combine can, for the most part, be treated like a normal GitHub repository. For example, one could checkout or create a new branch, and then push and pull from there.
+<p>The Combine Django application, where most development efforts are targeted, is a bind mount volume from the location of this cloned repository on disk at ./combine/combine. Though the application is copied to the docker images during build, to support the installation of dependencies, the location /opt/combine is overwritten by this bind volume at docker-compose up or run. This allows live editing of the local folder ./combine/combine, which is updating the folder /opt/combine in services combine-django, combine-celery, and livy.</p>
+
+<p>The folder ./combine/combine can, for the most part, be treated like a normal GitHub repository. For example, one could checkout or create a new branch, and then push and pull from there.</p>
 
 <h2>Automated Testing</h2>
-Combine itself has automa
-ted tests. If you want to run them from inside here, you will need to uncomment the ports sections for mysql and mongo in docker-compose.yml, and you will also need to edit your /etc/hosts file to redirect mysql and mongo to 127.0.0.1. This is because the host machine needs to have access to the databases for the Django test runner to set up and tear down around each run.
+
+<p>Combine itself has automated tests. If you want to run them from inside here, you will need to uncomment the ports sections for mysql and mongo in docker-compose.yml, and you will also need to edit your /etc/hosts file to redirect mysql and mongo to 127.0.0.1. This is because the host machine needs to have access to the databases for the Django test runner to set up and tear down around each run.</p>
 
 <h2>Tuning and Configuring Server</h2>
 
-Combine is designed to handle sets of metadata small to large, 400 to 4,000,000 Records. Some of the major associated server components include:
+<p>Combine is designed to handle sets of metadata small to large, 400 to 4,000,000 Records. Some of the major associated server components include:</p>
 
 <ul>
   <li>MySQL</li>
@@ -324,8 +383,9 @@ Combine is designed to handle sets of metadata small to large, 400 to 4,000,000 
   <li>includes deleting, re-indexing, exporting Jobs, etc.</li>
 </ul>
 
-Given the relative complexity of this stack, and the interconnected nature of the components, Combine is designed to be deployed using Docker, which automatically pulls updated component images at installation. which you can read more about here. The default build requires <strong>8g of RAM</strong>, with the more CPU cores the better.
-This part of the documentation aims to explain, and indicate how to modify or configure, some of these critical components.
+<p>Given the relative complexity of this stack, and the interconnected nature of the components, Combine is designed to be deployed using Docker, which automatically pulls updated component images at installation. which you can read more about here. The default build requires <strong>8g of RAM</strong>, with the more CPU cores the better.</p>
+
+<p>This part of the documentation aims to explain, and indicate how to modify or configure, some of these critical components.</p>
 
 <h2>Step by Step Linux Installation Instructions</h2>
 
@@ -333,9 +393,11 @@ This part of the documentation aims to explain, and indicate how to modify or co
 
 <h3>INTRODUCTION</h3>
 
-Combine is an application to facilitate the harvesting, transformation, analysis, and publishing of metadata records by Service Hubs for inclusion in the Digital Public Library of America (DPLA).
-These technical instructions are for metadata experts or system administrators who wish to install Combine on their institution’s servers to process and publish metadata records to DPLA. This version (v0.11) includes a number of bug fixes and improvements. You can find the version change documentation at​ nnnnnnnnn​.
-Help is available for combine installation at ​combine-support@umich.edu​. You can also add issues to the combine github at https://github.com/MI-DPLA/combine.
+<p>Combine is an application to facilitate the harvesting, transformation, analysis, and publishing of metadata records by Service Hubs for inclusion in the Digital Public Library of America (DPLA).</p>
+
+<p>These technical instructions are for metadata experts or system administrators who wish to install Combine on their institution’s servers to process and publish metadata records to DPLA. This version (v0.11) includes a number of bug fixes and improvements. You can find the version change documentation at​ nnnnnnnnn​.</p>
+
+<p>Help is available for combine installation at ​combine-support@umich.edu​. You can also add issues to the combine github at https://github.com/MI-DPLA/combine.</p>
 
 <h3>ASSUMPTIONS</h3>
 
