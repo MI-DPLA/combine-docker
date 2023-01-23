@@ -4,19 +4,19 @@ title: Data Model
 ---
 <h1>Job Results and Record Details</h1>
 
-Now that you’ve run a Job, this section covers how to interpret Job results and, if necessary, the details of any Record. This is one of the longer sections because the data provided for Jobs and Records is complex.
+<p>Now that you’ve run a Job, this section covers how to interpret Job results and, if necessary, the details of any Record. This is one of the longer sections because the data provided for Jobs and Records is complex.</p>
 
 <h2>Viewing Job Results</h2>
 
-At the very top of a Job Details page, is a visual representation of that Job’s “lineage,” displaying all of the other Jobs in Combine that relate to the one you’re viewing:
+<p>At the very top of a Job Details page, is a visual representation of that Job’s “lineage,” displaying all of the other Jobs in Combine that relate to the one you’re viewing:</p>
 
 
-Visual representation and table at the top of a Job Details page
+<p>Visual representation and table at the top of a Job Details page</p>
 
 
-Immediately to the right of the Job’s name at the top left you will find a pen-shaped icon, which  is a button that can be toggled in order to view notes for that Job. The notes can also be seen on the Record Group’s Jobs table.
+<p>Immediately to the right of the Job’s name at the top left you will find a pen-shaped icon, which  is a button that can be toggled in order to view notes for that Job. The notes can also be seen on the Record Group’s Jobs table.</p>
 
-The following tabs organize the various parts of the Job Details page:
+<p>The following tabs organize the various parts of the Job Details page:</p>
 
 <ul>
   <li>Records</li>
@@ -34,10 +34,10 @@ The following tabs organize the various parts of the Job Details page:
 <h3>Records</h3>
 
 
-Table displaying all the records in a Job
+<p>Table displaying all the records in a Job</p>
 
 
-This table shows all of Records in this Job. It is sortable and searchable in selected fields: 
+<p>This table shows all of Records in this Job. It is sortable and searchable in selected fields:</p>
 
 <ul>
   <li>DB ID - a Record’s ObjectID in MongoDB</li>
@@ -50,32 +50,24 @@ This table shows all of Records in this Job. It is sortable and searchable in se
   <li>Validation Results (True/False) - Indicates whether the Record passed all Validation Tests. Note that this field will show “True” if no Validation Tests are run for the Job</li>
 </ul>
 
-Note the search field at the top right of the Records table. If the user has enough data about a given Record, this field can be the most direct way to search for it.</li>
+<p>Note the search field at the top right of the Records table. If the user has enough data about a given Record, this field can be the most direct way to search for it.</li>
 
 <h3>Mapped Fields</h3>
 
 
-An indexed field analysis for a Job across all fields
+<p>An indexed field analysis for a Job across all fields</p>
 
 
-This tab displays a table of all of the indexed fields for the Job. 
-
-
-
-
-
-
-
+<p>This tab displays a table of all of the indexed fields for the Job. </p>
 
 
 <h3>Manage</h3>
 
 
-Commands available on the Manage tab
+<p>Commands available on the Manage tab</p>
 
 
-
-This tab should not be confused with the “Job Management” section that appears on every  Record Group page. While they are very similar, the commands on the “Manage” tab apply only to the specific Job in question. (For more on the Record Group page, “Part 7: Running Jobs.”) The commands on this tab include: 
+<p>This tab should not be confused with the “Job Management” section that appears on every  Record Group page. While they are very similar, the commands on the “Manage” tab apply only to the specific Job in question. (For more on the Record Group page, “Part 7: Running Jobs.”) The commands on this tab include:</p>
 
 <ul>
   <li>Move This Job: Move a Job into a different Record Group</li>
@@ -85,48 +77,37 @@ This tab should not be confused with the “Job Management” section that appea
   <li>Clone This Job: Rather than re-run the exact same Job, this will create a Clone (i.e. a duplicate) with the same parameters and run it instead..</li> 
 </ul>
 
-All of these options include a slider titled “Include Downstream?” that defaults to on or off, depending on the command. When the slider is on for a particular task, it will analyze the lineage of the Job and determine if any Jobs are downstream of it and include them in the action being peformed (e.g. moving, deleting, etc.) However, it’s important to note that when a Job is re-run, all Jobs that are ‘downstream” of it will also be automatically re-run because, by definition, they have inherited Jobs from the Job in question. (They are “farther down the pipeline.”)
-The decision to re-run or clone a Job is important (see “Part 7: Running Jobs,” for the pros and cons of re-running and cloning). 
+<p>All of these options include a slider titled “Include Downstream?” that defaults to on or off, depending on the command. When the slider is on for a particular task, it will analyze the lineage of the Job and determine if any Jobs are downstream of it and include them in the action being peformed (e.g. moving, deleting, etc.) However, it’s important to note that when a Job is re-run, all Jobs that are ‘downstream” of it will also be automatically re-run because, by definition, they have inherited Jobs from the Job in question. (They are “farther down the pipeline.”)</p>
+
+<p>The decision to re-run or clone a Job is important (see “Part 7: Running Jobs,” for the pros and cons of re-running and cloning).</p>
 
 <h3>Publish</h3>
 
-This tab allows the user to Publish a Job so it’s records can be harvested from Combine’s OAI feed. This process is covered in more detail in “Part 13: Publishing Jobs.”
+<p>This tab allows the user to Publish a Job so it’s records can be harvested from Combine’s OAI feed. This process is covered in more detail in “Part 13: Publishing Jobs.”</p>
 
 <h3>Input Jobs</h3>
 
 
-A display of the “Input Job” used to create a Transform Job
+<p>A display of the “Input Job” used to create a Transform Job</p>
 
 
-In some cases a Job will inherit Records from a previous Job. Such Jobs are said to be “downstream” of a previous or “Input” Job. (See “Part 7: Running Jobs” for the section on “Pipelines.”) If a Job is not “downstream” of another, this tab will simply say “No Jobs were used as input for this Job.” But for Transform Jobs and other Jobs that use Records from “upstream,” there will be a list of any “Input Jobs” in this tab.  
+<p>In some cases a Job will inherit Records from a previous Job. Such Jobs are said to be “downstream” of a previous or “Input” Job. (See “Part 7: Running Jobs” for the section on “Pipelines.”) If a Job is not “downstream” of another, this tab will simply say “No Jobs were used as input for this Job.” But for Transform Jobs and other Jobs that use Records from “upstream,” there will be a list of any “Input Jobs” in this tab.</p>
 
 <h3>Validation</h3>
 
 
-Validation Scenarios that were applied to a Job
+<p>Validation Scenarios that were applied to a Job</p>
 
 
-Jobs can be run without a Validation Scenario, but if the user does apply one or more to a Job, they will be displayed on this tab. If the user decides that the Validation Scenario isn’t needed after the fact, this tab also allows them to remove it. 
-The tab also shows the name of the Validation Scenario, its type, and the number of Records in the Job that failed it. If any Records failed, an additional blue button will appear that will show the results of the failures in more detail.
-For more details about analyzing the Validation results of a Job, see “Part 11: Validation.”
+<p>Jobs can be run without a Validation Scenario, but if the user does apply one or more to a Job, they will be displayed on this tab. If the user decides that the Validation Scenario isn’t needed after the fact, this tab also allows them to remove it. 
+The tab also shows the name of the Validation Scenario, its type, and the number of Records in the Job that failed it. If any Records failed, an additional blue button will appear that will show the results of the failures in more detail.</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
+<p>For more details about analyzing the Validation results of a Job, see “Part 11: Validation.”</p>
 
 
 <h2>Jobs: Harvest Details / Transform Details / Merge Details / Analysis Details</h2>
 
-This content of this tab depends on the type of Job that was run:
+<p>This content of this tab depends on the type of Job that was run:</p>
 
 <ul>
   <li>Harvests: The tab shows the OAI endpoint used for the harvest and the OAI sets included in the Job.</li>
@@ -135,37 +116,26 @@ This content of this tab depends on the type of Job that was run:
   <li>Transforms: This tab is especially detailed for this Job type. It shows the Transformation Scenario that was used in the Job. It also shows the DB ID and Record ID of each Record that was transformed during the Job. In most Transformation Scenarios all the Records will be transformed, but some might target only a few Records. This tab allows the user to view only those that were transformed.</li>
 </ul>
 
-Clicking on an ID of a transformed Record will bring up a page with details about how it was transformed.  
-At the top of this page are all of the IDs for that record, followed by the Transformation Scenarios that were used on it. Beneath that is a section called “Changes to Record during Transformation” which provides two tabs, one showing “Combined Differences” and another showing a “Side-by-Side Comparsion.”  These details are likely to be more than the typical user can engage with, especially for those managing large collections. But the data are there for those who need them, especially for identifying where exactly an error occurred.
+<p>Clicking on an ID of a transformed Record will bring up a page with details about how it was transformed.</p>
+
+<p>At the top of this page are all of the IDs for that record, followed by the Transformation Scenarios that were used on it. Beneath that is a section called “Changes to Record during Transformation” which provides two tabs, one showing “Combined Differences” and another showing a “Side-by-Side Comparsion.”  These details are likely to be more than the typical user can engage with, especially for those managing large collections. But the data are there for those who need them, especially for identifying where exactly an error occurred.</p>
 
 <h3>Export</h3>
 
-This tab support export of Records in a variety of ways. For a detailed explanation, see “Part 15: Exporting Records”
-
-
-
-
-
-
-
-
-
-
-
-
+<p>This tab support export of Records in a variety of ways. For a detailed explanation, see “Part 15: Exporting Records”</p>
 
 
 <h3>Job Parameters</h3>
 
 
-Parameters useful for diagnostics
+<p>Parameters useful for diagnostics</p>
 
 
-This tab provides a convenient list of all parameters set for the Job. 
+<p>This tab provides a convenient list of all parameters set for the Job.</p>
 
 <h3>Spark Details</h3>
 
-This tab provides diagnostic information about the Job as run in in the background in Spark:
+<p>This tab provides diagnostic information about the Job as run in in the background in Spark:</p>
 
 <ul>
   <li>Spark Jobs/Tasks Run shows the actual tasks and stages as run by Spark. Due to how Spark runs, the names of these tasks may not be familiar or immediately obvious, but provide a window into the Job as it runs. This section also shows additional tasks that have been run for this Job such as re-indexing, or new validations.</li>
@@ -174,14 +144,15 @@ This tab provides diagnostic information about the Job as run in in the backgrou
 
 <h2>Viewing Record Details</h2>
 
-The Record is the most granular level of Combine’s data model (see “Part 5: Data Model”). A review of at least some Job results will probably be necessary when you run a job. Not many users are likely to have the time for reviewing individual Records, but the data are there if and when you need them, especially if you’re troubleshooting a specific problem. This section addresses the data available for a typical Record.
-As noted above, the Job details page includes a table displaying individual Records. Clicking on the ID of any record brings up its detail page. At the top of that page is a table showing its ID information:
+<p>The Record is the most granular level of Combine’s data model (see “Part 5: Data Model”). A review of at least some Job results will probably be necessary when you run a job. Not many users are likely to have the time for reviewing individual Records, but the data are there if and when you need them, especially if you’re troubleshooting a specific problem. This section addresses the data available for a typical Record.</p>
+
+<p>As noted above, the Job details page includes a table displaying individual Records. Clicking on the ID of any record brings up its detail page. At the top of that page is a table showing its ID information:</p>
 
 
-ID data on a Record details page
+<p>ID data on a Record details page</p>
 
 
-Beneath that are a row of tabs, just like a Job results page: 
+<p>Beneath that are a row of tabs, just like a Job results page:</p>
 
 <ul>
   <li>Record Document</li>
@@ -193,29 +164,14 @@ Beneath that are a row of tabs, just like a Job results page:
 </ul>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <h3>Record Document</h3>
 
 
-Record document showing the XML
+<p>Record document showing the XML</p>
 
 
-This tab provides a view of the raw XML for the Record. 
-Note the two buttons for this tab:
+<p>This tab provides a view of the raw XML for the Record. 
+Note the two buttons for this tab:</p>
 
 <ul>
   <li>View Raw Document -  displays the raw XML in a new browser tab</li>
@@ -226,68 +182,72 @@ Note the two buttons for this tab:
 <h3>Mapped Fields</h3>
 
 
-Mapped Fields for this Record
+<p>Mapped Fields for this Record</p>
 
 
-This tab displays a table of all the mapped fields for this Record.
+<p>This tab displays a table of all the mapped fields for this Record.</p>
 
-Note the two buttons for this tab:
+<p>Note the two buttons for this tab:</p>
 
 <ul>
   <li>how Field Mapping Configuration Used: This opens a new section in the same tab that displays the code that was applied to the Record’s configuration.</li>
   <li>View ElasticSearch Document: This opens a page in a new browser tab that will allow you to view the Record’s JSON, its raw data without formatting, and its headers.</li>
 </ul>
 
-Notice in this table the columns DPLA Mapped Field and Map DPLA Field. Both of these columns pertain to a functionality in Combine that attempts to “link” a Record with the same record in the live DPLA site. It performs this action by querying the DPLA API (DPLA API credentials must be set in localsettings.py) based on mapped indexed fields. Though this area has potential for expansion, currently the most reliable and effective DPLA field to try and map is the isShownAt field.
+<p>Notice in this table the columns DPLA Mapped Field and Map DPLA Field. Both of these columns pertain to a functionality in Combine that attempts to “link” a Record with the same record in the live DPLA site. It performs this action by querying the DPLA API (DPLA API credentials must be set in localsettings.py) based on mapped indexed fields. Though this area has potential for expansion, currently the most reliable and effective DPLA field to try and map is the isShownAt field.</p>
 
-The isShownAt field is the URL that all DPLA items require to send visitors back to the originating organization or institution’s page for that item. As such, it is also unique to each Record, and provides a handy way to “link” Records in Combine to items in DPLA. The difficult part is often figuring out which indexed field in Combine contains the URL.
-<strong>Note:</strong> When this is applied to a single Record, that mapping is then applied to the Job as a whole. Viewing another Record from this Job will reflect the same mappings. These mappings can also be applied at the Job or Record level.
+<p>The isShownAt field is the URL that all DPLA items require to send visitors back to the originating organization or institution’s page for that item. As such, it is also unique to each Record, and provides a handy way to “link” Records in Combine to items in DPLA. The difficult part is often figuring out which indexed field in Combine contains the URL.</p>
 
-In the example above, the indexed field mods_location_url_@usage_primary has been mapped to the DPLA field isShownAt which provides a reliable linkage at the Record level.
+<p><strong>Note:</strong> When this is applied to a single Record, that mapping is then applied to the Job as a whole. Viewing another Record from this Job will reflect the same mappings. These mappings can also be applied at the Job or Record level.</p>
+
+<p>In the example above, the indexed field mods_location_url_@usage_primary has been mapped to the DPLA field isShownAt which provides a reliable linkage at the Record level.</p>
 
 <h3>Record Stages</h3>
 
 
-Record stages showing the Jobs which included this Record
+<p>Record stages showing the Jobs which included this Record</p>
 
 
-This table show the various “stages” of a Record, in other words which Jobs run in Combine happened to include this Record. 
-Different instances and/or versions of the same Record share the same Combine ID (combine_id). So with this table, it’s possible to identify and access earlier “upstream” or later “downstream”, versions of the same Record.
+<p>This table show the various “stages” of a Record, in other words which Jobs run in Combine happened to include this Record.</p> 
+
+<p>Different instances and/or versions of the same Record share the same Combine ID (combine_id). So with this table, it’s possible to identify and access earlier “upstream” or later “downstream”, versions of the same Record.</p>
 
 <h3>Validation</h3>
 
 
-Validation results for this Record
+<p>Validation results for this Record</p>
 
-This tab shows all Validation Tests that were run for this Job, and how this Record fared. For more information about Validation in Combine, see “Part 11: Validation.”
+<p>This tab shows all Validation Tests that were run for this Job, and how this Record fared. For more information about Validation in Combine, see “Part 11: Validation.”</p>
 
 
 <h2>Records: Harvest Details / Transform Details / Merge Details / Analysis Details</h2>
 
-Job results have a tab for the specific Job type, and so do the Records that are part of those Jobs. The name of this tab will depend on the Job type – Harvest, Transform, Merge/Duplicate, or Analysis. At the moment, however, only Transform Jobs have additional data for this tab.For Records that are part of Harvest, Merge, or Analysis Jobs, this tab will currently say, “No additional information at this time.” 
+<p>Job results have a tab for the specific Job type, and so do the Records that are part of those Jobs. The name of this tab will depend on the Job type – Harvest, Transform, Merge/Duplicate, or Analysis. At the moment, however, only Transform Jobs have additional data for this tab.For Records that are part of Harvest, Merge, or Analysis Jobs, this tab will currently say, “No additional information at this time.”</p> 
 
-<strong>Transform Records</strong>
+<p><strong>Transform Records</strong></p>
 
-Transformation Scenarios on the Transform Record details page
+<p>Transformation Scenarios on the Transform Record details page</p>
 
-For Records in Transform Jobs, the first section of the page will show which Transformation Scenarios were used on that Record, including the type and a link to a display of the Transformation Payload. 
-The first section shows the Transformation Scenario used, including the transformation itself, and the “input” or “upsteram” Record that was used for the transformation:
+<p>For Records in Transform Jobs, the first section of the page will show which Transformation Scenarios were used on that Record, including the type and a link to a display of the Transformation Payload.</p>
 
-The rest of the page displays one or the other of two comparison view options. Note that, for extensive Transform Jobs that largely re-write a Record, the views on this page might be long and complex.
-One view combines the changes into one list:
+<p>The first section shows the Transformation Scenario used, including the transformation itself, and the “input” or “upsteram” Record that was used for the transformation:</p>
 
-Combined view of changes made to a Record from a Transform Job
+<p>The rest of the page displays one or the other of two comparison view options. Note that, for extensive Transform Jobs that largely re-write a Record, the views on this page might be long and complex.</p>
+
+<p>One view combines the changes into one list:</p>
+
+<p>Combined view of changes made to a Record from a Transform Job</p>
 
 
-The other offers a split view, showing the original and transformed versions side-by-side (this view relies on the sxsdiff library):
+<p>The other offers a split view, showing the original and transformed versions side-by-side (this view relies on the sxsdiff library):</p>
 
 
-Side-by-side view of changes made to a Record from a Transform Job
+<p>Side-by-side view of changes made to a Record from a Transform Job</p>
 
 
 <h2>Test Scenarios for this Record</h2>
 
-This section is a more recent addition. It offers four possible tests that a user can apply to the Record in question. This feature has not been heavily tested.
+<p>This section is a more recent addition. It offers four possible tests that a user can apply to the Record in question. This feature has not been heavily tested.</p>
 
 <ul>
   <li>Field Mapping</li>
