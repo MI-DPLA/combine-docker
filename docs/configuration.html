@@ -82,15 +82,15 @@ title: Configuration
   <li>Use as Include (checkbox): Check this box when the Transformation Scenario is intended to be used within another Scenario. This is a complex XSLT option, and can be ignored by most users.</li>
 </ul>
 
-<img src="images/Part06-01-CreateNewTransformationScenario.jpg" alt="Create New Transformation Scenario" width="1000" border="2"><br /><br />
-
+<img src="images/Part06-01-CreateNewTransformationScenario.jpg" alt="Create New Transformation Scenario" width="1000" border="2">
+<img src="images/Part06-02-DjangoTransformationScenario.jpg" alt="Django Transformation Scenario" width="1000" border="2">
 
 <p>The Combine interface and Django Admin board forms for creating Transformations</p>
 
 
 <p>You can test a Transformation Scenario over a pre-existing Record by clicking the “Test Transformation Scenario” button on the Configuration page. This will take you to a screen that is used for testing Transformations, Validations, and Record Identifier Transformations. For a Transformation, it looks like this:</p>
 
-
+<img src="images/Part06-03-TestValidationScenarioforaRecord.jpg" alt="Test Validation Scenario for a Record" width="1000" border="2">
 <p>Screenshot of a Transformation Validation test</p>
 
 
@@ -131,7 +131,7 @@ title: Configuration
 
 <p>The workaround, would be to create two new special kinds of Transformation Scenarios by checking the box use_as_include, perhaps with fitting names like “dcmiType” and “mimeType”, that have payloads for those two stylesheets. When creating those Transformation Scenarios, saving, and then re-opening the Transformation Scenario in Django admin, you can see a Filepath attribute has been made which is a copy written to disk.</p>
 
-
+<img src="images/Part06-04-ChangeTransformation.jpg" alt="Change Transformation" width="1000" border="2">
 <p>Filepath for saved Transformation scenarios</p>
 
 
@@ -187,6 +187,7 @@ title: Configuration
   <li>Default run - if selected, the Validation Scenario will be automatically checked when running a new Job</li>
 </ul>
 
+<img src="images/Part06-05-CreateNewValidationScenario.jpg" alt="Create a new Validation Scenario" width="1000" border="2">
 <p>Combine interface form for creating a new Validation Scenario</p>
 
 
@@ -200,7 +201,7 @@ title: Configuration
 
 <p>Combine can also test a Validation Scenario. Clicking the button “Test Validation Scenario” brings up the following screen:</p>
 
-
+<img src="images/Part06-06-TestValidationScenarioforaRecord.jpg" alt="Test Validation Scenario for a Record" width="1000" border="2">
 <p>Combine interface page for testing a Validation scenario</p>
 
 
@@ -338,9 +339,10 @@ Below is an example of ElasticSearch Query DSL:</p>
   <li>Xpath payload - single XPath expression as a string</li>
 </ul>
 
+<img src="images/Part06-07-DjangoAddRITS.jpg" alt="Django Administration Form for Adding a RITS" width="1000" border="2">
 <p>Django admin form for adding a Record Identifier Transformation Scenario (RITS)</p>
 
-
+<img src="images/Part06-08-RITSonConfigurationPage.jpg" alt="RITS on the Configuration Page" width="1000" border="2">
 <p>Form on the Configuration page for creating a Record Identifier Transformation Scenario (RITS)</p>
 
 
@@ -356,6 +358,7 @@ Below is an example of ElasticSearch Query DSL:</p>
 
 <p>The screenshot belows shows an example of a regex match / replace used to replace digital.library.wayne.edu with goober.tronic.org, also highlighting the ability to use groups:</p>
 
+<img src="images/Part06-09-TestRITS.jpg" alt="Test RITS" width="1000" border="2">
 <p>Example of a RITS with a Regular Expression</p>
 
 
