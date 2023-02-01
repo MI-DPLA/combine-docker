@@ -4,83 +4,95 @@ title: Command Line
 ---
 <h1>Command Line</h1>
 
-<p>Though Combine is designed primarily as a GUI interface, the command line provides a potentially powerful and rich interface to the models and methods that make up the Combine data model. This documentation is meant to expose some of those patterns and conventions.</p>
+<p><strong>Note:</strong> <em>We weren't able to give these commands a complete test during the final phase of development, so it's possible some of them may now be deprecated.</em></p>
 
-<p><strong>Note:</strong> For all contexts, the OS combine user is assumed, using the Combine Miniconda python environment, which can be activated from any file path location by typing:</p>
+<p>Though Combine is designed primarily as a GUI interface, the command line provides a potentially powerful and rich interface to the models and methods that make up the Combine data model. This documentation is meant to expose some of those patterns and conventions.</p><br />
+
+<p>For all contexts, the OS combine user is assumed, using the Combine Miniconda python environment, which can be activated from any file path location by typing:</p>
 
 <p># become combine user, if not already</p>
-<p>su combine</p>
+<p><code>su combine</code></p><br />
 
 <p># activate combine python environment</p>
-<p>source activate combine</p>
+<p><code>source activate combine</code></p><br />
 
 <p>There are few command line contexts:</p>
 
 <ul>
   <li>Django shell</li>
-  <li>A shell that loads all Django models, with some additional methods for interacting </li>  
-  <li>with Jobs, Records, etc.</li>
+    <ul>
+      <li>A shell that loads all Django models, with some additional methods for interacting with Jobs, Records, etc.</li>  
+    </ul>
   <li>Django management commands</li>
-  <li>Combine specific actions that can be executed from bash shell, via Django’s manage.py</li>
+    <ul>
+      <li>Combine specific actions that can be executed from bash shell, via Django’s manage.py</li>
+    </ul>
   <li>Pyspark shell</li>
-  <li>A pyspark shell that is useful for interacting with Jobs and Records via a spark context.</li>
+    <ul>
+      <li>A pyspark shell that is useful for interacting with Jobs and Records via a spark context.</li>
+    </ul>
 </ul>  
   
-<p>These are described in more detail below.</p>
+<p>These are described in more detail below.</p><br />
 
 <h2>Django Python Shell</h2>
 
 <h3>Starting</h3>
 
-From the location /opt/combine run the following:</p>
-./runconsole.py</p>
+<p>From the location /opt/combine run the following:</p>
+
+<p><code>./runconsole.py</code></p><br />
 
 <h3>Useful and Example Commands</h3>
 
-<p><strong>Convenience methods for retrieving instances of Organizations, Record Groups, Jobs, Records</strong></p>
+<p><strong>Convenient methods for retrieving instances of Organizations, Record Groups, Jobs, Records</strong></p>
 
-'''
-<p>Most all convenience methods are expecting a DB identifier for instance retrieval</p>
-'''
+<p>Most of these expect a DB identifier for instance retrieval:</p><br />
 
 <p># retrieve Organization #14</p>
-<p>org = get_o(14)</p>
+<p><code>org = get_o(14)</code></p><br />
 
 <p># retrieve Record Group #18</p>
-<p>rg = get_rg(18)</p>
+<p><code>rg = get_rg(18)</code></p><br />
 
 <p># retrieve Job #308</p>
-<p>j = get_j(308)</p>
+<p><code>j = get_j(308)</code></p><br />
 
 <p># retrieve Record by id '5ba45e3f01762c474340e4de'</p>
-<p>r = get_r('5ba45e3f01762c474340e4de')</p>
+<p><code>r = get_r('5ba45e3f01762c474340e4de')</code></p><br />
 
 <p># confirm these retrievals</p>
-'''
-<p>In [2]: org</p>
-<p>Out[2]: <Organization: Organization: SuperOrg></p>
-<p>In [5]: rg</p>
-<p>Out[5]: <RecordGroup: Record Group: TurboRG></p>
-<p>In [8]: j</p>
-<p>Out[8]: <Job: TransformJob @ May. 30, 2018, 4:10:21 PM, Job #308, from Record Group: TurboRG></p>
-<p>In [10]: r</p>
-<p>Out[10]: <Record: Record: 5ba45e3f01762c474340e4de, record_id: 0142feb40e122a7764e84630c0150f67, Job: MergeJob @ Sep. 21, 2018, 2:57:59 AM></p>
-'''
+<code>
+In [2]: org<br/>
+Out[2]: < Organization: Organization: SuperOrg ><br/>
+In [5]: rg<br/>
+Out[5]: < RecordGroup: Record Group: TurboRG ><br/>
+In [8]: j<br/>
+Out[8]: < Job: TransformJob @ May. 30, 2018, 4:10:21 PM, Job #308, from Record Group: TurboRG ><br/>
+In [10]: r<br/>
+Out[10]: < Record: Record: 5ba45e3f01762c474340e4de, record_id: 0142feb40e122a7764e84630c0150f67, Job: MergeJob @ Sep. 21, 2018, 2:57:59 AM ><br/>
+</code></p><br />
+
 
 <p><strong>Loop through Records in Job and edit Document</strong></p>
 
 <p>This example shows how it would be possible to:</p>
-<p>retrieve a Job</p>
-<p>loop through Records of this Job</p>
-<p>alter Record, and save</p>
+
+<ul>
+  <li>retrieve a Job</li>
+  <li>loop through Records of this Job</li>
+  <li>alter Record, and save</li>
+</ul>  
+
 <p>This is not a terribly efficient way to do this, but it demonstrates the data model as accessible via the command line for Combine. A more efficient method would be to write a custom, Python snippet Transformation Scenario.</p>
+
 <p># retrieve Job model instance</p>
-<p>In [3]: job = get_j(563)</p>
+<p><code>In [3]: job = get_j(563)</code></p><br />
 
 <p># loop through records via get_records() method, updating record.document (replacing 'foo' with 'bar') and saving</p>
-<p>In [5]: for record in job.get_records():</p>
-<p>   ...:     record.document = record.document.replace('foo', 'bar')</p>
-<p>   ...:     record.save()</p>
+<p><code>In [5]: for record in job.get_records():<br />
+...:     record.document = record.document.replace('foo', 'bar')<br />
+...:     record.save()</code></p><br />
 
 <h2>Combine Django Management Commands</h2>
 
@@ -90,21 +102,21 @@ From the location /opt/combine run the following:</p>
 
 <p>To update the current branch/release:</p>
 
-<p>./manage.py update</p>
+<p><code>./manage.py update</code></p><br />
 
 <p>To update to another branch / release tag, e.g. v0.3.3:</p>
 
-<p>./manage.py update --release v0.3.3</p>
+<p><code>./manage.py update --release v0.3.3</code></p><br />
 
 <p>The update management command also contains some “update code snippets” that are included with various releases to perform updates on models and pre-existing data where possible. An example is the update from v0.3.x to v0.4 that modified the job_details for all Transform Jobs. Included in the update is a code snippet called v0_4__update_transform_job_details() that assists with this. While running the update script as outlined above, this code snippet will fire and update Transform Jobs that do not meet the new data model.</p>
 
 <p>These possible updates can be invoked without pulling changes or restarting any services by including the following flag:</p>
 
-<p>./manage.py update --run_update_snippets_only</p>
+<p><code>./manage.py update --run_update_snippets_only</code></p>
 
 <p>Or, if even more granular control is needed, and the name of the snippets are known – e.g. v0_4__update_transform_job_details – they can be run independently of others:</p>
 
-<p>./manage.py update --run_update_snippet v0_4__update_transform_job_details</p>
+<p><code>./manage.py update --run_update_snippet v0_4__update_transform_job_details</code></p><br />
 
 <h3>Full State Export</h3>
 
@@ -112,11 +124,11 @@ From the location /opt/combine run the following:</p>
 
 <p>Without any arguments, this will export all Organizations, Record Groups, Jobs, Records, and Configuration Scenarios (think OAI Endpoints, Transformations, Validations, etc.); effectively anything stored in databases. This does not include conigurations to localsettings.py, or other system configurations, but is instead meant to really export the current state of the application.</p>
 
-<p>./manage.py exportstate</p>
+<p><code>./manage.py exportstate</code></p><br />
 
 <p>Users may also provide a string of JSON to skip specific model instances. This is somewhat experimental, and currently only works for Organizations, but it can be helpful if a particular Organization need not be exported. This skip_json argument is expecting Organization ids as integers; the following is an example if skipping Organization with id == 4:</p>
 
-<p>./manage.py exportstate --skip_json '{"orgs":[4]}'</p>
+<p><code>./manage.py exportstate --skip_json '{"orgs":[4]}'</code></p><br />
 
 <h2>Pyspark Shell</h2>
 
@@ -125,13 +137,13 @@ From the location /opt/combine run the following:</p>
 <p><strong>Note:</strong> The pyspark shell requires the Hadoop Datanode and Namenode to be active. These are likely running by defult, but in the event they are not, they can be started with the following (Note: the trailing : is required, as that indicates a group of processes in Supervisor):
 sudo supervisorctl restart hdfs:</p>
 
-<p><strong>Note:</strong> The pyspark shell when invoked as described below, will be launched in the same Spark cluster that Combine’s Livy instance uses. Depending on avaialble resources, it’s likely that users will need to <strong>stop</strong> any active Livy sessions as outlined here to allow this pyspark shell the resources to run.</p>
+<p><strong>Note:</strong> The pyspark shell when invoked as described below, will be launched in the same Spark cluster that Combine’s Livy instance uses. Depending on avaialble resources, it’s likely that users will need to <strong>stop</strong> any active Livy sessions as outlined here to allow this pyspark shell the resources to run.</p><br />
 
 <h3>Starting</h3>
 
 <p>From the location /opt/combine run the following:</p>
 
-<p>./pyspark_shell.sh</p>
+<p><code>./pyspark_shell.sh</code></p><br />
 
 <h3>Useful and Example Commands</h3>
 
@@ -139,54 +151,40 @@ sudo supervisorctl restart hdfs:</p>
 
 <p># import some convenience variables, classes, and functions from core.spark.console</p>
 
-<p>from core.spark.console import *</p>
+<p><code>from core.spark.console import *</code></p><br />
 
-<p># retrieve Records from MySQL as pyspark DataFrame</p>
+<p># retrieve Records from MySQL as pyspark DataFrame (In this example, retrieving records from Job #308. Also of note, must pass spark instance as first argument to convenience method, which is provided by pyspark context:)</p>
 
-'''
-
-<p>In this example, retrieving records from Job #308</p>
-
-<p>Also of note, must pass spark instance as first argument to convenience method,
-which is provided by pyspark context</p>
-
-'''
-
-<p>job_df = get_job_as_df(spark, 308)</p>
+<p><code>job_df = get_job_as_df(spark, 308)</code></p><br />
 
 <p># confirm retrieval okay</p>
-
-<p>job_df.count()</p>
-
-...
-...
-
-<p>Out[5]: 250</p>
+<p><code>job_df.count()</code><br />
+...<br />
+...<br />
+Out[5]: 250</code></p><br />
 
 <p># look at DataFrame columns</p>
-<p>job_df.columns</p>
-<p>Out[6]:</p>
-<p>['id',</p>
-<p> 'combine_id',</p>
-<p> 'record_id',</p>
-<p> 'document',</p>
-<p> 'error',</p>
-<p> 'unique',</p>
-<p> 'unique_published',</p>
-<p> 'job_id',</p>
-<p> 'published',</p>
-<p> 'oai_set',</p>
-<p> 'success',</p>
-<p> 'valid',</p>
-<p> 'fingerprint']</p>
-
-
+<p><code>job_df.columns<br />
+Out[6]:<br />
+['id',<br />
+'combine_id',<br />
+'record_id',<br />
+'document',<br />
+'error',<br />
+'unique',<br />
+'unique_published',<br />
+'job_id',<br />
+'published',<br />
+'oai_set',<br />
+'success',<br />
+'valid',<br />
+'fingerprint']</code></p><br />
 
 <h2>Tests</h2>
 
 <p>Though Combine is by and large a Django application, it has characteristics that do not lend themselves towards using the built-in Django unit tests. Namely, DB tables that are not managed by Django, and as such, would not be created in the test DB scaffolding that Django tests usually use.</p>
 
-<p>Instead, Combine uses out-of-the-box pytest for unit tests.</p>
+<p>Instead, Combine uses out-of-the-box pytest for unit tests.</p><br />
 
 <h3>Demo data</h3>
 
@@ -197,7 +195,7 @@ which is provided by pyspark context</p>
   <li>during testing this file is parsed, and 250 discrete XML files are written to a temp location to be used for a test static XML harvest</li>
   <li>mods_transform.xsl - XSL transformation that performs transformations on the records from mods_250.xml</li>
   <li>during transformation, this XSL file is added as a temporary transformation scenario, then removed post-testing</li>
-</ul>
+</ul><br />
 
 <h3>Running tests</h3>
 
@@ -205,21 +203,21 @@ which is provided by pyspark context</p>
 
 <p>Tests should be run from the root directory of Combine, if Ansible or Vagrant builds, likely at /opt/combine. Also requires sourcing the anaconda Combine environment with source activate combine.</p>
 
-<p>Testing creates a test Organization, RecordGroup, and Job’s during testing. By default, these are removed after testing, but can be kept for viewing or analysis by including the flag --keep_records.</p>
+<p>Testing creates a test Organization, RecordGroup, and Job’s during testing. By default, these are removed after testing, but can be kept for viewing or analysis by including the flag <code>--keep_records</code>.</p><br />
 
 <h3>Examples</h3>
 
-<p><strong>run tests, no output, create Livy session, destroy records</strong></p>
+<p># run tests, no output, create Livy session, destroy records</p>
 
-<p>pytest</p>
+<p><code>pytest</code></p><br />
 
-<p><strong>run tests, see output, use active Livy session, keep records after test</strong></p>
+<p># run tests, see output, use active Livy session, keep records after test</p>
 
-<p>pytest -s --keep_records</p>
+<p><code>pytest -s --keep_records</code></p><br />
 
-<p><strong>run tests, ignore file test_basic.py, and ignore warnings</strong></p>
+<p># run tests, ignore file test_basic.py, and ignore warnings</p>
 
-<p>pytest -s --ignore=tests/test_basic.py -p no:warnings</p>
+<p><code>pytest -s --ignore=tests/test_basic.py -p no:warnings</code></p><br />
 
 <p>Next: <a href="/combine-docker/backgroundtasks">Background Tasks</a></p>
 
