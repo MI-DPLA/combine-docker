@@ -14,7 +14,7 @@ title: Merging Records
 
 <p>Below the blue bar is a red alert bar indicating the one required parameter for a Duplicate/Merge Job: a single Input Job (or possibly multiple Input Jobs).</p>
 
-
+<img src="images/Part10-01-Red BarandBlueBarInputJobs.jpg" alt="Red bar and blue bar input Jobs" width="1000" border="2">
 <p>Input Jobs for a Duplicate/Merge Job</p>
 
 <p>If you do have a large number of Jobs--even within one Record Group--you can use the ‘lineage graph,’ the graphic space above the table of Jobs, to reduce the number of displayed jobs:</p>
@@ -26,15 +26,16 @@ title: Merging Records
 
 <p>Click outside of the Job to clear the filter and display all Jobs in the Record Group again.</p>
 
+<img src="images/Part10-02-LineageOfASingleHarvestJob.jpg" alt="A lineage graph filtered to a single Harvest Job" width="1000" border="2">
 <p>A lineage graph filtered to a single Harvest Job</p>
 
+<img src="images/Part10-03-LineageGraphOfHarvestAndTransformJobs.jpg" alt="A lineage filtered to display only a Transform Job and the Harvest Job that inputs to it" width="1000" border="2">
 <p>A lineage graph filtered to display only a Transform Job and the Harvest Job that inputs to it</p>
 
 <p>As an alternative, on the Duplicate/Merge page each row in the table has an additional column on the left called “Select” that provides a filter button. Clicking this button creates a popup window that can be used to set input filters for that specific job (including Organization, Record Group, Job Type, Status, or even keyword searching). When filters are applied this way, Jobs will be grayed out in the lineage graph.</p>
 
-
+<img src="images/Part10-04-PopUp.jpg" alt="The popup window for setting specific input filters" width="1000" border="2">
 <p>The popup window for setting specific input filters</p>
-
 
 <p>You can select <strong>multiple</strong> Jobs for Duplicate/Merge Jobs. When Jobs are merged, a duplicate check is run for the <strong>Record Identifiers only</strong>.
 Below this section you will find a gold alert bar for the ‘optional parameters’ that were explained in “Part 7: Running Jobs,” including “Record Input Filter,” “Validation Tests,” “Transform Identifier,” and “DPLA Bulk Data Compare.”</p>
@@ -43,9 +44,8 @@ Below this section you will find a gold alert bar for the ‘optional parameters
 
 <p>The following screenshot shows the results of a Merge Job with two input Jobs from a Record Group’s overview screen:</p>
 
-
+<img src="images/Part10-05-MergingTwoJobs.jpg" alt="Merging two Jobs into one Job" width="1000" border="2">
 <h2>Merging two Jobs into one Job</h2>
-
 
 <p>Why Merge or Duplicate Records?</p>
 
@@ -72,6 +72,7 @@ Below this section you will find a gold alert bar for the ‘optional parameters
   <li>Apply a Transform Job to Job B to fix those Records’ validation problems. Then Merge the valid Records from Job A with the now valid records from Job B to create Job C</li>
 </ul>
 
+<img src="images/Part10-06-LineageOfMergeJob.jpg" alt="Creating a Job, applying a Transform Job, then merging and transforming the Job" width="1000" border="2">
 <p>Creating a ‘Job B’ of invalid Records from Job A; applying a Transform Job only to those invalid Records; and then merging Job A and Transformed Job B together into a fully valid Job C</p>
 
 <p>This can be helpful if Job A is quite large and has only a few Records that need to be Transformed--especially if running that Transform on the entire set of Records might break--i.e. invalidate--some of the perfectly good Records in Job A.</p>

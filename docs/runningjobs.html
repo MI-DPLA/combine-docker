@@ -32,6 +32,7 @@ title: Running Jobs
 
 <p>At the top of the Record Group page is a graph displaying that Job’s “lineage,” followed by a table displaying all the Jobs within that Record Group:</p>
 
+<img src="images/Part07-01-RecordGroupMurielWebb.jpg" alt="A Job lineage and a table of Jobs on a Record Group Page" width="1000" border="2">
 <p>A Job “lineage” and a table of Jobs on a Record Group page</p>
 
 <p>The lineage graph shows how the Jobs in the Record Group are related to one another. The text between nodes show how many Records were used as “input” for a “target Job” (see the section on “Pipelines” below), and which filters, if any, were applied. This graph is zoomable and clickable. It’s intended to provide insight and context at a glance.</p>
@@ -62,6 +63,7 @@ title: Running Jobs
 
 <p>Below the Jobs table is a section for “Jobs Management”:</p>
 
+<img src="images/Part07-02-JobManagement.jpg" alt="Job Management" width="1000" border="2">
 <p>Commands available in the Jobs Management section</p>
 
 
@@ -86,7 +88,7 @@ title: Running Jobs
 
 <p>All Jobs are tied to, and start from, a Record Group. (See “Part 5: The Data Model” for more on Record Groups.) Scroll down on any Record Group page and you will find several buttons for starting new jobs:</p>
 
-
+<img src="images/Part07-03-NewJob.jpg" alt="Buttons to start a new job" width="1000" border="2">
 <p>Buttons to start a new Job</p>
 
 
@@ -96,12 +98,11 @@ title: Running Jobs
 
 <p>Each Job type has its own configuration page, but all of them share a tabbed section of optional parameters that looks like one of the following:</p>
 
+<img src="images/Part07-04-FieldMapping.jpg" alt="Optional parameters for Harvest Jobs" width="1000" border="2">
 <p>Optional parameters for Harvest Jobs</p>
 
-
-
+<img src="images/Part07-05-RecordInputFilter.jpg" alt="Optional parameters for Transform and Merge/Duplicate Jobs" width="1000" border="2">
 <p>Optional parameters for Transform and Merge/Duplicate Jobs</p>
-
 
 <p>For most of these optional parameters, a user will need to configure each of them ahead of time in the Configurations Page (see “Part 6: Configuration” for a description of this page). Then select which of them to apply to that particular Job.</p>
 
@@ -124,26 +125,23 @@ title: Running Jobs
 
 <p>Setting filters for individual Jobs is performed by clicking the filter icon next to a Job’s checklist in the Input Job selection table:</p>
 
+<img src="images/Part07-06-FilterButton.jpg" alt="Click the Filter Button to set filters for a new job" width="1000" border="2">
 <p>Click the Filter Button to set Filters for a specific Job</p>
-
 
 <p>This will bring up a modal window where filters can be set for that Job, and that Job only. When the modal window is saved, and filters applied to that Job, the filter icon will turn orange indicating that Job has unique filters applied:</p>
 
-
+<img src="images/Part07-07-FilterButton02.jpg" alt="Orange Filter Buttons indicate filters for a specific Job" width="1000" border="2">
 <p>Orange Filter buttons indicate Filters selected for a specific Job</p>
-
 
 <p>When filters are applied to specific Jobs, this will be reflected in the Job lineage graph:</p>
 
-
+<img src="images/Part07-08-LineageMap.jpg" alt="Job lineage showing specific filters applied to a Job" width="1000" border="2">
 <p>Job lineage showing specific filters applied to a Job</p>
-
 
 <p>and the Input Jobs tab for the Job as well:</p>
 
-
+<img src="images/Part07-09-LineageMapWithFilters.jpg" alt="Job lineage showing specific filters applied to a Job" width="1000" border="2">
 <p>Job lineage showing specific filters applied to a Job</p>
-
 
 <p>Currently, the following input Record filters are supported:</p>
 
@@ -158,15 +156,13 @@ title: Running Jobs
 
 <p>Users can select if all, valid, or invalid Records will be included.</p>
 
-
+<img src="images/Part07-10-RecordInputValidity.jpg" alt="Selecting Record input Validity valve for a Job" width="1000" border="2">
 <p>Selecting Record Input Validity Valve for a Job</p>
-
 
 <p>Below is an example of how those valves can be applied and utilized with Merge Jobs to select only valid or invalid records:</p>
 
-
+<img src="images/Part07-11-LineageMapWithShunting.jpg" alt="Shunting records based on validity and eventually merging all valid Records" width="1000" border="2">
 <p>Example of shunting Records based on validity and eventually merging all valid Records</p>
-
 
 <p>Keep in mind, if multiple Validation Scenarios were run for a particular Job, it only requires one Record failing one test, within one Validation Scenario, for the Job to be considered “invalid” as a whole.</p>
 
@@ -202,19 +198,17 @@ title: Running Jobs
 
 <p>The Validation Test selection page looks like this for a Job, with checkboxes for each pre-configured Validation Scenario. A Validation Scenario might already be checked if it’s been marked to run by default:</p>
 
-
+<img src="images/Part07-12-ValidationTests.jpg" alt="Selecting Validation tests for a Job" width="1000" border="2">
 <p>Selecting Validation tests for a Job</p>
 
-
-<p>For more on Validation, see Part 11: Analysis and Validation.</p>
+<p>For more on Validation, see Part 11: Validation.</p>
 
 <h3>Transform Identifier</h3>
 
 <p>When running a Job, users can optionally select a Record Identifier Transformation Scenario (RITS) that will modify the Record Identifier for each Record in the Job.</p>
 
-
+<img src="images/Part07-13-TransformIdentifier.jpg" alt="Selecting a RITS for a Job" width="1000" border="2">
 <p>Selecting a Record Identifier Transformation Scenario (RITS) for a Job</p>
-
 
 <h2>Pipelines: “Upstream” and “Downstream” Jobs</h2>
 
@@ -222,52 +216,54 @@ title: Running Jobs
 
 <p>Take the Jobs below as an example:</p>
 
+<img src="images/Part07-14-LineageandPipelines.jpg" alt="Five connected Jobs" width="1000" border="2">
 <p>Five connected Jobs
-
 
 <p>In this example, Harvest Job A is the “root” or “origin” Job of this lineage. In Job A a set of Records were first harvested and created in Combine. All of the other Jobs in this lineage – B, C, D, and E – are “downstream” of Job A. From the point of view of A, there is a single pipeline. If a user were to reharvest A, potentially adding, removing, or modifying Records in that Job, this has implications for all other Jobs that either got Records from A, or got Records from Jobs that got Records from A, and so forth. In that sense, Jobs are “downstream” if changes to an “upstream” Job would potentially change their own Records.</p>
 
 <p>Moving to B, only one Job is downstream, D. Looking at C, there are two Jobs that are downstream, Jobs, D and E. Moving to D, we can see that D actually has two Jobs that are upstream, Jobs B and C. This can be confirmed by looking at the “Input Jobs” tab for D:</p>
 
+<img src="images/Part07-15-InputJobs.jpg" alt="Input Jobs for JOb D, showing Jobs B and C" width="1000" border="2">
 <p>Input Jobs for Job D, showing Jobs B and C</p>
-
 
 <p>If we look closely, though, we can see that no records are coming from Job C even though it’s listed as an Input Job for Job D. Why is this? The answer lies in the input filters applied to Jobs B and C: “De-Dupe Records” is true for both. We can infer then that Job B and Job C included Records that had the same record_ids, so once the Records from Job B were inputted into Job D, the duplicate records in Job C were all de-duped (i.e. skipped) during the Merge Job.</p>
 
 <p>Here’s another way to look at the lineage from the perspective of Job D:</p>
 
+<img src="images/Part07-16-AlternateViews.jpg" alt="Alternatve view of the lineage from the perspective of Job D" width="1000" border="2">
 <p>Alternate view of the lineage from the perspective of Job D</p>
-
 
 <p>So if we relate this back to the Job Management section, what would happen if we select Job A, click the “Re-Run Selected Jobs” button, and then slide “Include Downstream” to “on”?  That would slate Jobs A-E to also re-run, one-by-one in a queue in order to ensure that each Job is getting updated Records from each Job that’s upstream of it:</p>
 
+<img src="images/Part07-17-RecordGroupRecordGroup.jpg" alt="Re-running Job A with the 'Include Downstream' slider moved to 'on'" width="1000" border="2">
 <p>Re-running Job A with the “Include Downstream?” slider moved to “on”</p>
 
 <p>As you can see–after the page is refreshed–the status for each Job has changed to “waiting,”  and the Jobs will now re-run in order.</p>
 
 <p>We also have the ability to clone Jobs, again with the option to include or ignore Jobs that are downstream. The following is an example of cloning C and not including downstream Jobs:</p>
 
-
+<img src="images/Part07-18-CloningJobC.jpg" alt="Cloning Job C and not including Jobs downstream of it" width="1000" border="2">
 <p>Cloning Job C and not including Jobs that are downstream of it</p>
 
 <p>All the validations, input filters, and parameters that were set for Job C are copied to the new Job C (CLONED), but because downstream Jobs were not included, Jobs D and E have not been cloned.</p>
 
 <p>But if we clone Job C and do include downstream Jobs, then we see something like this:</p> 
 
+<img src="images/Part07-19-CloningJobCNext.jpg" alt="Cloning Job C and including Jobs downstream of it" width="1000" border="2">
 <p>Cloning Job C and including Jobs that are downstream of it</p>
 
 <p>Now there’s a line from Job B to the newly created cloned Job D (CLONE). Why has that happened? Because Job D was downstream from Job C during the clone–and, therefore, cloned as well–but it still required input from Job, which was not cloned. One can think of Job B as a set of Records that rarely change but are often required for other Jobs.</p>
 
 <p>To get a sense about input Jobs for Jobs that are cloned, versus input Jobs for Jobs that are not cloned, we can look at this example. Job A is cloned and all of its downstream Jobs are included:</p>
 
-
+<img src="images/Part07-20-CloningJobA.jpg" alt="Job A cloned with all downstream Jobs included" width="1000" border="2">
 <p>Job A cloned with all downstream Jobs included</p>
 
 <p>In this pipeline, every other Job is downstream of Job A, so cloning Job A will also clone the entire pipeline and create a standalone copy of it. So you could clone an entire pipeline–and then re-run all of its Jobs in order to test them–without risking the integrity of the original pipeline before you know whether the re-run will be successful or not.</p>
 
 <p>The same rules apply for other commands, such as deleting. In this example we are deleting Job A (CLONE) and including all downstream Jobs:</p>
 
-
+<img src="images/Part07-21-DeletingJobA.jpg" alt="Deleting Job A and all its downstream Jobs included" width="1000" border="2">
 <p>Deleting Job A (CLONE) and all of its downstream Jobs</p>
 
 <p>“Pipelines” like these aren’t a formal structure in Combine, but they can be a very helpful way to think about a “lineage” of related Jobs. When paired with the granular control Combine gives you to set input filters for input Jobs, the ability to re-run or clone Jobs will allow you to set up complicated pipelines of related Jobs that you can re-use multiple times, as the next section will show.</p>
@@ -298,7 +294,8 @@ When a Job is re-run, Combine takes the following actions first:
 
 <p>Consider the following example:</p>
 
-<p>An example of a lineage of Jobs in Combine</p>
+<img src="images/Part07-22-LineageofJobs.jpg" alt="An example of a lineage of Jobs" width="1000" border="2">
+<p>An example of a lineage of Jobs</p>
 
 <p>Records from an OAI Harvest Job, J1, are used as input for Job J2. A subset of these are passed to Job J3, perhaps because they failed a particular Validation. These are then fixed and successfully Validated in Job J4. Then the Validated Records from Job J2 and Job J4 are finally merged in Job J5, creating a final form for all of the Records. Each step can apply a different set of Validations and mappings to fix various errors and keep the Records moving along.</p>
 
@@ -308,7 +305,8 @@ When a Job is re-run, Combine takes the following actions first:
 
 <p>Here’s how this example would look in Combine:</p>
 
-<p>A re-run of a Combine “Pipeline”</p>
+<img src="images/Part07-23-RerunofCombinePipeline.jpg" alt="A re-run of a Pipeline" width="1000" border="2">
+<p>A re-run of a “Pipeline”</p>
 
 <p>In this pipeline:</p>
 
