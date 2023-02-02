@@ -17,9 +17,9 @@ title: Configuration
   <li>Built-In OAI-PMH server</li>
 </ul>
 
-<p>Previous versions of Combine relied on Django’s built-in admin interface for editing and creating transformations, validations, and other scenarios. These can now be created with the current Combine interface, but a link to the Django admin panel can still be found on the Configuration page for users who prefer to use it.</p>
+<p>Previous versions of Combine relied on Django’s built-in admin interface for editing and creating transformations, validations, and other scenarios. These can now be created with the current Combine interface, but a link to the Django admin panel can still be found on the Configuration page for users who prefer it.</p>
 
-<p>Settings that cannot be configured by the GUI in Combine, are accessible in the file combine/localsettings.py.</p>
+<p>Settings that cannot be configured by the GUI in Combine, are accessible in the file <code>combine/localsettings.py</code>.</p>
 
 <h2>OAI-PMH Server Endpoints</h2>
 
@@ -35,17 +35,21 @@ title: Configuration
 <p>In both places the same fields are required, with some exceptions as noted below:</p>
 
 <ul>
-  <li>Name - A human readable name for the OAI endpoint. This will be included in a dropdown menu selected when running a harvest</li>
-  <li>Endpoint - A URL for the OAI server endpoint. This should include the full URL up to, but not including, the GET parameters that begin with a question mark.</li>
-  <li>Verb - The OAI-PMH verb that will be used for harvesting. The value here is almost always ListRecords so that appears as a default in the Django admin page, though not in the Combine interface.</li>
-  <li>MetadataPrefix - Another OAI-PMH term, this indicates the metadata schema being used by the endpoint.</li>
-  <li>Scope type - Not an OAI term, this refers to what kind of harvesting should be performed. There are three options:</li>
-  <li>“Harvest records from all sets” (harvestAllSets): This will harvest all of the comma separated sets available from that endpoint.</li>
-  <li>“Comma separated lists of sets to include in the harvest”</li>
-  <li>“Comma separated lists of sets to exclude from the harvest” blacklist - Comma separated list of OAI sets to exclude from harvesting.</li>
-  <li>Scope value - This string is used in conjunction with the Scope type above.</li>
-  <li>If the Scope type is “harvestAllSets,” this value should be left as “true”</li>
-  <li>If the Scope type is “include” or “exclude” this value should list the sets that are desired or not desired from the endpoint.</li>
+  <li><strong>Name</strong> - A human readable name for the OAI endpoint. This will be included in a dropdown menu selected when running a harvest</li>
+  <li><strong>Endpoint</strong> - A URL for the OAI server endpoint. This should include the full URL up to, but not including, the GET parameters that begin with a question mark.</li>
+  <li><strong>Verb</strong> - The OAI-PMH verb that will be used for harvesting. The value here is almost always ListRecords so that appears as a default in the Django admin page, though not in the Combine interface.</li>
+  <li><strong>MetadataPrefix</strong> - Another OAI-PMH term, this indicates the metadata schema being used by the endpoint.</li>
+  <li><strong>Scope Type</strong> - Not an OAI term, this refers to what kind of harvesting should be performed. There are three options:</li>
+  	<ul>
+      <li>“Harvest records from all sets” (harvestAllSets): This will harvest all of the comma separated sets available from that endpoint.</li>
+      <li>“Comma separated lists of sets to include in the harvest”</li>
+      <li>“Comma separated lists of sets to exclude from the harvest”</li>
+    </ul>
+  <li><strong>Scope Value</strong>- This string is used in conjunction with the Scope type above.</li>
+    <ul>
+      <li>If the Scope type is “harvestAllSets,” this value should be left as “true”</li>
+      <li>If the Scope type is “include” or “exclude” this value should list the sets that are desired or not desired from the endpoint.</li>
+    </ul>
 </ul>
 
 <p>Once an OAI endpoint has been added it will be included in a table on the Combine Configuration page, in a corresponding page in a Django admin page, and in the dropdown menu displayed on the Harvest page.</p>
@@ -68,38 +72,49 @@ title: Configuration
 
 <p>Transformation Scenarios are used to transform the XML of Records in a Transformation Job. Note the distinction between ‘Scenario’ and ‘Job’ here. The Scenario includes the XSLT markup or the code that will be used to make a set of changes. The Job is a particular instance when such a set of changes are applied to the Records in a given Record Group.</p>
 
-<p>Combine currently supports transformation by XSLT. Some preliminary work has been done on creating Transformation Scenarios that would rely on Python code snippets or actions performed in Open Refine, but these require additional development and testing to ensure their reliability and would need to avoid introducing vulnerabilities to Combine’s security.</p>
+<p>Combine currently supports transformation by XSLT. Some preliminary work has been done on creating Transformation Scenarios that would rely on Python code snippets or actions performed in <a href="https://openrefine.org/">Open Refine</a>, but these require additional development and testing to ensure their reliability and would need to avoid introducing vulnerabilities to Combine’s security.</p>
  
 <p>Combine can perform multiple transformations on the same Record, “chaining” them together as separate Jobs. For example, Transformation A could map a metadata schema used by a contributing institution to a different metadata schema used by its state’s service hub. Transformation B could then fix some particular date formats. Finally, Transformation C could look for a particular identifier field and create a new field based on it. Each of these transformations would make use of a different Transformation Scenario and run as a separate Job in Combine, but a user could “chain” their effects by applying them one-after-another to the Records of a particular Record Group.</p>
 
 <p>Transformation Scenarios can be added using the Django Administration page or using the Combine Configuration page, which is the recommended method. Transformations require the following information:</p>
 
 <ul>
-  <li>Name: A human readable name for Transformation Scenario</li>
-  <li>Transformation Code/Payload: This is where the actual transformation code is added (more on the different types below)</li>
-  <li>Transformation Type: XSLT Stylesheet,</li>
-  <li>Filepath (Django only): This may be ignored. In earlier versions, some  Transformation Scenarios were written to disk, but this has been deprecated in the current version. </li>
-  <li>Use as Include (checkbox): Check this box when the Transformation Scenario is intended to be used within another Scenario. This is a complex XSLT option, and can be ignored by most users.</li>
+  <li><strong>Name:</strong> A human readable name for Transformation Scenario</li>
+  <li><strong>Transformation Code/Payload:</strong> This is where the actual transformation code is added (more on the different types below)</li>
+  <li><strong>Transformation Type:</strong> XSLT Stylesheet,</li>
+  <li><strong>Filepath (Django only):</strong> This may be ignored. In earlier versions, some  Transformation Scenarios were written to disk, but this has been deprecated in the current version. </li>
+  <li><strong>Use as Include (checkbox):</strong> Check this box when the Transformation Scenario is intended to be used within another Scenario. This is a complex XSLT option, and can be ignored by most users.</li>
 </ul>
 
-<img src="images/Part06-01-CreateNewTransformationScenario.jpg" alt="Create New Transformation Scenario" width="1000" border="2">
-<img src="images/Part06-02-DjangoTransformationScenario.jpg" alt="Django Transformation Scenario" width="1000" border="2">
-
-<p>The Combine interface and Django Admin board forms for creating Transformations</p>
-
+<table>
+  <tr>
+    <td><img src="images/Part06-01-CreateNewTransformationScenario.jpg" alt="an image of the interface in Combine" width="400" border="2"></td>
+    <td><img src="images/Part06-02-DjangoTransformationScenario.jpg" alt="in image of the Django interface" width="400" border="2"></td>
+  </tr>
+  <tr>
+    <td><p><em>The Combine and Django interfaces for creating Transformations</em></p></td>
+  </tr>
+</table><br />
 
 <p>You can test a Transformation Scenario over a pre-existing Record by clicking the “Test Transformation Scenario” button on the Configuration page. This will take you to a screen that is used for testing Transformations, Validations, and Record Identifier Transformations. For a Transformation, it looks like this:</p>
 
-<img src="images/Part06-03-TestValidationScenarioforaRecord.jpg" alt="Test Validation Scenario for a Record" width="1000" border="2">
-<p>Screenshot of a Transformation Validation test</p>
-
+<table>
+  <tr>
+    <td><img src="images/Part06-03-TestValidationScenarioforaRecord.jpg" alt="an image of the testing interface for validatino scenarios" width="800" border="2"></td>
+  </tr>
+  <tr>
+    <td><p><em>Screenshot of a Transformation Validation test</em></p></td>
+  </tr>
+</table><br/>
 
 <p>In this screenshot, a few things are happening:</p>
 
 <ul>
   <li>a single Record has been clicked from the sortable, searchable table, indicating it will be used for the Transformation testing</li>
   <li>a pre-existing Transformation Scenario has been selected from the dropdown menu, automatically populating the payload and transformation type inputs</li>
-  <li>however, a user may also add or edit the payload and transformation types live here, for testing purposes</li>
+    <ul>
+      <li>however, a user may also add or edit the payload and transformation types live here, for testing purposes</li>
+    </ul>
   <li>at the very bottom, you can see the immediate results of the Transformation as applied to the selected Record</li>
 </ul>
 
@@ -112,28 +127,33 @@ title: Configuration
 <p>When creating an XSLT Transformation Scenario, one important thing to consider are XSLT includes and imports. XSL stylesheets allow the inclusion of other, external stylesheets. Usually, these includes come in two flavors:</p>
 
 <ul>
-  <li>locally on the same filesystem, e.g. <xsl:include href="mimeType.xsl"/></li>
-  <li>remote, retrieved via HTTP request, e.g. <xsl:include href="http://www.loc.gov/standards/mods/inc/mimeType.xsl"/></li>
+  <li>locally on the same filesystem, e.g. </code>< xsl:include href="mimeType.xsl"/ ></code></li>
+  <li>remote, retrieved via HTTP request, e.g. <code>< xsl:include href="http://www.loc.gov/standards/mods/inc/mimeType.xsl"/ ></code></li>
 </ul>
 
 <p>In Combine, the primary XSL stylesheet provided for a Transformation Scenario is uploaded to the pyjxslt servlet to be run by Spark. This has the effect of breaking an XSL include that uses a local, filesystem href. Additionally, depending on server configurations, pyjxslt sometimes has trouble accessing a remote XSL include. Combine provides workarounds for both cases.</p>
 
-<h3>Using a local Include</h3>
+<strong>Using a local Include</strong>
 
-<p>For XSL stylesheets that require local, filesystem include s, Combine offers a workaround by allowing the user to create a Transformation Scenario for each XSL stylesheet that is imported by the primary stylesheet. Then, use the local filesystem path that Combine creates for that Transformation Scenario, and update the <xsl:include> in the original stylesheet with this new location on disk.</p>
+<p>For XSL stylesheets that require local, filesystem include s, Combine offers a workaround by allowing the user to create a Transformation Scenario for each XSL stylesheet that is imported by the primary stylesheet. Then, use the local filesystem path that Combine creates for that Transformation Scenario, and update the <code>< xsl:include ></code> in the original stylesheet with this new location on disk.</p>
 
-<p>For example, let’s imagine a stylesheet called DC2MODS.xsl that has the following <xsl:include> s:</p>
+<p>For example, let’s imagine a stylesheet called DC2MODS.xsl that has the following <code>< xsl:include > s:</code></p>
 
-<p><xsl:include href="dcmiType.xsl"/></p>
-<p><xsl:include href="mimeType.xsl"/></p>
+<p><code>< xsl:include href="dcmiType.xsl"/ ></code></p>
+<p><code>< xsl:include href="mimeType.xsl"/ ></code></p>
 
 <p>Originally, DC2MODS.xsl was designed to be used in the same directory as two files: dcmiType.xsl and mimeType.xsl. This is not possible in Combine, as XSL stylesheets for Transformation Scenarios are uploaded to another location to be used.</p>
 
 <p>The workaround, would be to create two new special kinds of Transformation Scenarios by checking the box use_as_include, perhaps with fitting names like “dcmiType” and “mimeType”, that have payloads for those two stylesheets. When creating those Transformation Scenarios, saving, and then re-opening the Transformation Scenario in Django admin, you can see a Filepath attribute has been made which is a copy written to disk.</p>
 
-<img src="images/Part06-04-ChangeTransformation.jpg" alt="Change Transformation" width="1000" border="2">
-<p>Filepath for saved Transformation scenarios</p>
-
+<table>
+  <tr>
+    <td><img src="images/Part06-04-ChangeTransformation.jpg" alt="image showing the filepath and other configurations for a transformation scenario" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Filepath for saved Transformation scenarios</em></td>
+  </tr>
+</table></br>
 
 <p>This Filepath value can then be used to replace the original <xsl:include> s in the primary stylesheet, in our example, DC2MODS.xsl:</p>
 
