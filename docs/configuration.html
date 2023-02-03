@@ -89,7 +89,7 @@ title: Configuration
 <table>
   <tr>
     <td><img src="images/Part06-01-CreateNewTransformationScenario.jpg" alt="an image of the interface in Combine" width="400" border="2"></td>
-    <td><img src="images/Part06-02-DjangoTransformationScenario.jpg" alt="in image of the Django interface" width="400" border="2"></td>
+    <td><img src="images/Part06-02-DjangoTransformationScenario.jpg" alt="in image of the Django interface" width="500" border="2"></td>
   </tr>
   <tr>
     <td><p><em>The Combine and Django interfaces for creating Transformations</em></p></td>
@@ -103,7 +103,7 @@ title: Configuration
     <td><img src="images/Part06-03-TestValidationScenarioforaRecord.jpg" alt="an image of the testing interface for validatino scenarios" width="800" border="2"></td>
   </tr>
   <tr>
-    <td><p><em>Screenshot of a Transformation Validation test</em></p></td>
+    <td><em>Screenshot of a Transformation Validation test</em></td>
   </tr>
 </table><br/>
 
@@ -155,63 +155,61 @@ title: Configuration
   </tr>
 </table></br>
 
-<p>This Filepath value can then be used to replace the original <xsl:include> s in the primary stylesheet, in our example, DC2MODS.xsl:</p>
+<p>This Filepath value can then be used to replace the original <code>< xsl:include > s</code> in the primary stylesheet, in our example, DC2MODS.xsl:</p>
 
-<p><xsl:include href="/home/combine/data/combine/transformations/a436a2d4997d449a96e008580f6dc699.xsl"/></p>
+<p><code>< xsl:include href="/home/combine/data/combine/transformations/a436a2d4997d449a96e008580f6dc699.xsl"/ ><br />
+< xsl:include href="/home/combine/data/combine/transformations/00eada103f6a422db564a346ed74c0d7.xsl"/ ></code></p><br />
 
-<!-- formerly dcmiType.xsl -->
-
-<p><xsl:include href="/home/combine/data/combine/transformations/00eada103f6a422db564a346ed74c0d7.xsl"/></p> 
-
-<!-- formerly mimeType.xsl -->
-
-
-
-<h3>Using a remote Include</h3>
+<strong>Using a remote Include</strong>
 
 <p>When the href s for XSL includes s are remote HTTP URLs, Combine attempts to rewrite the primary XSL stylesheet automatically by:</p>
 
 <ul>
   <li>downloading the external, remote include s from the primary stylesheet</li>
   <li>saving them locally</li>
-  <li>rewriting the <xsl:include> element with this local filesystem location</li>
+  <li>rewriting the <code>< xsl:include ></code> element with this local filesystem location</li>
 </ul>
 
 <p>This has the added advantage of effectively caching the remote include, such that it is not retrieved each transformation.</p>
 
 <p>For example, let’s imagine our trusty stylesheet called DC2MODS.xsl, but with this time external, remote URLs for href s:</p>
 
-<p><xsl:include href="http://www.loc.gov/standards/mods/inc/dcmiType.xsl"/></p>
-<p><xsl:include href="http://www.loc.gov/standards/mods/inc/mimeType.xsl"/></p>
+<p><code>< xsl:include href="http://www.loc.gov/standards/mods/inc/dcmiType.xsl"/ ><br />
+< xsl:include href="http://www.loc.gov/standards/mods/inc/mimeType.xsl"/ ></code></p>
 
 <p>With no action by the user, when this Transformation Scenario is saved, Combine will attempt to download these dependencies and rewrite, resulting in include s that look like the following:</p>
 
-<p><xsl:include href="/home/combine/data/combine/transformations/dcmiType.xsl"/></p>
-<p><xsl:include href="/home/combine/data/combine/transformations/mimeType.xsl"/></p>
+<p><code>< xsl:include href="/home/combine/data/combine/transformations/dcmiType.xsl"/ ><br />
+< xsl:include href="/home/combine/data/combine/transformations/mimeType.xsl"/ ></code></p>
 
-<p><strong>Note:</strong> If stylesheets that remote include s rely on external stylesheets that may change or update, the primary Transformation stylesheet – e.g. DC2MODS.xsl – will have to be re-entered, with the original URLs, and re-saved in Combine to update the local dependencies.</p>
+<p><strong>Note:</strong> If stylesheets that remote include s rely on external stylesheets that may change or update, the primary Transformation stylesheet – e.g. DC2MODS.xsl – will have to be re-entered, with the original URLs, and re-saved in Combine to update the local dependencies.</p><br />
 
 <h2>Validation Scenarios</h2>
 
 <p>Validations are not separate Jobs. Instead, a user can add a Validation Scenario to a Harvest or Transformation Job by selecting a “Validation Test” as part of the workflow when creating either type of Job.</p>
 
-<p>Validation Scenarios can be created using the Django Administration page or using the Combine Configuration page, which is the recommended method. Scenarios can take the following formats: XML Schema (XSD), Schematron, and ElasticSearch Query DSL. Python code snippets could be another option, but that would require additional development before they can be supported in a safe and reliable manner.</p>
+<p>Validation Scenarios can be created using the Django Administration page or using the Combine Configuration page, which is the recommended method. Scenarios can take the following formats: XML Schema (XSD), <a href="https://www.schematron.com""/>Schematron</a>, and <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html">ElasticSearch Query DSL</a>. Python code snippets could be another option, but that would require additional development before they can be supported in a safe and reliable manner.</p>
 
 <p>Transformations require the following information:</p>
 
 <ul>
-  <li>Name - A human readable name for the Validation Scenario.
-  <li>Validation Code/Payload - The actual code for the Validation should be pasted into this box.</li>
-  <li>Validation type - A drop down menu offers Schematron, ElasticSearch Query DSL, or XSL Search. The Django administration page dropdown also includes Python Code Snippet, but as noted above, this option is currently deprecated.</li>
-  <li>Filepath (Django only) - This may be ignored. In earlier versions, some Validation Scenarios were written to disk, but this has been deprecated in the current version.</li>
-  <li>Default run - if selected, the Validation Scenario will be automatically checked when running a new Job</li>
+  <li><strong>Name</strong> - A human readable name for the Validation Scenario.
+  <li><strong>Validation Code/Payload</strong> - The actual code for the Validation should be pasted into this box.</li>
+  <li><strong>Validation Type</strong> - A drop down menu offers Schematron, ElasticSearch Query DSL, or XSL Search. The Django administration page dropdown also includes Python Code Snippet, but as noted above, this option is currently deprecated.</li>
+  <li><strong>Filepath (Django only)</strong> - This may be ignored. In earlier versions, some Validation Scenarios were written to disk, but this has been deprecated in the current version.</li>
+  <li><strong>Default Run</strong> - if selected, the Validation Scenario will be automatically checked when running a new Job</li>
 </ul>
 
-<img src="images/Part06-05-CreateNewValidationScenario.jpg" alt="Create a new Validation Scenario" width="1000" border="2">
-<p>Combine interface form for creating a new Validation Scenario</p>
+<table>
+  <tr>
+    <td><img src="images/Part06-05-CreateNewValidationScenario.jpg" alt="image of the interface used to create a new Validation Scenario" width="700" border="2"></td>
+  </tr>
+  <tr>
+    <td><em>Combine interface form for creating a new Validation Scenario</em></td>
+  </tr>
+</table><br />
 
-
-<h3>Scenarios and Tests</h3>
+<h3>Validation Scenarios and Tests</h3>
 
 <p>Validation Scenarios are flexible. One Job might include multiple Scenarios with each Scenario running a single test on every Record. Or the Job could include one Validation Scenario that includes all of the tests bundled together.</p>
 
@@ -221,9 +219,14 @@ title: Configuration
 
 <p>Combine can also test a Validation Scenario. Clicking the button “Test Validation Scenario” brings up the following screen:</p>
 
-<img src="images/Part06-06-TestValidationScenarioforaRecord.jpg" alt="Test Validation Scenario for a Record" width="1000" border="2">
-<p>Combine interface page for testing a Validation scenario</p>
-
+<table>
+  <tr>
+    <td><img src="images/Part06-06-TestValidationScenarioforaRecord.jpg" alt="image of the interface used to test a Validation Scenario" width="800" border="2"></td>
+  </tr>
+  <tr>
+    <td><em>Combine interface page for testing a Validation scenario</em></td>
+  </tr>
+</table><br />
 
 <p>In this screenshot, we can see the following:</p>
 
@@ -237,99 +240,102 @@ title: Configuration
 <p>The results of the test will appear at the bottom of the page two areas:</p>
 
 <ul>
-  <li>Parsed Validation Results - These show the tests that have passed and failed, and also give a total count of failures</li>
-  <li>Raw Validation Results - These results will depend on the type of Scenario selected.</li>
+  <li><strong>Parsed Validation Results</strong> - These show the tests that have passed and failed, and also give a total count of failures</li>
+  <li><strong>Raw Validation Results</strong> - These results will depend on the type of Scenario selected.</li>
 </ul>
 
-<h2>Validation Scenario Types</h2>
+<h3>Validation Scenario Types</h3>
 
-<h3>XML Schema (XSD)</h3>
+<strong>XML Schema (XSD)</strong>
 
 <p>One limitation of XML Schema is that many Python-based validators will stop with the first error encountered in a document, meaning the resulting Validation failure will only show the first invalid XML segment encountered, though there may be many. However, knowing that a Record has failed even one part of an XML Schema the user can turn to an external validator to determine if the Record is invalid in other respects.</p>
 
-<h3>Schematron</h3>
+<strong>Schematron</strong>
 
-<p>A valid Schematron XML document cay be used as a Validation Scenario on a Record’s raw XML. Schematron validations are rule-based, and in Combine the results will be returned as XML. The XML is parsed, and each distinct, defined test is noted and parsed.</p>
+<p>A valid <a href="https://www.schematron.com""/>Schematron</a> XML document cay be used as a Validation Scenario on a Record’s raw XML. Schematron validations are rule-based, and in Combine the results will be returned as XML. The XML is parsed, and each distinct, defined test is noted and parsed.</p>
 
 <p>Below is an example of a small Schematron validation that looks for some fields that are required to make an XML document DPLA compliant:</p>
 
-<code><?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://purl.oclc.org/dsdl/schematron" xmlns:mods="http://www.loc.gov/mods/v3">
-  <ns prefix="mods" uri="http://www.loc.gov/mods/v3"/>
-  <!-- Required top level Elements for all records record -->
-  <pattern>
-    <title>Required Elements for Each MODS record</title>
-    <rule context="mods:mods">
-      <assert test="mods:titleInfo">There must be a title element</assert>
-      <assert test="count(mods:location/mods:url[@usage='primary'])=1">There must be a url pointing to the item</assert>
-      <assert test="count(mods:location/mods:url[@access='preview'])=1">There must be a url pointing to a thumnail version of the item</assert>
-      <assert test="count(mods:accessCondition[@type='use and reproduction'])=1">There must be a rights statement</assert>
-    </rule>
-  </pattern>
+<p border="2">
+<code>< ?xml version="1.0" encoding="UTF-8"? ><br />
+< schema xmlns="http://purl.oclc.org/dsdl/schematron" xmlns:mods="http://www.loc.gov/mods/v3" ><br />
+&nbsp;< ns prefix="mods" uri="http://www.loc.gov/mods/v3"/ ><br />
+&nbsp;< !-- Required top level Elements for all records record --><br />
+&nbsp;< pattern><br />
+&nbsp;&nbsp;< title >Required Elements for Each MODS record< /title ><br />
+&nbsp;&nbsp;< rule context="mods:mods" ><br />
+&nbsp;&nbsp;&nbsp;< assert test="mods:titleInfo" >There must be a title element< /assert ><br />
+&nbsp;&nbsp;&nbsp;< assert test="count(mods:location/mods:url[@usage='primary'])=1" >There must be a url pointing to the item< /assert ><br />
+&nbsp;&nbsp;&nbsp;< assert test="count(mods:location/mods:url[@access='preview'])=1" >There must be a url pointing to a thumnail version of the item< /assert ><br />
+&nbsp;&nbsp;&nbsp;< assert test="count(mods:accessCondition[@type='use and reproduction'])=1" >There must be a rights statement< /assert ><br />
+&nbsp;&nbsp;< /rule ><br />
+&nbsp;< /pattern ><br /><br />
 
-  <!-- Additional Requirements within Required Elements -->
-  <pattern>
-    <title>Subelements and Attributes used in TitleInfo</title>
-    <rule context="mods:mods/mods:titleInfo">
-      <assert test="*">TitleInfo must contain child title elements</assert>
-    </rule>
-    <rule context="mods:mods/mods:titleInfo/*">
-      <assert test="normalize-space(.)">The title elements must contain text</assert>
-    </rule>
-  </pattern>
+&nbsp;< !-- Additional Requirements within Required Elements --><br />
+&nbsp;< pattern ><br />
+&nbsp;&nbsp; < title>Subelements and Attributes used in TitleInfo< /title ><br />
+&nbsp;&nbsp;< rule context="mods:mods/mods:titleInfo"><br />
+&nbsp;&nbsp;&nbsp;<assert test="*" >TitleInfo must contain child title elements< /assert ><br />
+&nbsp;&nbsp;< /rule ><br />
+&nbsp;&nbsp;< rule context="mods:mods/mods:titleInfo/*"><br />
+&nbsp;&nbsp;&nbsp;<assert test="normalize-space(.)" >The title elements must contain text< /assert ><br />
+&nbsp;&nbsp;< /rule ><br />
+&nbsp;< /pattern ><br /><br />
 
-  <pattern>
-    <title>Additional URL requirements</title>
-    <rule context="mods:mods/mods:location/mods:url">
-      <assert test="normalize-space(.)">The URL field must contain text</assert>
-    </rule>
-  </pattern>
+&nbsp;< pattern ><br />
+&nbsp;&nbsp;< title >Additional URL requirements< /title ><br />
+&nbsp;&nbsp;< rule context="mods:mods/mods:location/mods:url" ><br />
+&nbsp;&nbsp;&nbsp;< assert test="normalize-space(.)">The URL field must contain text< /assert ><br />
+&nbsp;&nbsp;< /rule ><br />
+&nbsp;< /pattern ><br />
 
-</schema></code>
+< /schema ></code></p><br />
 
 
-<h3>ElasticSearch Query DSL</h3>
+<strong>ElasticSearch Query DSL</strong>
 
-<p>ElasticSearch Query DSL Validation Scenarios are a bit different. ElasticSearch DSL validates by performing ElasticSearch queries against mapped fields for a Job, and marking Records as valid or invalid based on whether they match those queries. Queries may be written to identify matches as valid, or written to identify matches as invalid.
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html">ElasticSearch Query DSL</a> Validation Scenarios are a bit different. ElasticSearch DSL validates by performing ElasticSearch queries against mapped fields for a Job, and marking Records as valid or invalid based on whether they match those queries. Queries may be written to identify matches as valid, or written to identify matches as invalid.
 Below is an example of ElasticSearch Query DSL:</p>
 
-<code>[
-  {
-    "test_name": "field foo exists",
-    "matches": "valid",
-    "es_query": {
-      "query": {
-        "exists": {
-          "field": "foo"
-        }
-      }
-    }
-  },
-  {
-    "test_name": "field bar does NOT have value 'baz'",
-    "matches": "invalid",
-    "es_query": {
-      "query": {
-        "match": {
-          "bar.keyword": "baz"
-        }
-      }
-    }
-  }
+<p border="2">
+<code>[<br />
+&nbsp;{<br />
+&nbsp;&nbsp;"test_name": "field foo exists",<br />
+&nbsp;&nbsp;"matches": "valid",<br />
+&nbsp;&nbsp;"es_query": {<br />
+&nbsp;&nbsp;&nbsp;"query": {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"exists": {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"field": "foo"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;}<br />
+&nbsp;},<br />
+&nbsp;{<br />
+&nbsp;&nbsp;"test_name": "field bar does NOT have value 'baz'",<br />
+&nbsp;&nbsp;"matches": "invalid",<br />
+&nbsp;&nbsp;"es_query": {<br />
+&nbsp;&nbsp;&nbsp;"query": {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"match": {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"bar.keyword": "baz"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;}<br />
+&nbsp;}<br />
 ]</code>
-
 
 <p>This example contains two tests in a single Validation Scenario: the first checks that field “foo” exists, and the second checks that field “bar” does not have the value “baz.” Each test must contain the following properties:</p>
 
 <ul>
-  <li>test_name: a name that the validation can report in case of a failure</li>
-  <li>matches: the string being used in the query, either to identify a valid match or an invalid one</li>
-  <li>es_query: the raw query</li>
+  <li><strong>test_name:</strong> a name that the validation can report in case of a failure</li>
+  <li><strong>matches:</strong> the string being used in the query, either to identify a valid match or an invalid one</li>
+  <li><strong>es_query:</strong> the raw query</li>
 </ul>
 
-<p>ElasticSearch Query DSL supports complex querying (boolean, and/or, fuzzy, regex, etc.).</p>
+<p>ElasticSearch Query DSL supports complex querying (boolean, and/or, fuzzy, regex, etc.).</p><br />
 
 <h2>Record Identifier Transformation Scenarios (RITS)</h2>
+
+<p><em><strong>Note:</strong> While this feature is not deprecated outright in the current version, it hasn't been thoroughly tested in some time, so its status is uncertain. This section has been left largely untouched from the previous documentation, but any use of "Python code snippets" HAVE been deprecated.</em></p>
 
 <p>Another configurable “Scenario” in Combine is a Record Identifier Transformation Scenario or “RITS” for short. A RITS allows the transformation of a Record’s “Record Identifier”. A Record has three identifiers in Combine, with the Record Identifier (record_id) as the only changeable, mutable of the three. The Record ID is what is used for publishing, and for all intents and purposes, the unique identifier for the Record outside of Combine.</p>
 
@@ -342,29 +348,40 @@ Below is an example of ElasticSearch Query DSL:</p>
 <p>RITS are performed, just like Transformation Scenarios or Validation Scenarios, for every Record in the Job. RITS may be in the form of:</p>
 
 <ul>
-  <li>Regular Expressions - specifically, python flavored regex</li>
-  <li>Python code snippet - a snippet of code that will transform the identifier</li>
-  <li>XPATH expression - given the Record’s raw XML, an XPath expression may be given to extract a value to be used as the Record Identifier</li>
+  <li><strong>Regular Expressions</strong> - specifically, python flavored regex</li>
+  <li><strong>Python code snippet</strong> - a snippet of code that will transform the identifier</li>
+  <li><strong>XPATH expression</strong> - given the Record’s raw XML, an XPath expression may be given to extract a value to be used as the Record Identifier</li>
 </ul>
 
 <p>All RITS have the following values:</p>
 
 <ul>
-  <li>Name - Human readable name for RITS
-  <li>Transformation type - regex for Regular Expression, python for Python code snippet, or xpath for XPath expression</li>
-  <li>Transformation target - the RITS payload and type may use the pre-existing Record Identifier as input, or the Record’s raw, XML record</li>
-  <li>Regex match payload - If using regex, the regular expression to match</li>
-  <li>Regex replace payload - If using regex, the regular expression to replace that match with (allows values from groups)</li>
-  <li>Python payload - python code snippet, that will be passed an instance of a PythonUDFRecord</li>
-  <li>Xpath payload - single XPath expression as a string</li>
+  <li><strong>Name</strong> - Human readable name for RITS
+  <li><strong>Transformation Type</strong> - regex for Regular Expression, python for Python code snippet, or xpath for XPath expression</li>
+  <li><strong>Transformation Target</strong> - the RITS payload and type may use the pre-existing Record Identifier as input, or the Record’s raw, XML record</li>
+  <li><strong>Regex Match Payload</strong> - If using regex, the regular expression to match</li>
+  <li><strong>Regex Replace Payload</strong> - If using regex, the regular expression to replace that match with (allows values from groups)</li>
+  <li><strong>Python Payload</strong> - Python code snippet, that will be passed an instance of a PythonUDFRecord</li>
+  <li><strong>Xpath Payload</strong> - single XPath expression as a string</li>
 </ul>
 
-<img src="images/Part06-07-DjangoAddRITS.jpg" alt="Django Administration Form for Adding a RITS" width="1000" border="2">
-<p>Django admin form for adding a Record Identifier Transformation Scenario (RITS)</p>
+<table>
+  <tr>
+    <td><img src="images/Part06-07-DjangoAddRITS.jpg" alt="image of the Django form for adding a RITS" width="700" border="2"></td>
+  </tr>
+  <tr>
+    <td><em>Django form for adding a RITS</em></td>
+  </tr>
+</table><br />
 
-<img src="images/Part06-08-RITSonConfigurationPage.jpg" alt="RITS on the Configuration Page" width="1000" border="2">
-<p>Form on the Configuration page for creating a Record Identifier Transformation Scenario (RITS)</p>
-
+<table>
+  <tr>
+    <td><img src="images/Part06-08-RITSonConfigurationPage.jpg" alt="image of RITS section on the Configuration Page" width="800" border="2"></td>
+  </tr>
+  <tr>
+    <td><em>Form on the Configuration page for creating a RITS</em></td>
+  </tr>
+</table><br />
 
 <p>Payloads that do not pertain to the Transformation type may be left blank (e.g. if using python code snippet, regex match and replace payloads, and xpath payloads, may be left blank).</p>
 
@@ -378,54 +395,69 @@ Below is an example of ElasticSearch Query DSL:</p>
 
 <p>The screenshot belows shows an example of a regex match / replace used to replace digital.library.wayne.edu with goober.tronic.org, also highlighting the ability to use groups:</p>
 
-<img src="images/Part06-09-TestRITS.jpg" alt="Test RITS" width="1000" border="2">
-<p>Example of a RITS with a Regular Expression</p>
+<table>
+  <tr>
+    <td><<img src="images/Part06-09-TestRITSwithRegex.jpg" alt="image of interface used to test a RITS" width="800" border="2"></td>
+  </tr>
+  <tr>
+    <td><em>Example of a RITS tested with a Regular Expression</em></td>
+  </tr>
+</table><br />
 
-
-<p>A contrived example, this shows a regex expression applied to the input Record identifier of oai:digital.library.wayne.edu:wayne:Livingto1876b22354748`.</p>
+<p>A contrived example, this shows a regex expression applied to the input Record identifier of <code>oai:digital.library.wayne.edu:wayne:Livingto1876b22354748</code>.</p><br />
 
 
 <h3>Python Code Snippet</h3>
+
+<p><strong><em>Note:</em></strong> As noted, all use of Python code snippets has been deprecated pending future development.</em></p>
 
 <p>Python code snippets for RITS operate similarly to Transformation and Validation scenarios in that the python code snippet is given an instance of a PythonUDFRecord for each Record. However, it differs slightly in that if the RITS Transformation target is the Record ID only, the PythonUDFRecord will have only the .record_id attribute to work with.</p>
 
 <p>For a python code snippet RITS, a function named transform_identifier is required, with a single unnamed, passed argument of a PythonUDFRecord instance. An example may look like the following:</p>
 
-<code># ability to import modules as needed (just for demonstration)
-import re
-import time
+<p border="2"><code># ability to import modules as needed (just for demonstration)<br />
+import re<br />
+import time<br /></br />
 
-# function named `transform_identifier`, with single passed argument of PythonUDFRecord instance
-def transform_identifier(record):</code>
-
+# function named `transform_identifier`, with single passed argument of PythonUDFRecord instance<br />
+def transform_identifier(record):<br /></code></p>
 
 <p>In this example, a string replacement is performed on the record identifier, but this could be much more complex, using a combination of the Record's parsed XML and/or the Record Identifier.  This example is meant ot show the structure of a Python based RITS only.</p>
 
-
-<code># function must return string of new Record Identifier
-    return record.record_id.replace('digital.library.wayne.edu','goober.tronic.org')</code>
+<p border="2"><code># function must return string of new Record Identifier</br />
+    return record.record_id.replace('digital.library.wayne.edu','goober.tronic.org')</code></p>
 
 <p>And a screenshot of this RITS in action:</p>
 
-
-<p>Example of a RITS with a Python code snippet</p>
-
+<table>
+  <tr>
+    <td><<img src="images/Part06-10-TestRITSwithPython.jpg" alt="image of interface used to test a RITS with a Python code snippet" width="800" border="2"></td>
+  </tr>
+  <tr>
+    <td><em>Example of a RITS with a Python code snippet</em></td>
+  </tr>
+</table><br />
 
 <h3>XPath Expression</h3>
 
 <p>Finally, a single XPath expression may be used to extract a new Record Identifier from the Record’s XML record. Note: The input must be the Record’s Document, not the current Record Identifier, as the XPath must have valid XML to retrieve a value from. Below is a an example screenshot:</p>
 
-
-<p>Example of a RITS with an XPath expression</p>
-
+<table>
+  <tr>
+    <td><<img src="images/Part06-11-TestRITSwithXPath.jpg" alt="image of interface used to test a RITS with an XPath expression" width="800" border="2"></td>
+  </tr>
+  <tr>
+    <td><em>Example of a RITS with an XPath expression</em></td>
+  </tr>
+</table><br />
 
 <h2>Built-In OAI-PMH Server</h2>
 
 <p>Combine comes with a built-in OAI-PMH server to serve published Records. Configurations for the OAI server, at this time, are not configured with Django’s admin, but may be found in combine/localsettings.py. These settings include:</p>
 
 <ul>
-  <li>OAI_RESPONSE_SIZE - How many records to return per OAI paged response</li>
-  <li>COMBINE_OAI_IDENTIFIER - It is common for OAI servers (producers) to prefix Record identifiers on the way out with an identifier unique to the server. This setting can also be configured to mirror the identifier used in other/previous OAI servers to mimic downstream identifiers</li>
+  <li><strong>OAI_RESPONSE_SIZE</strong> - How many records to return per OAI paged response</li>
+  <li><strong>COMBINE_OAI_IDENTIFIER</strong> - It is common for OAI servers (producers) to prefix Record identifiers on the way out with an identifier unique to the server. This setting can also be configured to mirror the identifier used in other/previous OAI servers to mimic downstream identifiers</li>
 </ul><br /><br />
 
 <p>Next: <a href="/combine-docker/runningjobs">Running Jobs</a></p>
