@@ -88,7 +88,7 @@ title: Configuration
 
 <table>
   <tr>
-    <td><img src="images/Part06-01-CreateNewTransformationScenario.jpg" alt="an image of the interface in Combine" width="500" border="2"></td>
+    <td><img src="images/Part06-01-CreateNewTransformationScenario.jpg" alt="an image of the interface in Combine" width="400" border="2"></td>
     <td><img src="images/Part06-02-DjangoTransformationScenario.jpg" alt="in image of the Django interface" width="500" border="2"></td>
   </tr>
   <tr>
@@ -246,20 +246,19 @@ title: Configuration
 
 <h3>Validation Scenario Types</h3>
 
-<strong>XML Schema (XSD)</strong>
+<p><strong>XML Schema (XSD)</strong></p>
 
 <p>One limitation of XML Schema is that many Python-based validators will stop with the first error encountered in a document, meaning the resulting Validation failure will only show the first invalid XML segment encountered, though there may be many. However, knowing that a Record has failed even one part of an XML Schema the user can turn to an external validator to determine if the Record is invalid in other respects.</p>
 
-<strong>Schematron</strong>
+<p><strong>Schematron</strong></p>
 
 <p>A valid <a href="https://www.schematron.com""/>Schematron</a> XML document cay be used as a Validation Scenario on a Record’s raw XML. Schematron validations are rule-based, and in Combine the results will be returned as XML. The XML is parsed, and each distinct, defined test is noted and parsed.</p>
 
 <p>Below is an example of a small Schematron validation that looks for some fields that are required to make an XML document DPLA compliant:</p>
 
-<table border="1"" cellpadding="5">
+<table>
   <tr>
-    <td>
-      <code>< ?xml version="1.0" encoding="UTF-8"? ><br />
+    <td><code>< ?xml version="1.0" encoding="UTF-8"? ><br />
 < schema xmlns="http://purl.oclc.org/dsdl/schematron" xmlns:mods="http://www.loc.gov/mods/v3" ><br />
 &nbsp;< ns prefix="mods" uri="http://www.loc.gov/mods/v3"/ ><br />
 &nbsp;< !-- Required top level Elements for all records record --><br />
@@ -302,7 +301,7 @@ title: Configuration
 <p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html">ElasticSearch Query DSL</a> Validation Scenarios are a bit different. ElasticSearch DSL validates by performing ElasticSearch queries against mapped fields for a Job, and marking Records as valid or invalid based on whether they match those queries. Queries may be written to identify matches as valid, or written to identify matches as invalid.
 Below is an example of ElasticSearch Query DSL:</p>
 
-<table border="1"" cellpadding="5">
+<table>
   <tr>
     <td>
       <code>
@@ -408,7 +407,7 @@ Below is an example of ElasticSearch Query DSL:</p>
 
 <table>
   <tr>
-    <td><<img src="images/Part06-09-TestRITSwithRegex.jpg" alt="image of interface used to test a RITS" width="800" border="2"></td>
+    <td><img src="images/Part06-09-TestRITSwithRegex.jpg" alt="image of interface used to test a RITS" width="800" border="2"></td>
   </tr>
   <tr>
     <td><em>Example of a RITS tested with a Regular Expression</em></td>
