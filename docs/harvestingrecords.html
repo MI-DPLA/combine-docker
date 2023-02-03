@@ -47,7 +47,7 @@ title: Harvesting Records
   <li>Harvest all records (slowest, but will harvest records NOT in sets)</li>
 </ul>
 
-<p>You also have the option of including the <header> with the OAI record XML.</p>
+<p>You also have the option of including the <code>< header ></code> with the OAI record XML.</p>
 
 <p>Below this section you will find a gold alert bar for the ‘optional parameters’ that were explained in Part 7: Running Jobs, including “Validation Tests,” “Transform Identifier,” and “DPLA Bulk Data Compare.”</p>
 
@@ -57,7 +57,7 @@ title: Harvesting Records
 
 <p>As an Harvest type Job, OAI harvests are responsible for creating a Record Identifier (record_id) for each Record. The record_id is pulled from the record/header/identifier field for each Record harvested.</p>
 
-<p>As you continue on your metadata harvesting, transforming, and publishing journey, and you are thinking about how identifiers came to be, or might be changed, this is a good place to start from to see what the originating identifier was.</p>
+<p>As you continue on your metadata harvesting, transforming, and publishing journey, and you are thinking about how identifiers came to be, or might be changed, this is a good place to start from to see what the originating identifier was.</p><br />
 
 <h2>Static XML File Harvest</h2>
 
@@ -96,7 +96,7 @@ title: Harvesting Records
 < /mods:mods ></code>
     </td>
   </tr>
-</table><br />
+</table>
 
 <p>This record would only need the following Root XML element string to be found: mods:mods. No angle brackets, no XPath expressions, just the element name!</p>
 
@@ -108,7 +108,7 @@ title: Harvesting Records
       <code>xmlns:mods="http://www.loc.gov/mods/v3"</code>
     </td>
   </tr>
-</table><br />
+</table>
 
 <p>Using this declaration would create the following valid XML Record in Combine:</p>
 
@@ -121,7 +121,7 @@ title: Harvesting Records
 < /mods:mods ></code>
     </td>
   </tr>
-</table><br />
+</table><br /><br />
 
 <p>Next on the page are the rest of the required configurations. For convenience the New Job page includes tables that provide brief explanations for how to use them: </p>
 
@@ -162,7 +162,7 @@ title: Harvesting Records
   <li>a zip file of directories, each containing multiple XML files</li>
   <li>a single MODS XML file, that contains multiple MODS records</li>
   <li>even a .txt file containing XML strings (though this one isn’t recommended)</li>
-</ul>
+</ul><br />
 
 <p><strong>Identifiers for Static harvesting</strong></p>
 
@@ -175,7 +175,7 @@ title: Harvesting Records
 
 <p>Below this section you will find a gold alert bar, and beneath that will be the ‘optional parameters’ that were explained in Part 7: Running Jobs, including “Validation Tests,” “Transform Identifier,” and “DPLA Bulk Data Compare.”</p>
 
-<p>Once all of these configurations are set, you are ready to scroll to the bottom of the page and click the green “Run Static Harvest Job” button to begin the harvest.</p> 
+<p>Once all of these configurations are set, you are ready to scroll to the bottom of the page and click the green “Run Static Harvest Job” button to begin the harvest.</p><br />
 
 <h2>Tabular Data (Spreadsheet) Harvesting</h2>
 
@@ -197,8 +197,8 @@ title: Harvesting Records
 
 <p>In this step, we use a provided ruby program, called “reaper” to translate the spreadsheet tabs prepared in step 1 into Dublin Core xml file(s). Reaper requires ruby version 3 or newer to run properly. The code also requires two gems to be installed: ‘optparse’ and ‘xsv’. It uses a unix like syntax where the ‘-f’ flag indicates the next item is the Excel file to process.</p>
 
-<p><code>ruby reaper.rb -f dc_data.xlsx<br />
-Ruby reaper.rb -h</code></p>
+<p><code>ruby reaper.rb -f dc_data.xlsx</code></p>
+<p><code>Ruby reaper.rb -h</code></p>
   
 <p><strong>Step 3: Use the provided xslt file to transform the Dublin Core xml file into MODS xml file that can be harvested into Combine.</strong></p>
 
