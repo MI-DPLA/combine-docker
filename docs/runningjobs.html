@@ -6,7 +6,7 @@ title: Running Jobs
 
 <p>This section describes how Jobs are organized, run, and managed in Combine. This includes a description of a typical Record Group page within an Organization and the options a user will find there. This page also covers required and optional steps that apply to all the Job types described in parts 9-11.</p>
  
-<p>We also cover “versioning” and “pipelines” here, but these those sections may make more sense after you’ve reviewed Parts 9-11, which describe the various Job types, and after you’ve run some of those Jobs yourself.</p>
+<p>We also cover “versioning” and “pipelines” here, but these those sections may make more sense after you’ve reviewed Parts 9-11, which describe the various Job types, and after you’ve run some of those Jobs yourself.</p><br />
 
 <h2>Record Versioning</h2>
 
@@ -18,13 +18,18 @@ title: Running Jobs
 
 <ul>
   <li>Pros</li>
-  <li>simple data model, each version of a Record is stored separately</li>
-  <li>each Record stage can be indexed and analyzed separately</li>
-  <li>Jobs containing Records can be deleted without affecting copies that are up/downstream (they will vanish from the lineage)</li>
+    <ul>
+      <li>simple data model, each version of a Record is stored separately</li>
+      <li>each Record stage can be indexed and analyzed separately</li>
+      <li>Jobs containing Records can be deleted without affecting copies that are up/downstream (they will vanish from the lineage)</li>
+    </ul>
+    
   <li>Cons</li>
-  <li>duplication of data is potentially unnecessary if Record information has not changed</li>
-  <li>more space needed to store duplicate Records</li>
-</ul>
+    <ul>
+      <li>duplication of data is potentially unnecessary if Record information has not changed</li>
+    <li>more space needed to store duplicate Records</li>
+  </ul>
+</ul></br />
 
 <h2>The Record Group Page</h2>
 
@@ -32,41 +37,53 @@ title: Running Jobs
 
 <p>At the top of the Record Group page is a graph displaying that Job’s “lineage,” followed by a table displaying all the Jobs within that Record Group:</p>
 
-<img src="images/Part07-01-RecordGroupMurielWebb.jpg" alt="A Job lineage and a table of Jobs on a Record Group Page" width="1000" border="2">
-<p>A Job “lineage” and a table of Jobs on a Record Group page</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-01-RecordGroupMurielWebb.jpg" alt="an image of a table showing the Jobs run for a Record Group and their lineage" width="800" border="2"></td>
+  </tr>
+  <tr>
+    <td><em>A Job “lineage” and a table of Jobs on a Record Group page</em></td>
+  </tr>
+</table>
 
 <p>The lineage graph shows how the Jobs in the Record Group are related to one another. The text between nodes show how many Records were used as “input” for a “target Job” (see the section on “Pipelines” below), and which filters, if any, were applied. This graph is zoomable and clickable. It’s intended to provide insight and context at a glance.</p>
 
 <p>The Jobs table is more functional. It shows all of the Jobs in the Record Group and includes a search box at the upper right. The table’s columns are:</p>
 
 <ul>
-  <li>Job ID - a numerical ID that increments with every Job in your instance of Combine</li>
-  <li>Last Updated - A timestamp from when the Job began</li>
-  <li>Name - An editable field for naming or renaming the Job. It also acts as a link for that Job’s details page (see Part 12: Job Results and Record Details).</li> 
-  <li>Record Group - The name of the current Record Group. This is also a link to the Record Group that a particular Job falls under. In most cases this will be the same Record Group, but it’s possible for a Record Group to display a Job from another Record Group and advanced users may have good reasons to organize Jobs that way.</li>
-  <li>Organization -  a link to the Organization this Job falls under</li>
-  <li>Job Type - Harvest, Transform, or Merge (see Parts 8-10)</li>
-  <li>Status - the status of the Job. The are several possible values here:</li>
-  <li>finished - the Job is complete and available</li>
-  <li>running - the Job is in process</li>
-  <li>waiting - the Job is queued behind other Jobs</li>
-  <li>running - The Job is currently running in Livy</li>
-  <li>gone - Livy has restarted or stopped, so no information is available</li>
-  <li>Is Valid - true/false. False indicates that a Record (or many Records) failed at least one of the Validation Scenarios applied to the Job. True indicates that all Records passed all Validations, though it’s also the result when no Validations were applied to the Job at all</li>
-  <li>Publishing - publishing or unpublishing a Job will add or remove it from Combine’s own OAI feed. See “Part 13: Publishing Records” for more.</li>
-  <li>Elapsed - how long the Job has been running, or how long the Job took to complete. </li>
-  <li>Input - all of the Jobs that provided Records for that Job. This will show “None” if the Job is not “downstream” of another Job (see the section on “Pipelines” below).</li> 
-  <li>Notes - an optional field for any notes the user wants to add. The Job’s details page will also have a notes field if the user prefers to put them there.</li>
-  <li>Total Record Count - the total number of successfully processed Records. A result of ‘0’ here is usually the first sign that a Job setting was incorrect.</li>
-  <li>Actions - this cell offers a link to a Job’s details page and also a link to allow the Job to be monitored in Spark (see “Part 2: Installation and Server Maintenance” for more.)</li>
+  <li><strong>Job ID</strong> - a numerical ID that increments with every Job in your instance of Combine</li>
+  <li><strong>Last Updated</strong> - A timestamp from when the Job began</li>
+  <li><strong>Name</strong> - An editable field for naming or renaming the Job. It also acts as a link for that Job’s details page (see Part 12: Job Results and Record Details).</li> 
+  <li><strong>Record Group</strong> - The name of the current Record Group. This is also a link to the Record Group that a particular Job falls under. In most cases this will be the same Record Group, but it’s possible for a Record Group to display a Job from another Record Group and advanced users may have good reasons to organize Jobs that way.</li>
+  <li><strong>Organization</strong> -  a link to the Organization this Job falls under</li>
+  <li><strong>Job Type</strong> - Harvest, Transform, or Merge (see Parts 8-10)</li>
+  <li><strong>Status</strong> - the status of the Job. The are several possible values here:</li>
+  <ul>
+    <li>finished - the Job is complete and available</li>
+    <li>running - the Job is in process</li>
+    <li>waiting - the Job is queued behind other Jobs</li>
+    <li>running - The Job is currently running in Livy</li>
+    <li>gone - Livy has restarted or stopped, so no information is available</li>
+  </ul>
+  <li><strong>Is Valid</strong> - true/false. False indicates that a Record (or many Records) failed at least one of the Validation Scenarios applied to the Job. True indicates that all Records passed all Validations, though it’s also the result when no Validations were applied to the Job at all</li>
+  <li><strong>Publishing</strong> - publishing or unpublishing a Job will add or remove it from Combine’s own OAI feed. See “Part 13: Publishing Records” for more.</li>
+  <li><strong>Elapsed</strong> - how long the Job has been running, or how long the Job took to complete. </li>
+  <li><strong>Input</strong> - all of the Jobs that provided Records for that Job. This will show “None” if the Job is not “downstream” of another Job (see the section on “Pipelines” below).</li> 
+  <li><strong>Notes</strong> - an optional field for any notes the user wants to add. The Job’s details page will also have a notes field if the user prefers to put them there.</li>
+  <li><strong>Total Record Count</strong> - the total number of successfully processed Records. A result of ‘0’ here is usually the first sign that a Job setting was incorrect.</li>
+  <li><strong>Actions</strong> - this cell offers a link to a Job’s details page and also a link to allow the Job to be monitored in Spark (see “Part 2: Installation and Server Maintenance” for more.)</li>
 </ul>
 
 <p>Below the Jobs table is a section for “Jobs Management”:</p>
 
-<img src="images/Part07-02-JobManagement.jpg" alt="Job Management" width="1000" border="2">
-<p>Commands available in the Jobs Management section</p>
-
-
+<table>
+  <tr>
+    <td><img src="images/Part07-02-JobManagement.jpg" alt="an image showing the commands that are available in the Jobs Management section" width="800" border="2"></td>
+  </tr>
+  <tr>
+    <td><em>Commands available in the Jobs Management section</em></td>
+  </tr>
+</table>
 
 <p>This tab should not be confused with the “Manage” tab on every Job Results page. While the two are very similar, the Job Management section on a Record Group page allows the user to work with several Jobs at once. (For more on the Job Results page, see “Part 12: Job Results and Record Details.”) The commands in this section include:</p>
 
@@ -80,7 +97,7 @@ title: Running Jobs
 
 <p>All of these options include a slider titled “Include Downstream?” that defaults to on or off, depending on the command. When the slider is on for a particular task, it will analyze the lineage of the selected Jobs and determine which are downstream and include them in the action being peformed (e.g. moving, deleting, etc.)  However, it’s important to note that when a Job is re-run, all Jobs that are ‘downstream” of it will also be automatically re-run because, by definition, they have inherited Jobs from the Job in question. (They are “farther down the pipeline.”) See below for a more detailed discussion of pipelines, upstream and downstream.</p>
 
-<p>When it comes to “re-running” and “cloning,” different users may have reasons for preferring one over the other, but it’s important to give some thought to the implications of using each one. The principle behind Combine overall has been to preserve the data of each Job at every step, allowing a User to undo a step if it’s had unintended consequences. The option to “re-run” a Job is an exception to this rule. It will keep the current parameters, applied scenarios, and linkages to other Jobs, but Record data, Mapped Fields, and Validations from the previous run will be dropped (see below for a more in-depth explanation of re-running Jobs). This can make re-running a Job a convenient way to save server space, especially when running large Jobs on a system with limited resources. But if something goes wrong with the “re-run” and if the problem will take time to correct, the user will have a lost any older (but still valid) copies of that Job in the meantime. “Cloning” a Job will ensure that any previous runs of that Job remain intact until the current Job can be confirmed as Valid and reliable. For this reason, users who go with “cloning” may someday be very glad they did. But they should also be mindful about how much server space their multiple clones may be using, and they should get into the habit of weeding older clones regularly.</p>
+<p>When it comes to “re-running” and “cloning,” different users may have reasons for preferring one over the other, but it’s important to give some thought to the implications of using each one. The principle behind Combine overall has been to preserve the data of each Job at every step, allowing a User to undo a step if it’s had unintended consequences. The option to “re-run” a Job is an exception to this rule. It will keep the current parameters, applied scenarios, and linkages to other Jobs, but Record data, Mapped Fields, and Validations from the previous run will be dropped (see below for a more in-depth explanation of re-running Jobs). This can make re-running a Job a convenient way to save server space, especially when running large Jobs on a system with limited resources. But if something goes wrong with the “re-run” and if the problem will take time to correct, the user will have a lost any older (but still valid) copies of that Job in the meantime. “Cloning” a Job will ensure that any previous runs of that Job remain intact until the current Job can be confirmed as Valid and reliable. For this reason, users who go with “cloning” may someday be very glad they did. But they should also be mindful about how much server space their multiple clones may be using, and they should get into the habit of weeding older clones regularly.</p><br />
 
 <h2>Selecting a Job Type</h2>
 
@@ -88,21 +105,38 @@ title: Running Jobs
 
 <p>All Jobs are tied to, and start from, a Record Group. (See “Part 5: The Data Model” for more on Record Groups.) Scroll down on any Record Group page and you will find several buttons for starting new jobs:</p>
 
-<img src="images/Part07-03-NewJob.jpg" alt="Buttons to start a new job" width="1000" border="2">
-<p>Buttons to start a new Job</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-03-NewJob.jpg" alt="an image showing the commands that are important for new Jobs" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Buttons to start a new Job</em></td>
+  </tr>
+</table>
 
-
-<p>Clicking any of these buttons will initiate a new Job, and present you with the options explained below.</p>
+<p>Clicking any of these buttons will initiate a new Job, and present you with the options explained below.</p><br />
 
 <h2>Optional Parameters</h2>
 
 <p>Each Job type has its own configuration page, but all of them share a tabbed section of optional parameters that looks like one of the following:</p>
 
-<img src="images/Part07-04-FieldMapping.jpg" alt="Optional parameters for Harvest Jobs" width="1000" border="2">
-<p>Optional parameters for Harvest Jobs</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-04-FieldMapping.jpg" alt="an image showing the parameters that can be used for Harvest Jobs" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Optional parameters for Harvest Jobs</em></td>
+  </tr>
+</table>
 
-<img src="images/Part07-05-RecordInputFilter.jpg" alt="Optional parameters for Transform and Merge/Duplicate Jobs" width="1000" border="2">
-<p>Optional parameters for Transform and Merge/Duplicate Jobs</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-05-RecordInputFilter.jpg" alt="an image showing the parameters that can be used for Transform and Merge/Duplicate Jobs" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Optional parameters for Transform and Merge/Duplicate Jobs</em></td>
+  </tr>
+</table>
 
 <p>For most of these optional parameters, a user will need to configure each of them ahead of time in the Configurations Page (see “Part 6: Configuration” for a description of this page). Then select which of them to apply to that particular Job.</p>
 
@@ -110,9 +144,9 @@ title: Running Jobs
   <li>Record Input Filter</li>
   <li>Validation Tests</li>
   <li>Transform Identifier</li>
-</ul>
+</ul><br />
 
-<h2>Record Input Filter</h2>
+<h3>Record Input Filter</h3>
 
 <p>When running a new Transform or Duplicate/Merge Job, which both rely on other Jobs as Input Jobs, filters can be applied to incoming Records. These filters can be set on the “Record Input Filter” tab.</p>
 
@@ -125,23 +159,51 @@ title: Running Jobs
 
 <p>Setting filters for individual Jobs is performed by clicking the filter icon next to a Job’s checklist in the Input Job selection table:</p>
 
-<img src="images/Part07-06-FilterButton.jpg" alt="Click the Filter Button to set filters for a new job" width="1000" border="2">
-<p>Click the Filter Button to set Filters for a specific Job</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-06-FilterButton.jpg" alt="an image of the interface used to set filters for a Job" width="100" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Click the Filter Button to set Filters for a specific Job</em></td>
+  </tr>
+</table>
+
 
 <p>This will bring up a modal window where filters can be set for that Job, and that Job only. When the modal window is saved, and filters applied to that Job, the filter icon will turn orange indicating that Job has unique filters applied:</p>
 
-<img src="images/Part07-07-FilterButton02.jpg" alt="Orange Filter Buttons indicate filters for a specific Job" width="1000" border="2">
-<p>Orange Filter buttons indicate Filters selected for a specific Job</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-07-FilterButton02.jpg" alt="another image of the interface used to set filters, this time with some filters selected" width="300" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Orange Filter buttons indicate Filters selected for a specific Job</em></td>
+  </tr>
+</table>
+
 
 <p>When filters are applied to specific Jobs, this will be reflected in the Job lineage graph:</p>
 
-<img src="images/Part07-08-LineageMap.jpg" alt="Job lineage showing specific filters applied to a Job" width="1000" border="2">
-<p>Job lineage showing specific filters applied to a Job</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-08-LineageMap.jpg" alt="a lineage display where filters have been selected" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Job lineage showing specific filters applied to a Job</em></td>
+  </tr>
+</table>
+
 
 <p>and the Input Jobs tab for the Job as well:</p>
 
-<img src="images/Part07-09-LineageMapWithFilters.jpg" alt="Job lineage showing specific filters applied to a Job" width="1000" border="2">
-<p>Job lineage showing specific filters applied to a Job</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-09-LineageMapWithFilters.jpg" alt="a Job's tab showing the filters selected for it'" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Job lineage showing specific filters applied to a Job</em></td>
+  </tr>
+</table>
+
 
 <p>Currently, the following input Record filters are supported:</p>
 
@@ -150,47 +212,65 @@ title: Running Jobs
   <li>Limit Number of Records</li>
   <li>Filter Duplicates</li>
   <li>Filter by Mapped Fields</li>
-</ul>
+</ul><br />
 
-<h3>Filter by Record Validity</h3>
+<p><strong>Filter by Record Validity</strong></p><br />
 
 <p>Users can select if all, valid, or invalid Records will be included.</p>
 
-<img src="images/Part07-10-RecordInputValidity.jpg" alt="Selecting Record input Validity valve for a Job" width="1000" border="2">
-<p>Selecting Record Input Validity Valve for a Job</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-10-RecordInputValidity.jpg" alt="an image showing how to select a 'valve' that can filter for only Valid or Invalid Records" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Selecting Record Input Validity Valve for a Job</em></td>
+  </tr>
+</table>
 
 <p>Below is an example of how those valves can be applied and utilized with Merge Jobs to select only valid or invalid records:</p>
 
-<img src="images/Part07-11-LineageMapWithShunting.jpg" alt="Shunting records based on validity and eventually merging all valid Records" width="1000" border="2">
-<p>Example of shunting Records based on validity and eventually merging all valid Records</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-11-LineageMapWithShunting.jpg" alt="a lineage graph showing how Valid and Invalid Records can be filtered" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Example of shunting Records based on validity and eventually merging all valid Records</em></td>
+  </tr>
+</table>
 
-<p>Keep in mind, if multiple Validation Scenarios were run for a particular Job, it only requires one Record failing one test, within one Validation Scenario, for the Job to be considered “invalid” as a whole.</p>
+<p>Keep in mind, if multiple Validation Scenarios were run for a particular Job, it only requires one Record failing one test, within one Validation Scenario, for the Job to be considered “invalid” as a whole.</p><br />
 
-<h3>Limit Number of Records</h3>
+<p><strong>Limit Number of Records</strong></p><br />
 
 <p>Arguably the simplest filter, users can provide a number to limit total number of Records that will be used as input. This numerical filter is applied after other filters have been applied, and the Records from each Input Job have been mixed. Given Input Jobs A, B, and C--each having 1,000 Records--and applying a numerical limit of 50, it’s quite possible that all 50 will come from Job A, and 0 from B and C.</p>
 
-<p>This filter is best used for testing and sampling.</p>
+<p>This filter is best used for testing and sampling.</p><br />
 
-<h3>Filter Duplicates</h3>
+<p><strong>Filter Duplicates</strong></p><br />
 
-<p>This filter will remove duplicate Records based on matching record_id values. As these are used for publishing, this can be a way to ensure that Records are not published with duplicate record_id’s.</p>
+<p>This filter will remove duplicate Records based on matching record_id values. As these are used for publishing, this can be a way to ensure that Records are not published with duplicate record_id’s.</p><br />
 
-<h3>Filter by Mapped Fields</h3>
+<p><strong>Filter by Mapped Fields</strong></p><br />
 
 <p>Users can provide an ElasticSearch DSL query, as JSON, to refine the records that will be used for this Job.</p>
 
 <p>Take, for example, an input Job of 10,000 Records that has a field foo_bar, and 500 of those Records have the value ‘baz’ in that field. If the following query is entered, only the 500 Records with the value ‘baz’ will be used for the Job:</p>
 
-<code>{
-  "query":{
-    "match":{
-      "foo_bar":"baz"
-    }
-  }
+<table>
+  <tr>
+    <td>
+      <code>{<br />
+&nbsp;"query":{<br />
+&nbsp;&nbsp;"match":{<br />
+&nbsp;&nbsp;&nbsp;"foo_bar":"baz"<br />
+&nbsp;&nbsp;}<br />
+&nbsp;}<br />
 }</code>
+    </td>
+  </tr>
+</table><br />
 
-<p>This ability offers the potential for taking the time to map fields in interesting and helpful ways, so that you can use those specially mapped fields to refine later Jobs. ElasticSearch queries can be quite powerul and complex, and in theory, this filter will support any query you apply.</p>
+<p>This ability offers the potential for taking the time to map fields in interesting and helpful ways, so that you can use those specially mapped fields to refine later Jobs. ElasticSearch queries can be quite powerul and complex, and in theory, this filter will support any query you apply.</p><br />
 
 <h3>Validation Tests</h3>
 
@@ -198,17 +278,31 @@ title: Running Jobs
 
 <p>The Validation Test selection page looks like this for a Job, with checkboxes for each pre-configured Validation Scenario. A Validation Scenario might already be checked if it’s been marked to run by default:</p>
 
-<img src="images/Part07-12-ValidationTests.jpg" alt="Selecting Validation tests for a Job" width="1000" border="2">
-<p>Selecting Validation tests for a Job</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-12-ValidationTests.jpg" alt="an image of the interface used to select a type of Validation test" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Selecting Validation tests for a Job</em></td>
+  </tr>
+</table>
 
-<p>For more on Validation, see Part 11: Validation.</p>
+<p>For more on Validation, see Part 11: Validation.</p><br />
 
 <h3>Transform Identifier</h3>
 
+<p><em><strong>Note:</strong> While this feature is not deprecated outright in the current version, it hasn't been thoroughly tested in some time, so its status is uncertain. This section has been left largely untouched from the previous documentation, but any use of "Python code snippets" HAVE been deprecated.</em></p>
+
 <p>When running a Job, users can optionally select a Record Identifier Transformation Scenario (RITS) that will modify the Record Identifier for each Record in the Job.</p>
 
-<img src="images/Part07-13-TransformIdentifier.jpg" alt="Selecting a RITS for a Job" width="1000" border="2">
-<p>Selecting a Record Identifier Transformation Scenario (RITS) for a Job</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-13-TransformIdentifier.jpg" alt="an image of the interface used to select a RITS for a Job" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Selecting a Record Identifier Transformation Scenario (RITS) for a Job</em></td>
+  </tr>
+</table><br />
 
 <h2>Pipelines: “Upstream” and “Downstream” Jobs</h2>
 
@@ -216,62 +310,111 @@ title: Running Jobs
 
 <p>Take the Jobs below as an example:</p>
 
-<img src="images/Part07-14-LineageandPipelines.jpg" alt="Five connected Jobs" width="1000" border="2">
-<p>Five connected Jobs
+<table>
+  <tr>
+    <td><img src="images/Part07-14-LineageandPipelines.jpg" alt="an image of a lineage graph showing the relationships between five separate Jobs" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Five connected Jobs</em></td>
+  </tr>
+</table>
 
 <p>In this example, Harvest Job A is the “root” or “origin” Job of this lineage. In Job A a set of Records were first harvested and created in Combine. All of the other Jobs in this lineage – B, C, D, and E – are “downstream” of Job A. From the point of view of A, there is a single pipeline. If a user were to reharvest A, potentially adding, removing, or modifying Records in that Job, this has implications for all other Jobs that either got Records from A, or got Records from Jobs that got Records from A, and so forth. In that sense, Jobs are “downstream” if changes to an “upstream” Job would potentially change their own Records.</p>
 
 <p>Moving to B, only one Job is downstream, D. Looking at C, there are two Jobs that are downstream, Jobs, D and E. Moving to D, we can see that D actually has two Jobs that are upstream, Jobs B and C. This can be confirmed by looking at the “Input Jobs” tab for D:</p>
 
-<img src="images/Part07-15-InputJobs.jpg" alt="Input Jobs for JOb D, showing Jobs B and C" width="1000" border="2">
-<p>Input Jobs for Job D, showing Jobs B and C</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-15-InputJobs.jpg" alt="an image of a table showing Jobs B and C from the example being described" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Input Jobs for Job D, showing Jobs B and C</em></td>
+  </tr>
+</table>
 
 <p>If we look closely, though, we can see that no records are coming from Job C even though it’s listed as an Input Job for Job D. Why is this? The answer lies in the input filters applied to Jobs B and C: “De-Dupe Records” is true for both. We can infer then that Job B and Job C included Records that had the same record_ids, so once the Records from Job B were inputted into Job D, the duplicate records in Job C were all de-duped (i.e. skipped) during the Merge Job.</p>
 
 <p>Here’s another way to look at the lineage from the perspective of Job D:</p>
 
-<img src="images/Part07-16-AlternateViews.jpg" alt="Alternatve view of the lineage from the perspective of Job D" width="1000" border="2">
-<p>Alternate view of the lineage from the perspective of Job D</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-16-AlternateViews.jpg" alt="a view of a lineage graph for Job D from the example being described" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Alternate view of the lineage from the perspective of Job D</em></td>
+  </tr>
+</table>
 
 <p>So if we relate this back to the Job Management section, what would happen if we select Job A, click the “Re-Run Selected Jobs” button, and then slide “Include Downstream” to “on”?  That would slate Jobs A-E to also re-run, one-by-one in a queue in order to ensure that each Job is getting updated Records from each Job that’s upstream of it:</p>
 
-<img src="images/Part07-17-RecordGroupRecordGroup.jpg" alt="Re-running Job A with the 'Include Downstream' slider moved to 'on'" width="1000" border="2">
-<p>Re-running Job A with the “Include Downstream?” slider moved to “on”</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-17-RecordGroupRecordGroup.jpg" alt="a table showing the result of Re-running Job A with the 'Include Downstream' slider moved to 'on'" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Re-running Job A with the “Include Downstream?” slider moved to “on”</em></td>
+  </tr>
+</table>
 
 <p>As you can see–after the page is refreshed–the status for each Job has changed to “waiting,”  and the Jobs will now re-run in order.</p>
 
-<p>We also have the ability to clone Jobs, again with the option to include or ignore Jobs that are downstream. The following is an example of cloning C and not including downstream Jobs:</p>
+<p>We also have the ability to <strong>clone</strong> Jobs, again with the option to include or ignore Jobs that are downstream. The following is an example of cloning C and <strong>not</strong> including downstream Jobs:</p>
 
-<img src="images/Part07-18-CloningJobC.jpg" alt="Cloning Job C and not including Jobs downstream of it" width="1000" border="2">
-<p>Cloning Job C and not including Jobs that are downstream of it</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-18-CloningJobC.jpg" alt="an image of a lineage graph showing the result of cloning Job C and not including Jobs downstream of it" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Cloning Job C and not including Jobs that are downstream of it</em></td>
+  </tr>
+</table>
 
 <p>All the validations, input filters, and parameters that were set for Job C are copied to the new Job C (CLONED), but because downstream Jobs were not included, Jobs D and E have not been cloned.</p>
 
-<p>But if we clone Job C and do include downstream Jobs, then we see something like this:</p> 
+<p>But if we clone Job C and <strong>do</strong> include downstream Jobs, then we see something like this:</p> 
 
-<img src="images/Part07-19-CloningJobCNext.jpg" alt="Cloning Job C and including Jobs downstream of it" width="1000" border="2">
-<p>Cloning Job C and including Jobs that are downstream of it</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-19-CloningJobCNext.jpg" alt="an image of a lineage graph showing the result of cloning Job C and this time including Jobs downstream of it" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Cloning Job C and including Jobs that are downstream of it</em></td>
+  </tr>
+</table>
 
 <p>Now there’s a line from Job B to the newly created cloned Job D (CLONE). Why has that happened? Because Job D was downstream from Job C during the clone–and, therefore, cloned as well–but it still required input from Job, which was not cloned. One can think of Job B as a set of Records that rarely change but are often required for other Jobs.</p>
 
 <p>To get a sense about input Jobs for Jobs that are cloned, versus input Jobs for Jobs that are not cloned, we can look at this example. Job A is cloned and all of its downstream Jobs are included:</p>
 
-<img src="images/Part07-20-CloningJobA.jpg" alt="Job A cloned with all downstream Jobs included" width="1000" border="2">
-<p>Job A cloned with all downstream Jobs included</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-20-CloningJobA.jpg" alt="a lineage graph showing Job A being cloned with downstream Jobs included" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Job A cloned with all downstream Jobs included</em></td>
+  </tr>
+</table>
 
 <p>In this pipeline, every other Job is downstream of Job A, so cloning Job A will also clone the entire pipeline and create a standalone copy of it. So you could clone an entire pipeline–and then re-run all of its Jobs in order to test them–without risking the integrity of the original pipeline before you know whether the re-run will be successful or not.</p>
 
 <p>The same rules apply for other commands, such as deleting. In this example we are deleting Job A (CLONE) and including all downstream Jobs:</p>
 
-<img src="images/Part07-21-DeletingJobA.jpg" alt="Deleting Job A and all its downstream Jobs included" width="1000" border="2">
-<p>Deleting Job A (CLONE) and all of its downstream Jobs</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-21-DeletingJobA.jpg" alt="an image of the interface as Job A and its downstream Jobs are deleted" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Deleting Job A (CLONE) and all of its downstream Jobs</em></td>
+  </tr>
+</table>
 
-<p>“Pipelines” like these aren’t a formal structure in Combine, but they can be a very helpful way to think about a “lineage” of related Jobs. When paired with the granular control Combine gives you to set input filters for input Jobs, the ability to re-run or clone Jobs will allow you to set up complicated pipelines of related Jobs that you can re-use multiple times, as the next section will show.</p>
+<p>“Pipelines” like these aren’t a formal structure in Combine, but they can be a very helpful way to think about a “lineage” of related Jobs. When paired with the granular control Combine gives you to set input filters for input Jobs, the ability to re-run or clone Jobs will allow you to set up complicated pipelines of related Jobs that you can re-use multiple times, as the next section will show.</p><br />
 
 <h2>Re-Running Jobs</h2>
 
 <p>In the previous section we examined “pipelines” of Jobs that flow from “upstream” to “downstream,” with one Job providing Records for the Job that follows it. In this section we look at how you can use the “re-run” command with a series of Jobs that really can make them resemble a “pipeline.” This method can be especially helpful when you expect to repeat a particular series of harvests, transformations, merges, validations, and other tasks many times in the future. The series can be preserved and then applied to new or updated Record Groups as they’re ingested into Combine over time.</p> 
-When a Job is re-run, Combine takes the following actions first:
+
+<p>When a Job is re-run, Combine takes the following actions first:</p>
 
 <ul>
   <li>all Records for that Job are dropped from the MongoDB</li>
@@ -284,18 +427,26 @@ When a Job is re-run, Combine takes the following actions first:
 <ul>
   <li>the Job ID, name, notes</li>
   <li>all configurations, including:</li>
-  <li>field mapping</li>
-  <li>validations applied</li>
-  <li>input filters</li>
-  <li>etc.</li>
+    <ul>
+    <li>field mapping</li>
+    <li>validations applied</li>
+    <li>input filters</li>
+    <li>etc.</li>
+  </ul>
   <li>linkages to other Jobs; which Jobs were used as input (“upstream”), and which Jobs used this Job as input (“downstream”)</li>
   <li>the publish status of a Job, with corresponding publish_set_id (if a Job is published before re-running, the updated Records will automatically publish as well)</li>
 </ul>
 
 <p>Consider the following example:</p>
 
-<img src="images/Part07-22-LineageofJobs.jpg" alt="An example of a lineage of Jobs" width="1000" border="2">
-<p>An example of a lineage of Jobs</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-22-LineageofJobs.jpg" alt="an image of a lineage of Jobs" width="600" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>An example of a lineage of Jobs</em></td>
+  </tr>
+</table>
 
 <p>Records from an OAI Harvest Job, J1, are used as input for Job J2. A subset of these are passed to Job J3, perhaps because they failed a particular Validation. These are then fixed and successfully Validated in Job J4. Then the Validated Records from Job J2 and Job J4 are finally merged in Job J5, creating a final form for all of the Records. Each step can apply a different set of Validations and mappings to fix various errors and keep the Records moving along.</p>
 
@@ -305,8 +456,14 @@ When a Job is re-run, Combine takes the following actions first:
 
 <p>Here’s how this example would look in Combine:</p>
 
-<img src="images/Part07-23-RerunofCombinePipeline.jpg" alt="A re-run of a Pipeline" width="1000" border="2">
-<p>A re-run of a “Pipeline”</p>
+<table>
+  <tr>
+    <td><img src="images/Part07-23-RerunofCombinePipeline.jpg" alt="an image of re-running a 'Pipeline''" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>A re-run of a “Pipeline”</em></td>
+  </tr>
+</table>
 
 <p>In this pipeline:</p>
 
