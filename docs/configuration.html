@@ -19,7 +19,7 @@ title: Configuration
 
 <p>Previous versions of Combine relied on Django’s built-in admin interface for editing and creating transformations, validations, and other scenarios. These can now be created with the current Combine interface, but a link to the Django admin panel can still be found on the Configuration page for users who prefer it.</p>
 
-<p>Settings that cannot be configured by the GUI in Combine, are accessible in the file <code>combine/localsettings.py</code>.</p>
+<p>Settings that cannot be configured by the GUI in Combine, are accessible in the file <code>combine/localsettings.py</code>.</p><br />
 
 <h2>OAI-PMH Server Endpoints</h2>
 
@@ -56,7 +56,7 @@ title: Configuration
 
 <p><strong>Question:</strong> What should I do if my OAI endpoint has no sets?</p>
 
-<p>In the event that your OAI endpoint does not have sets, or there are records you would like to harvest that may not belong to a set, choose the “harvestAllSets” option from the dropdown menu on the Harvest page. This effectively unsets the Scope Type and Scope Value, triggering the DPLA Ingestion 3 OAI harvester to harvest all records.</p>
+<p>In the event that your OAI endpoint does not have sets, or there are records you would like to harvest that may not belong to a set, choose the “harvestAllSets” option from the dropdown menu on the Harvest page. This effectively unsets the Scope Type and Scope Value, triggering the DPLA Ingestion 3 OAI harvester to harvest all records.</p><br />
 
 <h2>Organizations</h2>
 
@@ -66,7 +66,7 @@ title: Configuration
 
 <p>At the bottom of the Organizations page there is a section called “Create new Organization.” Simply add a Name and Description in the appropriate fields and press the green button. That will take you to another page which will prompt you to provide a name for that Organization’s first Record Group. Pressing the green button here will take you in turn to that Record Group’s page, and so on through the configuration process.</p>
 
-<p>With your Organizations configured, you can move on to Transformations.</p>
+<p>With your Organizations configured, you can move on to Transformations.</p><br />
 
 <h2>Transformation Scenarios</h2>
 
@@ -89,12 +89,12 @@ title: Configuration
 <table>
   <tr>
     <td><img src="images/Part06-01-CreateNewTransformationScenario.jpg" alt="an image of the interface in Combine" width="400" border="2"></td>
-    <td><img src="images/Part06-02-DjangoTransformationScenario.jpg" alt="in image of the Django interface" width="500" border="2"></td>
+    <td><img src="images/Part06-02-DjangoTransformationScenario.jpg" alt="in image of the Django interface" width="600" border="2"></td>
   </tr>
   <tr>
-    <td><p><em>The Combine and Django interfaces for creating Transformations</em></p></td>
+    <td><p><em>The Combine and Django interfaces</em></p></td>
   </tr>
-</table><br />
+</table>
 
 <p>You can test a Transformation Scenario over a pre-existing Record by clicking the “Test Transformation Scenario” button on the Configuration page. This will take you to a screen that is used for testing Transformations, Validations, and Record Identifier Transformations. For a Transformation, it looks like this:</p>
 
@@ -105,7 +105,7 @@ title: Configuration
   <tr>
     <td><em>Screenshot of a Transformation Validation test</em></td>
   </tr>
-</table><br/>
+</table>
 
 <p>In this screenshot, a few things are happening:</p>
 
@@ -118,7 +118,7 @@ title: Configuration
   <li>at the very bottom, you can see the immediate results of the Transformation as applied to the selected Record</li>
 </ul>
 
-<p><em>Currently, there is no way to save changes to a Transformation Scenario, or add a new one, from this screen, but it allows for real-time testing of Transformation Scenarios.</em></p>
+<p>Currently, there is no way to save changes to a Transformation Scenario, or add a new one, from this screen, but it allows for real-time testing of Transformation Scenarios.</p><br />
 
 <h3>XSLT Transformations using an Include or Import</h3>
 
@@ -133,7 +133,7 @@ title: Configuration
 
 <p>In Combine, the primary XSL stylesheet provided for a Transformation Scenario is uploaded to the pyjxslt servlet to be run by Spark. This has the effect of breaking an XSL include that uses a local, filesystem href. Additionally, depending on server configurations, pyjxslt sometimes has trouble accessing a remote XSL include. Combine provides workarounds for both cases.</p>
 
-<strong>Using a local Include</strong>
+<p><strong>Using a local Include</strong></p>
 
 <p>For XSL stylesheets that require local, filesystem include s, Combine offers a workaround by allowing the user to create a Transformation Scenario for each XSL stylesheet that is imported by the primary stylesheet. Then, use the local filesystem path that Combine creates for that Transformation Scenario, and update the <code>< xsl:include ></code> in the original stylesheet with this new location on disk.</p>
 
@@ -153,14 +153,14 @@ title: Configuration
   <tr>
   	<td><em>Filepath for saved Transformation scenarios</em></td>
   </tr>
-</table></br>
+</table>
 
 <p>This Filepath value can then be used to replace the original <code>< xsl:include > s</code> in the primary stylesheet, in our example, DC2MODS.xsl:</p>
 
 <p><code>< xsl:include href="/home/combine/data/combine/transformations/a436a2d4997d449a96e008580f6dc699.xsl"/ ><br />
 < xsl:include href="/home/combine/data/combine/transformations/00eada103f6a422db564a346ed74c0d7.xsl"/ ></code></p><br />
 
-<strong>Using a remote Include</strong>
+<p><strong>Using a remote Include</strong></p>
 
 <p>When the href s for XSL includes s are remote HTTP URLs, Combine attempts to rewrite the primary XSL stylesheet automatically by:</p>
 
@@ -207,7 +207,7 @@ title: Configuration
   <tr>
     <td><em>Combine interface form for creating a new Validation Scenario</em></td>
   </tr>
-</table><br />
+</table>
 
 <h3>Validation Scenarios and Tests</h3>
 
@@ -226,7 +226,7 @@ title: Configuration
   <tr>
     <td><em>Combine interface page for testing a Validation scenario</em></td>
   </tr>
-</table><br />
+</table>
 
 <p>In this screenshot, we can see the following:</p>
 
@@ -242,7 +242,7 @@ title: Configuration
 <ul>
   <li><strong>Parsed Validation Results</strong> - These show the tests that have passed and failed, and also give a total count of failures</li>
   <li><strong>Raw Validation Results</strong> - These results will depend on the type of Scenario selected.</li>
-</ul>
+</ul><br />
 
 <h3>Validation Scenario Types</h3>
 
@@ -256,8 +256,10 @@ title: Configuration
 
 <p>Below is an example of a small Schematron validation that looks for some fields that are required to make an XML document DPLA compliant:</p>
 
-<p border="2">
-<code>< ?xml version="1.0" encoding="UTF-8"? ><br />
+<table border="1"" cellpadding="5">
+  <tr>
+    <td>
+      <code>< ?xml version="1.0" encoding="UTF-8"? ><br />
 < schema xmlns="http://purl.oclc.org/dsdl/schematron" xmlns:mods="http://www.loc.gov/mods/v3" ><br />
 &nbsp;< ns prefix="mods" uri="http://www.loc.gov/mods/v3"/ ><br />
 &nbsp;< !-- Required top level Elements for all records record --><br />
@@ -289,16 +291,22 @@ title: Configuration
 &nbsp;&nbsp;< /rule ><br />
 &nbsp;< /pattern ><br />
 
-< /schema ></code></p><br />
+< /schema ></code>
+    </td>
+  </tr>
+</table><br />
 
-
+    
 <strong>ElasticSearch Query DSL</strong>
 
 <p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html">ElasticSearch Query DSL</a> Validation Scenarios are a bit different. ElasticSearch DSL validates by performing ElasticSearch queries against mapped fields for a Job, and marking Records as valid or invalid based on whether they match those queries. Queries may be written to identify matches as valid, or written to identify matches as invalid.
 Below is an example of ElasticSearch Query DSL:</p>
 
-<p border="2">
-<code>[<br />
+<table border="1"" cellpadding="5">
+  <tr>
+    <td>
+      <code>
+[<br />
 &nbsp;{<br />
 &nbsp;&nbsp;"test_name": "field foo exists",<br />
 &nbsp;&nbsp;"matches": "valid",<br />
@@ -322,6 +330,9 @@ Below is an example of ElasticSearch Query DSL:</p>
 &nbsp;&nbsp;}<br />
 &nbsp;}<br />
 ]</code>
+    </td>
+  </tr>
+</table><br />
 
 <p>This example contains two tests in a single Validation Scenario: the first checks that field “foo” exists, and the second checks that field “bar” does not have the value “baz.” Each test must contain the following properties:</p>
 
@@ -372,7 +383,7 @@ Below is an example of ElasticSearch Query DSL:</p>
   <tr>
     <td><em>Django form for adding a RITS</em></td>
   </tr>
-</table><br />
+</table>
 
 <table>
   <tr>
@@ -381,13 +392,13 @@ Below is an example of ElasticSearch Query DSL:</p>
   <tr>
     <td><em>Form on the Configuration page for creating a RITS</em></td>
   </tr>
-</table><br />
+</table>
 
 <p>Payloads that do not pertain to the Transformation type may be left blank (e.g. if using python code snippet, regex match and replace payloads, and xpath payloads, may be left blank).</p>
 
 <p>Similar to Transformation and Validation scenarios, RITS can be tested by clicking the “Test Record Identifier Transformation Scenario” button at the bottom. You will be presented with a familiar screen of a table of Records, and the ability to select a pre-existing RITS, edit that RITS, and/or create a new one. Similarly, without the ability to update or save a new one, merely to test the results of one.</p>
 
-<p>These different types will be outline in a bit more detail below.</p>
+<p>These different types will be outline in a bit more detail below.</p><br />
 
 <h3>Regular Expression</h3>
 
@@ -402,7 +413,7 @@ Below is an example of ElasticSearch Query DSL:</p>
   <tr>
     <td><em>Example of a RITS tested with a Regular Expression</em></td>
   </tr>
-</table><br />
+</table>
 
 <p>A contrived example, this shows a regex expression applied to the input Record identifier of <code>oai:digital.library.wayne.edu:wayne:Livingto1876b22354748</code>.</p><br />
 
