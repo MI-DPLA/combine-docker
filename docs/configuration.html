@@ -88,8 +88,8 @@ title: Configuration
 
 <table>
   <tr>
-    <td><img src="images/Part06-01-CreateNewTransformationScenario.jpg" alt="an image of the interface in Combine" width="400" border="2"></td>
-    <td><img src="images/Part06-02-DjangoTransformationScenario.jpg" alt="in image of the Django interface" width="600" border="2"></td>
+    <td><img src="images/Part06-01-CreateNewTransformationScenario.jpg" alt="an image of the interface in Combine" width="500" border="2"></td>
+    <td><img src="images/Part06-02-DjangoTransformationScenario.jpg" alt="in image of the Django interface" width="500" border="2"></td>
   </tr>
   <tr>
     <td><p><em>The Combine and Django interfaces</em></p></td>
@@ -131,7 +131,7 @@ title: Configuration
   <li>remote, retrieved via HTTP request, e.g. <code>< xsl:include href="http://www.loc.gov/standards/mods/inc/mimeType.xsl"/ ></code></li>
 </ul>
 
-<p>In Combine, the primary XSL stylesheet provided for a Transformation Scenario is uploaded to the pyjxslt servlet to be run by Spark. This has the effect of breaking an XSL include that uses a local, filesystem href. Additionally, depending on server configurations, pyjxslt sometimes has trouble accessing a remote XSL include. Combine provides workarounds for both cases.</p>
+<p>In Combine, the primary XSL stylesheet provided for a Transformation Scenario is uploaded to the pyjxslt servlet to be run by Spark. This has the effect of breaking an XSL include that uses a local, filesystem href. Additionally, depending on server configurations, pyjxslt sometimes has trouble accessing a remote XSL include. Combine provides workarounds for both cases.</p><br />
 
 <p><strong>Using a local Include</strong></p>
 
@@ -297,7 +297,7 @@ title: Configuration
 </table><br />
 
     
-<strong>ElasticSearch Query DSL</strong>
+<p><strong>ElasticSearch Query DSL</strong></p>
 
 <p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html">ElasticSearch Query DSL</a> Validation Scenarios are a bit different. ElasticSearch DSL validates by performing ElasticSearch queries against mapped fields for a Job, and marking Records as valid or invalid based on whether they match those queries. Queries may be written to identify matches as valid, or written to identify matches as invalid.
 Below is an example of ElasticSearch Query DSL:</p>
@@ -442,7 +442,7 @@ def transform_identifier(record):<br /></code></p>
 
 <table>
   <tr>
-    <td><<img src="images/Part06-10-TestRITSwithPython.jpg" alt="image of interface used to test a RITS with a Python code snippet" width="800" border="2"></td>
+    <td><img src="images/Part06-10-TestRITSwithPython.jpg" alt="image of interface used to test a RITS with a Python code snippet" width="800" border="2"></td>
   </tr>
   <tr>
     <td><em>Example of a RITS with a Python code snippet</em></td>
@@ -455,7 +455,7 @@ def transform_identifier(record):<br /></code></p>
 
 <table>
   <tr>
-    <td><<img src="images/Part06-11-TestRITSwithXPath.jpg" alt="image of interface used to test a RITS with an XPath expression" width="800" border="2"></td>
+    <td><img src="images/Part06-11-TestRITSwithXPath.jpg" alt="image of interface used to test a RITS with an XPath expression" width="800" border="2"></td>
   </tr>
   <tr>
     <td><em>Example of a RITS with an XPath expression</em></td>
