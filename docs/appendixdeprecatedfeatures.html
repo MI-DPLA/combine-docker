@@ -6,16 +6,15 @@ title: Appendix - Deprecated Features
 
 <p>Combine’s initial development included several experimental ideas. Many of these were expanded into its current feature set, but others ultimately weren’t central enough to Combine’s core features to merit full development. Or in some cases, they relied on older code that could not be maintained within the funding and development hours available to the project over time.</p> 
 
-<p>The features below no longer appear in the interface, but the code has been left intact in case a future development effort decides to revisit them. Future groups looking for ways to improve Combine and build new functionality would do well to start here.</p> 
+<p>The features below no longer appear in the interface, but the code has been left intact in case a future development effort decides to revisit them. Future groups looking for ways to improve Combine and build new functionality would do well to start here.</p><br />
 
 <h2>Search</h2>
-<p>(This used to be Part 14)</p>
 
 <p>Combine provides a global search box on its main navigation bar, at the top right of the screen:</p> 
 
 <table>
   <tr>
-    <td><img src="images/Part15-01-GlobalSearch.jpg" alt="Global search box" width="1000" border="2"></td>
+    <td><img src="images/Part15-01-GlobalSearch.jpg" alt="Global search box" width="300" border="2"></td>
   </tr>
   <tr>
   	<td><em>Global search box in main Combine navigation bar</em></td>
@@ -24,7 +23,7 @@ title: Appendix - Deprecated Features
 
 <p>The user can search mapped fields across all Records, in all Jobs. Clicking the search box without typing in a search term will return all Records. If a search term is used, it will be copied automatically into the smaller search box at the top right of the table displaying the search results. Modified searches can be done there, updating the results in near realtime.</p> 
 
-<p>By default, global search looks for any token in the search string. In this case, it’s likely that and matched most of those records. The following will outline search options to narrow results.</p> 
+<p>By default, global search looks for any token in the search string. In this case, it’s likely that and matched most of those records. The following will outline search options to narrow results.</p><br />
 
 <h2>Global Search Options</h2>
 
@@ -58,7 +57,7 @@ title: Appendix - Deprecated Features
   <li><strong>Note:</strong> Even blank spaces must be captured by a wild card *. So, searching for public domain anywhere in a field would translate to *public*domain*.</li>
 </ul>
 
-<p>Global Search is searching the mapped fields for Records, which are stored in ElasticSearch. As such, the power (and complexity) of ElasticSearch is exposed here to some degree.</p>
+<p>Global Search is searching the mapped fields for Records, which are stored in ElasticSearch. As such, the power (and complexity) of ElasticSearch is exposed here to some degree.</p><br />
 
 <h3>Saving / Sharing Searches</h3>
 
@@ -66,17 +65,16 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-03-SearchParameters.jpg" alt="Options applied to search from URL" width="1000" border="2"></td>
+    <td><img src="images/Part15-03-SearchParameters.jpg" alt="Options applied to search from URL" width="300" border="2"></td>
   </tr>
   <tr>
   	<td><em>Options applied to search from URL</em></td>
   </tr>
 </table
 
-<p>This might be particularly helpful for saving or sharing searches with others.</p> 
+<p>This might be particularly helpful for saving or sharing searches with others.</p><br />
 
 <h2>Analysis Jobs</h2>
-<p>(This used to be the first half of Part 11)</p>
 
 <p>Analysis Jobs are a bit of an island. On the back-end, they are essentially Duplicate / Merge Jobs, and have the same input and configuration requirements. They can pull input Jobs from across Organizations and Records Groups.</p> 
 
@@ -107,17 +105,17 @@ title: Appendix - Deprecated Features
 
 <p>For example, the following XML metadata element:</p> 
 
-<p><mods:accessCondition type="useAndReproduction">This book is in the public domain.</mods:accessCondition></p>
+<p><code>< mods:accessCondition type="useAndReproduction" ></code>This book is in the public domain.< /mods:accessCondition ></p>
 
 <p>would become the following ElasticSearch field name:</p> 
 
-<p>mods_accessCondition_@type_useAndReproduction</p>
+<p><code>mods_accessCondition_@type_useAndReproduction</code></p>
 
 <p>While mods_accessCondition_@type_useAndReproduction is not terribly pleasant to look at, it’s telling where this value came from inside the XML document. And most importantly, this generic XPath flattening approach can be applied across all XML documents that Combine might encounter.</p> 
 
 <p>This “flattening”, aka “mapping”, of XML to fields that can be stored and readily queried in ElasticSearch is done through Field Mapping Configurations.</p> 
 
-<strong>Breakdown of indexed fields for a Job</strong>
+<p><strong>Breakdown of indexed fields for a Job</strong></p>
 
 <p>When viewing the details of a Job, the tab “Mapped Fields” shows a breakdown of all fields, for all records in this job, in a table. They can be thought of roughly as facets for the Job.</p> 
 
@@ -176,10 +174,9 @@ title: Appendix - Deprecated Features
   </tr>
 </table
 
-<p>At this level, we have the option to click into individual Records.</p> 
+<p>At this level, we have the option to click into individual Records.</p><br />
 
 <h2>Configuration: Field Mapping</h2>
-<p>(This used to be Part 6a)</p>
 
 <p>Field Mapping is the process of mapping values from a Record’s source (probably a document in XML) to meaningful and analyzable key/value pairs that can be stored in ElasticSearch. Combine uses these mapped values in several ways:</p> 
 
@@ -191,7 +188,7 @@ title: Appendix - Deprecated Features
   <li>and much more!</li>
 </ul>
 
-<p>To perform this mapping, Combine uses an internal library called XML2kvp, which stands for “XML to Key/Value Pairs”, to map XML to key/value JSON documents. Under the hood, XML2kvp uses xmltodict to parse the Record XML into a hierarchical dictionary, and then loops through that, creating fields based on the configurations below.</p> 
+<p>To perform this mapping, Combine uses an internal library called XML2kvp, which stands for “XML to Key/Value Pairs”, to map XML to key/value JSON documents. Under the hood, XML2kvp uses xmltodict to parse the Record XML into a hierarchical dictionary, and then loops through that, creating fields based on the configurations below.</p><br/ >
 
 <h3>I’ve mapped DC or MODS to Solr or ElasticSearch, why not do something similar?</h3>
 
@@ -199,10 +196,9 @@ title: Appendix - Deprecated Features
 
 <p>While applications like Solr and ElasticSearch more recently support hierarchical documents, and would likely support a straight XML to JSON converted document (with xmltodict, or Object Management Group (OMG)’s XML to JSON conversion standard), the attributes in XML give it a dimensionality beyond simple hierarchy, and can be critical to understanding the nature and values of a particular XML element. These direct mappings would function, but would not provide the same scannable, analysis of a group of XML records.</p> 
 
-<p>XML2kvp provides a way to blindly map most any XML document, providing a broad overview of fields and structures, with the ability to further narrow and configure. A possible update/improvement would be the ability for users to upload mappers of their making (e.g. XSLT) that would result in a flat mapping, but that is currently not implemented.</p> 
+<p>XML2kvp provides a way to blindly map most any XML document, providing a broad overview of fields and structures, with the ability to further narrow and configure. A possible update/improvement would be the ability for users to upload mappers of their making (e.g. XSLT) that would result in a flat mapping, but that is currently not implemented.</p><br />
 
 <h2>Field Mapping Configuration</h2>
-<p>(formerly on Part 7)</p>
 
 <p>Combine maps a Record’s original document – likely XML – to key/value pairs suitable for ElasticSearch with a library called XML2kvp. When running a new Job, users can provide parameters to the XML2kvp parser in the form of JSON.</p> 
 
@@ -236,7 +232,7 @@ title: Appendix - Deprecated Features
 
 <p>Clicking the button “What do these configurations mean?” will provide information about each parameter, pulled form the XML2kvp JSON schema.</p> 
 
-<p>The default is a safe bet to run Jobs, but configurations can be saved, retrieved, updated, and deleted from this screen as well.</p> 
+<p>The default is a safe bet to run Jobs, but configurations can be saved, retrieved, updated, and deleted from this screen as well.</p><br />
 
 <h3>How does it work</h3>
 
@@ -360,7 +356,7 @@ title: Appendix - Deprecated Features
  'dc_identifier': 'book_1234',
  'dc_subject': ('Writing--Materials and instruments', 'Archaeology'),
  'dc_title': 'Fragments of old book'}
-</p>
+</p><br />
 
 <h3>Configurations</h3>
 
@@ -493,11 +489,11 @@ title: Appendix - Deprecated Features
     <th>boolean</th>
     <th>Boolean to suffix field name with incrementing integer (after first instance, which does not receieve a suffix), e.g. XML <foo><bar>42</bar><bar>109</bar></foo> would map to foo_bar:42, foo_bar_#1:109 [Default: false, Overrides: skip_repeating_values]</th>
   </tr>
-</table>
+</table><br />
 
 <h3>Saving and Reusing</h3>
 
-<p>Field Mapper configurations may be saved, named, and re-used. This can be done anytime field mapper configurations are being set, e.g. when running a new Job, or re-indexing a previously run Job.</p> 
+<p>Field Mapper configurations may be saved, named, and re-used. This can be done anytime field mapper configurations are being set, e.g. when running a new Job, or re-indexing a previously run Job.</p><br />
 
 <h3>Testing</h3>
 
@@ -512,10 +508,9 @@ title: Appendix - Deprecated Features
   </tr>
 </table
 
-<p>In this screenshot, you can see a single Record is used as input, a Field Mapper Configurations applied, and the resulting mapped fields at the bottom.</p> 
+<p>In this screenshot, you can see a single Record is used as input, a Field Mapper Configurations applied, and the resulting mapped fields at the bottom.</p><br />
 
 <h2>DPLA Bulk Data Compare</h2>
-<p>(Previously in Part 7: Running Jobs)</p>
 
 <p>This somewhat experimental feature gives you the ability to compare the Records from a Job with a downloaded and indexed bulk data dump from DPLA. These DPLA bulk data downloads can be managed on the Configurations page.</p> 
 
@@ -529,9 +524,6 @@ title: Appendix - Deprecated Features
   	<td><em>Selecting a DPLA Bulk Data Download comparison for a Job</em></td>
   </tr>
 </table
-
-<h2>DPLA Bulk Data Downloads (DBDD)</h2>
-<p>(Previously in Part 6: Configuration)</p>
 
 <p>One of the more experimental features of Combine is to compare the Records from a Job (or, of course, multiple Jobs if they are Merged into one) against a bulk data download from DPLA.</p> 
 
@@ -550,9 +542,6 @@ title: Appendix - Deprecated Features
 
 <p>Because this comparison is using the Record Identifier for matching, this is a great example of where a Record Identifier Transformation Scenario (RITS) can be a powerful tool to emulate or recreate a known or previous identifier pattern. So much so, it’s conceivable that passing a RITS along with the DPLA Bulk Data Compare – just to temporarily transform the Record Identifier for comparison’s sake, but not in the Combine Record itself – might make sense.</p> 
 
-<h3>DPLA Bulk Data Matches</h3>
-<p>(This used to be in Part 12)</p>
-
 <table>
   <tr>
     <td><img src="images/Part15-12-DPLABulkDataResults.jpg" alt="Results of a DPLA Bulk Data Download comparison" width="1000" border="2"></td>
@@ -566,10 +555,9 @@ title: Appendix - Deprecated Features
 
 <p>This feature is experimental, but Combine provides an ideal environment and “moment in time” within the greater metadata aggregation ecosystem for this kind of comparison.</p> 
 
-<p>In this example, we are seeing that 185k Records were found in the DPLA data dump, and that 38k Records appear to be new. Without an example at hand, it is difficult to show, but it’s conceivable that by leaving Jobs in Combine, and then comparing them against a later DPLA data dump, one could confirm that all records do show up in the DPLA data.</p> 
+<p>In this example, we are seeing that 185k Records were found in the DPLA data dump, and that 38k Records appear to be new. Without an example at hand, it is difficult to show, but it’s conceivable that by leaving Jobs in Combine, and then comparing them against a later DPLA data dump, one could confirm that all records do show up in the DPLA data.</p><br />
 
 <h3>DPLA API Query</h3>
-<p>(This used to be in Part 12)</p>
 
 <table>
   <tr>
