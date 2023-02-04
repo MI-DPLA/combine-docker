@@ -31,7 +31,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-02-SearchOptionsPanel.jpg" alt="The opened Search Options panel" width="1000" border="2"></td>
+    <td><img src="images/Part15-02-SearchOptionsPanel.jpg" alt="The opened Search Options panel" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>The opened Search Options panel</em></td>
@@ -65,7 +65,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-03-SearchParameters.jpg" alt="Options applied to search from URL" width="300" border="2"></td>
+    <td><img src="images/Part15-03-SearchParameters.jpg" alt="Options applied to search from URL" width="500" border="2"></td>
   </tr>
   <tr>
   	<td><em>Options applied to search from URL</em></td>
@@ -86,7 +86,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-04-AnalysisJob.jpg" alt="Analysis Job showing analysis of two Jobs" width="1000" border="2"></td>
+    <td><img src="images/Part15-04-AnalysisJob.jpg" alt="Analysis Job showing analysis of two Jobs" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>Analysis Job showing analysis of two Jobs, across two different Record Groups</em></td>
@@ -121,7 +121,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-05-FieldAnalysisTab.jpg" alt="Example of a field Analysis Job" width="1000" border="2"></td>
+    <td><img src="images/Part15-05-FieldAnalysisTab.jpg" alt="Example of a field Analysis Job" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>Example of Field Analysis tab from Job details, showing all indexed fields for a Job</em></td>
@@ -132,7 +132,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-06-CollapsibleExplanation.jpg" alt="Collapsible explanation of indexed fields breakdown table" width="1000" border="2"></td>
+    <td><img src="images/Part15-06-CollapsibleExplanation.jpg" alt="Collapsible explanation of indexed fields breakdown table" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>Collapsible explanation of indexed fields breakdown table</em></td>
@@ -143,7 +143,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-07-MetadataFieldAnalysis.jpg" alt="Drill down" width="1000" border="2"></td>
+    <td><img src="images/Part15-07-MetadataFieldAnalysis.jpg" alt="Drill down" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>Drill down to mods_subject_topic indexed field</em></td>
@@ -167,7 +167,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-08-FieldAnalysisFairyTales.jpg" alt="Details for 'fairy tales'" width="1000" border="2"></td>
+    <td><img src="images/Part15-08-FieldAnalysisFairyTales.jpg" alt="Details for 'fairy tales'" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>Details for “fairy tales” mods_subject_topic indexed field</em></td>
@@ -369,125 +369,125 @@ title: Appendix - Deprecated Features
     <th>Description</th>
   </tr>
   <tr>
-    <th>add_literals</th>
-    <th>object</th>
-    <th>Key/value pairs for literals to mixin, e.g. foo:bar would create field foo with value bar [Default: {}]</th>
+    <td>add_literals</td>
+    <td>object</td>
+    <td>Key/value pairs for literals to mixin, e.g. foo:bar would create field foo witd value bar [Default: {}]</td>
   </tr>
   <tr>
-    <th>capture_attribute_values</th>
-    <th>array</th>
-    <th>Array of attributes to capture values from and set as standalone field, e.g. if [age] is provided and encounters <foo age='42'/>, a field foo_@age@ would be created (note the additional trailing @ to indicate an attribute value) with the value 42. [Default: [], Before: copy_to, copy_to_regex]</th>
+    <td>capture_attribute_values</td>
+    <td>array</td>
+    <td>Array of attributes to capture values from and set as standalone field, e.g. if [age] is provided and encounters <foo age='42'/>, a field foo_@age@ would be created (note tde additional trailing @ to indicate an attribute value) witd tde value 42. [Default: [], Before: copy_to, copy_to_regex]</td>
   </tr>
   <tr>
-    <th>concat_values_on_all_fields</th>
-    <th>[boolean,``string``]</th>
-    <th>Boolean or String to join all values from multivalued field on [Default: false]</th>
+    <td>concat_values_on_all_fields</td>
+    <td>[boolean,``string``]</td>
+    <td>Boolean or String to join all values from multivalued field on [Default: false]</td>
   </tr>
   <tr>
-    <th>concat_values_on_fields</th>
-    <th>object</th>
-    <th>Key/value pairs for fields to concat on provided value, e.g. foo_bar:- if encountering foo_bar:[goober,``tronic``] would concatenate to foo_bar:goober-tronic [Default: {}]</th>
+    <td>concat_values_on_fields</td>
+    <td>object</td>
+    <td>Key/value pairs for fields to concat on provided value, e.g. foo_bar:- if encountering foo_bar:[goober,``tronic``] would concatenate to foo_bar:goober-tronic [Default: {}]</td>
   </tr>
   <tr>
-    <th>copy_to_regex</th>
-    <th>object</th>
-    <th>Key/value pairs to copy one field to another, optionally removing original field, based on regex match of field, e.g. .*foo:bar would copy create field bar and copy all values fields goober_foo and tronic_foo to bar. Note: Can also be used to remove fields by setting the target field as false, e.g. .*bar:false, would remove fields matching regex .*bar [Default: {}]</th>
+    <td>copy_to_regex</td>
+    <td>object</td>
+    <td>Key/value pairs to copy one field to anotder, optionally removing original field, based on regex match of field, e.g. .*foo:bar would copy create field bar and copy all values fields goober_foo and tronic_foo to bar. Note: Can also be used to remove fields by setting tde target field as false, e.g. .*bar:false, would remove fields matching regex .*bar [Default: {}]</td>
   </tr>
   <tr>
-    <th>copy_to</th>
-    <th>object</th>
-    <th>Key/value pairs to copy one field to another, optionally removing original field, e.g. foo:bar would create field bar and copy all values when encountered for foo to bar, removing foo. However, the original field can be retained by setting remove_copied_key to true. Note: Can also be used to remove fields by setting the target field as false, e.g. ‘foo’:false, would remove field foo. [Default: {}]</th>
-    <th>copy_value_to_regex</th>
-    <th>object</th>
-    <th>Key/value pairs that match values based on regex and copy to new field if matching, e.g. http.*:websites would create new field websites and copy http://exampl.com and https://example.org to new field websites [Default: {}]</th>
+    <td>copy_to</td>
+    <td>object</td>
+    <td>Key/value pairs to copy one field to anotder, optionally removing original field, e.g. foo:bar would create field bar and copy all values when encountered for foo to bar, removing foo. However, tde original field can be retained by setting remove_copied_key to true. Note: Can also be used to remove fields by setting tde target field as false, e.g. ‘foo’:false, would remove field foo. [Default: {}]</td>
+    <td>copy_value_to_regex</td>
+    <td>object</td>
+    <td>Key/value pairs tdat match values based on regex and copy to new field if matching, e.g. http.*:websites would create new field websites and copy http://exampl.com and https://example.org to new field websites [Default: {}]</td>
   </tr>
   <tr>
-    <th>error_on_delims_collision</th>
-    <th>boolean</th>
-    <th>Boolean to raise DelimiterCollision exception if delimiter strings from either node_delim or ns_prefix_delim collide with field name or field value (false by default for permissive mapping, but can be helpful if collisions are essential to detect) [Default: false]</th>
+    <td>error_on_delims_collision</td>
+    <td>boolean</td>
+    <td>Boolean to raise DelimiterCollision exception if delimiter strings from eitder node_delim or ns_prefix_delim collide witd field name or field value (false by default for permissive mapping, but can be helpful if collisions are essential to detect) [Default: false]</td>
   </tr>
   <tr>
-    <th>exclude_attributes</th>
-    <th>array</th>
-    <th>Array of attributes to skip when creating field names, e.g. [baz] when encountering XML <foo><bar baz='42' goober='1000'>tronic</baz></foo> would create field foo_bar_@goober=1000, skipping attribute baz [Default: []]</th>
+    <td>exclude_attributes</td>
+    <td>array</td>
+    <td>Array of attributes to skip when creating field names, e.g. [baz] when encountering XML <foo><bar baz='42' goober='1000'>tronic</baz></foo> would create field foo_bar_@goober=1000, skipping attribute baz [Default: []]</td>
   </tr>
   <tr>
-    <th>exclude_elements</th>
-    <th>array</th>
-    <th>Array of elements to skip when creating field names, e.g. [baz] when encountering field <foo><baz><bar>tronic</bar></baz></foo> would create field foo_bar, skipping element baz [Default: [], After: include_all_attributes, include_attributes]</th>
+    <td>exclude_elements</td>
+    <td>array</td>
+    <td>Array of elements to skip when creating field names, e.g. [baz] when encountering field <foo><baz><bar>tronic</bar></baz></foo> would create field foo_bar, skipping element baz [Default: [], After: include_all_attributes, include_attributes]</td>
   </tr>
   <tr>
-    <th>include_all_attributes</th>
-    <th>boolean</th>
-    <th>Boolean to consider and include all attributes when creating field names, e.g. if false, XML elements <foo><bar baz='42' goober='1000'>tronic</baz></foo> would result in field name foo_bar without attributes included. Note: the use of all attributes for creating field names has the the potential to balloon rapidly, potentially encountering ElasticSearch field limit for an index, therefore false by default. [Default: false, Before: include_attributes, exclude_attributes]</th>
-    <th>include_attributes</th>
-    <th>array</th>
-    <th>Array of attributes to include when creating field names, despite setting of include_all_attributes, e.g. [baz] when encountering XML <foo><bar baz='42' goober='1000'>tronic</baz></foo> would create field foo_bar_@baz=42 [Default: [], Before: exclude_attributes, After: include_all_attributes]</th>
+    <td>include_all_attributes</td>
+    <td>boolean</td>
+    <td>Boolean to consider and include all attributes when creating field names, e.g. if false, XML elements <foo><bar baz='42' goober='1000'>tronic</baz></foo> would result in field name foo_bar witdout attributes included. Note: tde use of all attributes for creating field names has tde tde potential to balloon rapidly, potentially encountering ElasticSearch field limit for an index, tderefore false by default. [Default: false, Before: include_attributes, exclude_attributes]</td>
+    <td>include_attributes</td>
+    <td>array</td>
+    <td>Array of attributes to include when creating field names, despite setting of include_all_attributes, e.g. [baz] when encountering XML <foo><bar baz='42' goober='1000'>tronic</baz></foo> would create field foo_bar_@baz=42 [Default: [], Before: exclude_attributes, After: include_all_attributes]</td>
   </tr>
   <tr>
-    <th>include_meta</th>
-    <th>boolean</th>
-    <th>Boolean to include xml2kvp_meta field with output that contains all these configurations [Default: false]</th>
+    <td>include_meta</td>
+    <td>boolean</td>
+    <td>Boolean to include xml2kvp_meta field witd output tdat contains all tdese configurations [Default: false]</td>
   </tr>
   <tr>
-    <th>node_delim</th>
-    <th>string</th>
-    <th>String to use as delimiter between XML elements and attributes when creating field name, e.g. ___ will convert XML <foo><bar>tronic</bar></foo> to field name foo___bar [Default: _]</th>
+    <td>node_delim</td>
+    <td>string</td>
+    <td>String to use as delimiter between XML elements and attributes when creating field name, e.g. ___ will convert XML <foo><bar>tronic</bar></foo> to field name foo___bar [Default: _]</td>
   </tr>
   <tr>
-    <th>ns_prefix_delim</th>
-    <th>string</th>
-    <th>String to use as delimiter between XML namespace prefixes and elements, e.g. | for the XML <ns:foo><ns:bar>tronic</ns:bar></ns:foo> will create field name ns|foo_ns:bar. Note: a | pipe character is used to avoid using a colon in ElasticSearch fields, which can be problematic. [Default: |]</th>
+    <td>ns_prefix_delim</td>
+    <td>string</td>
+    <td>String to use as delimiter between XML namespace prefixes and elements, e.g. | for tde XML <ns:foo><ns:bar>tronic</ns:bar></ns:foo> will create field name ns|foo_ns:bar. Note: a | pipe character is used to avoid using a colon in ElasticSearch fields, which can be problematic. [Default: |]</td>
   </tr>
   <tr>
-    <th>remove_copied_key</th>
-    <th>boolean</th>
-    <th>Boolean to determine if originating field will be removed from output if that field is copied to another field [Default: true]</th>
+    <td>remove_copied_key</td>
+    <td>boolean</td>
+    <td>Boolean to determine if originating field will be removed from output if tdat field is copied to anotder field [Default: true]</td>
   </tr>
   <tr>
-    <th>remove_copied_value</th>
-    <th>boolean</th>
-    <th>Boolean to determine if value will be removed from originating field if that value is copied to another field [Default: false]</th>
+    <td>remove_copied_value</td>
+    <td>boolean</td>
+    <td>Boolean to determine if value will be removed from originating field if tdat value is copied to anotder field [Default: false]</td>
   </tr>
   <tr>
-    <th>remove_ns_prefix</th>
-    <th>boolean</th>
-    <th>Boolean to determine if XML namespace prefixes are removed from field names, e.g. if false, the XML <ns:foo><ns:bar>tronic</ns:bar></ns:foo> will result in field name foo_bar without ns prefix [Default: true]</th>
+    <td>remove_ns_prefix</td>
+    <td>boolean</td>
+    <td>Boolean to determine if XML namespace prefixes are removed from field names, e.g. if false, tde XML <ns:foo><ns:bar>tronic</ns:bar></ns:foo> will result in field name foo_bar witdout ns prefix [Default: true]</td>
   </tr>
   <tr>
-    <th>self_describing</th>
-    <th>boolean</th>
-    <th>Boolean to include machine parsable information about delimeters used (reading right-to-left, delimeter and its length in characters) as suffix to field name, e.g. if true, and node_delim is ___ and ns_prefix_delim is |, suffix will be ___3|1. Can be useful to reverse engineer field name when not re-parsed by XML2kvp. [Default: false]</th>
+    <td>self_describing</td>
+    <td>boolean</td>
+    <td>Boolean to include machine parsable information about delimeters used (reading right-to-left, delimeter and its lengtd in characters) as suffix to field name, e.g. if true, and node_delim is ___ and ns_prefix_delim is |, suffix will be ___3|1. Can be useful to reverse engineer field name when not re-parsed by XML2kvp. [Default: false]</td>
   </tr>
   <tr>
-    <th>skip_attribute_ns_declarations</th>
-    <th>boolean</th>
-    <th>Boolean to remove namespace declarations as considered attributes when creating field names [Default: true]</th>
+    <td>skip_attribute_ns_declarations</td>
+    <td>boolean</td>
+    <td>Boolean to remove namespace declarations as considered attributes when creating field names [Default: true]</td>
   </tr>
   <tr>
-    <th>skip_repeating_values</th>
-    <th>boolean</th>
-    <th>Boolean to determine if a field is multivalued, if those values are allowed to repeat, e.g. if set to false, XML <foo><bar>42</bar><bar>42</bar></foo> would map to foo_bar:42, removing the repeating instance of that value. [Default: true]</th>
+    <td>skip_repeating_values</td>
+    <td>boolean</td>
+    <td>Boolean to determine if a field is multivalued, if tdose values are allowed to repeat, e.g. if set to false, XML <foo><bar>42</bar><bar>42</bar></foo> would map to foo_bar:42, removing tde repeating instance of tdat value. [Default: true]</td>
   </tr>
   <tr>
-    <th>skip_root</th>
-    <th>boolean</th>
-    <th>Boolean to determine if the XML root element will be included in output field names [Default: false]</th>
+    <td>skip_root</td>
+    <td>boolean</td>
+    <td>Boolean to determine if tde XML root element will be included in output field names [Default: false]</td>
   </tr>
   <tr>
-    <th>split_values_on_all_fields</th>
-    <th>[boolean,``string``]</th>
-    <th>If present, string to use for splitting values from all fields, e.g. `` `` will convert single value a foo bar please into the array of values [a,``foo``,``bar``,``please``] for that field [Default: false]</th>
+    <td>split_values_on_all_fields</td>
+    <td>[boolean,``string``]</td>
+    <td>If present, string to use for splitting values from all fields, e.g. `` `` will convert single value a foo bar please into tde array of values [a,``foo``,``bar``,``please``] for tdat field [Default: false]</td>
   </tr>
   <tr>
-    <th>split_values_on_fields</th>
-    <th>object</th>
-    <th>Key/value pairs of field names to split, and the string to split on, e.g. foo_bar:, will split all values on field foo_bar on comma , [Default: {}]</th>
+    <td>split_values_on_fields</td>
+    <td>object</td>
+    <td>Key/value pairs of field names to split, and tde string to split on, e.g. foo_bar:, will split all values on field foo_bar on comma , [Default: {}]</td>
   </tr>
   <tr>
-    <th>repeating_element_suffix_count</th>
-    <th>boolean</th>
-    <th>Boolean to suffix field name with incrementing integer (after first instance, which does not receieve a suffix), e.g. XML <foo><bar>42</bar><bar>109</bar></foo> would map to foo_bar:42, foo_bar_#1:109 [Default: false, Overrides: skip_repeating_values]</th>
+    <td>repeating_element_suffix_count</td>
+    <td>boolean</td>
+    <td>Boolean to suffix field name witd incrementing integer (after first instance, which does not receieve a suffix), e.g. XML <foo><bar>42</bar><bar>109</bar></foo> would map to foo_bar:42, foo_bar_#1:109 [Default: false, Overrides: skip_repeating_values]</td>
   </tr>
 </table><br />
 
@@ -501,7 +501,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-09-TestingFieldMapper.jpg" alt="Testing field mapper configurations" width="1000" border="2"></td>
+    <td><img src="images/Part15-09-TestingFieldMapper.jpg" alt="Testing field mapper configurations" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>Testing Field Mapper Configurations</em></td>
@@ -518,7 +518,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-10-DPLABulkDataDownloadComparison.jpg" alt="Selecting a DPLA Bulk Data Download comparison for a Job" width="1000" border="2"></td>
+    <td><img src="images/Part15-10-DPLABulkDataDownloadComparison.jpg" alt="Selecting a DPLA Bulk Data Download comparison for a Job" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>Selecting a DPLA Bulk Data Download comparison for a Job</em></td>
@@ -531,7 +531,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-11-DPLABulkDataDownloadComparison.jpg" alt="Downloaded and indexed DPLA Bulk Data Download comparison" width="1000" border="2"></td>
+    <td><img src="images/Part15-11-DPLABulkDataDownloadComparison.jpg" alt="Downloaded and indexed DPLA Bulk Data Download comparison" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>Downloaded and indexed DPLA Bulk Data Download (DBDD)</em></td>
@@ -544,7 +544,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-12-DPLABulkDataResults.jpg" alt="Results of a DPLA Bulk Data Download comparison" width="1000" border="2"></td>
+    <td><img src="images/Part15-12-DPLABulkDataResults.jpg" alt="Results of a DPLA Bulk Data Download comparison" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>Results of a DPLA Bulk Data Download comparison</em></td>
@@ -561,7 +561,7 @@ title: Appendix - Deprecated Features
 
 <table>
   <tr>
-    <td><img src="images/Part15-13-DPLAAPIQuery.jpg" alt="Matching a Combine Record's indexed fields with a DPLA API query'" width="1000" border="2"></td>
+    <td><img src="images/Part15-13-DPLAAPIQuery.jpg" alt="Matching a Combine Record's indexed fields with a DPLA API query'" width="800" border="2"></td>
   </tr>
   <tr>
   	<td><em>Matching a Combine Record’s Indexed Fields with a DPLA API query</em></td>
