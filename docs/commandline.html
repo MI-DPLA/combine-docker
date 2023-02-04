@@ -108,7 +108,7 @@ Out[10]: < Record: Record: 5ba45e3f01762c474340e4de, record_id: 0142feb40e122a77
 
 <p><code>./manage.py update --release v0.3.3</code></p><br />
 
-<p>The update management command also contains some “update code snippets” that are included with various releases to perform updates on models and pre-existing data where possible. An example is the update from v0.3.x to v0.4 that modified the job_details for all Transform Jobs. Included in the update is a code snippet called v0_4__update_transform_job_details() that assists with this. While running the update script as outlined above, this code snippet will fire and update Transform Jobs that do not meet the new data model.</p>
+<p>The update management command also contains some “update code snippets” that are included with various releases to perform updates on models and pre-existing data where possible. An example is the update from v0.3.x to v0.4 that modified the job_details for all Transformation Jobs. Included in the update is a code snippet called v0_4__update_transform_job_details() that assists with this. While running the update script as outlined above, this code snippet will fire and update Transformation Jobs that do not meet the new data model.</p>
 
 <p>These possible updates can be invoked without pulling changes or restarting any services by including the following flag:</p>
 
