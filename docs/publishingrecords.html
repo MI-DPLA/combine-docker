@@ -17,80 +17,111 @@ title: Publishing Records
 
 <p>When a user decides to Unpublish a Job, that will remove its “Published Job” flag, but the Job and its Records remain in Combine otherwise unchanged.</p>
 
-<p>Additionally, Combine allows the user to create “Published Subsets,” which give the user more control over how Published Records are grouped together (see below).</p>
+<p>Additionally, Combine allows the user to create “Published Subsets,” which give the user more control over how Published Records are grouped together (see below).</p><br />
 
 <h2>Publishing and Unpublishing a Job</h2>
 
 <p>To Publish a Job, you will need to go to its Job Details page and select the tab called “Publish.” That tab can also be reached by going to the Job’s Records Group page and finding its row on the Jobs table. In the column marked “Publishing” you will find a “Publish” button, and clicking it will take you to the “Publish” tab on its Job Details page:</p>
 
-<img src="images/Part13-01-PublishUnpublishButtons.jpg" alt="Publish/Unpublish Buttons on a Record Group page" width="1000" border="2">
-<p>Publish / Unpublish Buttons on a Record Group page</p>
+<table>
+  <tr>
+    <td><img src="images/Part13-01-PublishUnpublishButtons.jpg" alt="an image of the buttons used to publish or unpublish Jobs" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Publish / Unpublish Buttons on a Record Group page</em></td>
+  </tr>
+</table>
 
 <p>Regardless of how you get there, if the Job is unpublished, the “Publish” tab will show the following:</p>
 
-<img src="images/Part13-02-PublishTab.jpg" alt="The Publish tab on a Jobs Detail page for an unpublished Job" width="1000" border="2">
-<p>The Publish tab on a Jobs Detail page for an unpublished Job</p>
+<table>
+  <tr>
+    <td><img src="images/Part13-02-PublishTab.jpg" alt="an image of the Publish tab on a Jobs Detail page of an unpublished Job" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>The Publish tab on a Jobs Detail page for an unpublished Job</em></td>
+  </tr>
+</table>
 
 <p>At the top will be a field for the user to add a Publish Set Identifier. If the desired identifier has already been created, then you can select it from the list below the field. Pressing the green button at the bottom of the list will Publish that Job, grouping it under the selected Publish Set Identifier.</p>
 
 <p>If a Job is already published, the tab will have a different display:</p>
 
-<img src="images/Part13-03-PublishTabForPublishedJob.jpg" alt="The Publish tab on a Jobs Detail page for a published Job" width="1000" border="2">
-<p>The Publish tab on a Jobs Detail page for a published Job</p>
+<table>
+  <tr>
+    <td><img src="images/Part13-03-PublishTabForPublishedJob.jpg" alt="an image of the Publish tab on a Jobs Detail page of a published Job" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>The Publish tab on a Jobs Detail page for a published Job</em></td>
+  </tr>
+</table>
 
 
 <p>Here the user can confirm that the Job is Published, and also find buttons for Unpublishing the Job or moving the Job to a different Publish Set Identifier. When an Unpublish button is clicked, Combine will ask for a confirmation and then Unpublish the Job.</p>
 
-<p><strong>Note:</strong> Combine’s OAI-PMH feed is like any other OAI aggregator. When it creates an OAI Identifier for a Record, it will use any Publish Set Identifer as an OAI Set Identifier and add it as a prefix to the Record Identifier. This is normal behavior, but it might be something the user will want to consider before Records are harvested from Combine–what OAI sets a Record might have been published under in the past (thereby effecting its identifier). It’s also a good reason to avoid using any special characters when creating a Publish Set Identifier.</p>
+<p><strong>Note:</strong> Combine’s OAI-PMH feed is like any other OAI aggregator. When it creates an OAI Identifier for a Record, it will use any Publish Set Identifer as an OAI Set Identifier and add it as a prefix to the Record Identifier. This is normal behavior, but it might be something the user will want to consider before Records are harvested from Combine–what OAI sets a Record might have been published under in the past (thereby effecting its identifier). It’s also a good reason to avoid using any special characters when creating a Publish Set Identifier.</p><br />
 
 <h2>The Published Records Page</h2>
 
 <p>All Published Records can be seen on the “Published Records” page. Combine’s main menu, appearing at the top of the screen, includes a link named “Published” that will take you to it:</p>
 
-<img src="images/Part13-04-PublishedRecordsPage.jpg" alt="The Published Records Page" width="1000" border="2">
-<p>The Published Records page</p>
+<table>
+  <tr>
+    <td><img src="images/Part13-04-PublishedRecordsPage.jpg" alt="an image of a published Records page" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>The Published Records page</em></td>
+  </tr>
+</table>
 
 <p>Note that the table is organized into sets with Publish Set Identifiers in the far left column.</p>
 
-<p>The the right of the table is a green button that will run an Analysis Job on all Published Records. This is provided as a convenience so a user won’t have to build such a Job by manually selecting all Published Jobs one-by-one, but most users will probably not need to use it. (See Part 11: Analysis for more on Analysis Jobs.)</p>
+<p>The the right of the table is a green button that will run an Analysis Job on all Published Records. This is provided as a convenience so a user won’t have to build such a Job by manually selecting all Published Jobs one-by-one, but most users will probably not need to use it. (See Part 11: Analysis for more on Analysis Jobs.)</p><br />
 
-<strong>The Published Records Section</strong></p>
+<p><strong>The Published Records Section</strong></p>
 
 <p>Below the table of Published Sets is a section called “Published Records” that’s similar to a Job Details page (see Part 12) but includes all Published Records. The tabs in this section include:</p>
 
-<p>Mapped Fields - the display is similar to the “Mapped Fields” tab on a Job Details page, but here the user can analyze the distribution of metadata across all of the Published Records in Combine. This can be helpful in several ways, such as confirming that DPLA required fields are at 100% compliance. (See Part 11: Analysis for more.)</p>
-
-<p>Outgoing OAI-PMH Server - this time gives access to XML displays for several XML commands: 
-Identify</p>
-
-<p>List metadata formats</p>
-<p>List identifiers</p>
-<p>List records</p>
-<p>List sets</p>
-
-<p>Export - this tab allows the user to export flat files as documents. (See “Part 14: Exporting” for a description of Combine’s Export functions.)</p>
+<ul>
+  <li><strong>Mapped Fields</strong> - the display is similar to the “Mapped Fields” tab on a Job Details page, but here the user can analyze the distribution of metadata across all of the Published Records in Combine. This can be helpful in several ways, such as confirming that DPLA required fields are at 100% compliance.</li>
+  <li><strong>Outgoing OAI-PMH Server</strong> - this time gives access to XML displays for several XML commands:</li>
+  <ul>
+    <li>Identify</li
+    <li>List metadata formats</li>
+    <li>List identifiers</li>
+    <li>List records</li>
+    <li>List sets</li>
+  </ul>
+  <li><strong>Export</strong> - this tab allows the user to export flat files as documents. (See “Part 14: Exporting” for a description of Combine’s Export functions.)</li>
+</ul><br />
 
 <p><strong>The Published Subsets Section</stong></p>
 
 <p>The last section on the Published Records page displays any user-defined Published Subsets in Combine:</p>
 
-<img src="images/Part13-05-PublishedSubsets.jpg" alt="The Published Subsets section" width="1000" border="2">
-<p>The Published Subsets section</p>
+<table>
+  <tr>
+    <td><img src="images/Part13-05-PublishedSubsets.jpg" alt="an image of the Published Subsets section" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>The Published Subsets section</em></td>
+  </tr>
+</table>
 
 <p>Each row on the Published Subsets table includes a “View” button that will take the user to the “Published Records” page but with that subset highlighted.</p>
 
 <p>When viewing a paricular Subset, the tabs “Records” and “Mapped Fields” show only Records that belong to that particular subset. Clicking the “Outgoing OAI-PMH Server” tab will show the familiar OAI-PMH links, but the displayed OAI endpoint contains only Records that are in that Subset.</p>
 
-<p>The next section describes Subsets in detail and explains how to create one.</p>
+<p>The next section describes Subsets in detail and explains how to create one.</p><br />
 
 <h2>Published Subsets</h2>
 
 <p>Published Subsets are user defined subsets that make it possible to reorganize Published Records and Jobs into customized groups that cut across the normal divisions of Organization and Record Group. A user creates one by selecting a combination of:</p>
 
 <ul>
-  <li>Publish Set Identifiers to include in the subset</li>
-  <li>all published Jobs without a Publish Set Identifier</li>
-  <li>Organizations, Record Groups, and Jobs where all published Jobs are included</li>
+  <li><strong>Publish Set Identifiers</strong> to include in the subset</li>
+  <li>all published Jobs <strong>without</strong> a Publish Set Identifier</li>
+  <li><strong>Organizations, Record Groups</strong>, and <strong>Jobs</strong> where all published Jobs are included</li>
 </ul>
 
 <p>Published Subsets allow the user to create specific combinations of Published Records for particular needs.</p>
@@ -105,24 +136,30 @@ Identify</p>
   <li>The user is free to create overlaps between Published Subsets.</li>
   <li>Subsets can include the Records that do not have a Publish Set Identifier</li>
   <li>All Published Subsets also allow the normal exporting of Records (flat XML, S3, etc.).</li>
-</ul>
+</ul><br />
 
 <h3>Creating a Published Subset</h3>
 
 <p>To create a Published Subset, scroll to the bottom of the “Published Records” page and click on the green “Create Published Subset” button. That will take you to the “Create Published Subset” page, which maybe remind you of the “Publish Job” page:</p>
 
-<img src="images/Part13-06-CreatePublishedSubset.jpg" alt="Creating a Published Subset" width="1000" border="2">
-<p>Creating a Published Subset</p>
+<table>
+  <tr>
+    <td><img src="images/Part13-06-CreatePublishedSubset.jpg" alt="an image showing the interface used to create Published Subset" width="800" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Creating a Published Subset</em></td>
+  </tr>
+</table>
 
 <p>Then fill out the following:</p>
 
 <ul>
-  <li>Name: some thought and care should go into selecting a name. It will be a unique identifier for the Published Subset. The name should include only lowercase characters and avoid special characters or spaces because it will appear in URLs (e.g. the created OAI endpoint).</li> 
-  <li>Description: a human readable description of the Published Subset.</li>
-  <li>Select Published Sets: Any previously included sets may be included in the Subset. All, some, or none may be included.</li>
-  <li>Select Organizations, Record Groups, and Jobs: Any selected Organizations and Record Groups will include all published Jobs that they include. If only specific Jobs from a Record Group are selected, only those Jobs will be included, not the entire Record Group.</li>
+  <li><strong>Name:</strong> some thought and care should go into selecting a name. It will be a unique identifier for the Published Subset. The name should include only lowercase characters and avoid special characters or spaces because it will appear in URLs (e.g. the created OAI endpoint).</li> 
+  <li><strong>Description:</strong> a human readable description of the Published Subset.</li>
+  <li><strong>Select Published Sets:</strong> Any previously included sets may be included in the Subset. All, some, or none may be included.</li>
+  <li><strong>Select Organizations, Record Groups, and Jobs:</strong> Any selected Organizations and Record Groups will include all published Jobs that they include. If only specific Jobs from a Record Group are selected, only those Jobs will be included, not the entire Record Group.</li>
   <li><strong>Note:</strong> This is particularly helpful if a user wants to add an entire Organization or Record Group to a subset, including all Jobs created or deleted, published or unpublished.</li>
-  <li>Include Records without Publish Set Identifier: This toggle will include Jobs and/or /Records that have not been given a Publish Set Identifier.</li>
+  <li><strong>Include Records without Publish Set Identifier:</strong> This toggle will include Jobs and/or /Records that have not been given a Publish Set Identifier.</li>
 </ul><br /><br />
 
 <p>Next: <a href="/combine-docker/exportingrecords">Exporting Records</a></p>

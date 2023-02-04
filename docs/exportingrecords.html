@@ -39,8 +39,14 @@ title: Exporting Records
 
 <p>For example, take this contrived example Record Group:</p>
 
-<img src="images/Part14-01-RecordGroupForExport.jpg" alt="Example of a Record Group for Export" width="1000" border="2">
-<p>Example of a Record Group for Export</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-01-RecordGroupForExport.jpg" alt="Example of a Record Group for Export" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Example of a Record Group for Export</em></td>
+  </tr>
+</table>
 
 <p>In this example, if we were to select Job C for export, with the intention of importing to another instance of Combine that had none of the supporting pieces, what would be needed? Because exports include all “downstream” Jobs as well, quite a few things would be included:</p>
 
@@ -98,8 +104,14 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>On import, this zip file is decompressed, and the various pieces are imported in the correct order. To extend the example above, if we were to re-import that export for Job C, we would see the following created:</p>
 
-<img src="images/Part14-02-ResultsOfJobCExport.jpg" alt="Results of Job C export, re-imported" width="1000" border="2">
-<p>Results of Job C export, re-imported</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-02-ResultsOfJobCExport.jpg" alt="Results of Job C export, re-imported" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Results of Job C export, re-imported</em></td>
+  </tr>
+</table>
 
 <p>As you can see, it’s a virtual duplication of the Jobs and linkages, and behind the scenes, all the Configuration Scenarios and organizing hierarchy to support them. All imported items get newly minted identifiers as if they were new, but because they have pre-existing linkages and relationships, special care is made to ensure those linkages persist even to the new identifiers.</p>
 
@@ -107,34 +119,64 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>To export a state in Combine, first navigate to “Configuration” from the navbar at the top, and then “Combine State Export/Import” at the very bottom. This should land you at a screen that looks like the following:</p>
 
-<img src="images/Part14-03-StateExportImport.jpg" alt="State Export/Import main view" width="1000" border="2">
-<p>State Export/Import main view</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-03-StateExportImport.jpg" alt="State Export/Import main view" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>State Export/Import main view</em></td>
+  </tr>
+</table>
 
 <p>The page is defined by two tables, <strong>Exports</strong> and <strong>Imports</strong>. Exports originated from this instance of Combine, Imports may come from this instance of Combine or another. When an export is conducted, it is stamped with a unique identifier. This identifier is referenced during the import process, allowing the tethering of imports to exports. This will become more clear as you click around the Export and Import views.</p>
 
 <p>To begin an export, click “Export State” under the Export table. On the next screen, you will be presented with something similar to the following:</p>
 
-<img src="images/Part14-04-ExportState.jpg" alt="State export form" width="1000" border="2">
-<p>State export form</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-04-ExportState.jpg" alt="State export form" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>State export form</em></td>
+  </tr>
+</table>
 
 <p>Names for exports (and imports) are optional. The idea is to select <strong>Organizations</strong>, <strong>Record Groups</strong>, <strong>Jobs</strong>, and <strong>Configuration Scenarios</strong> that will be included in the Export, from the hierarchical trees. The trees are searchable, and have some capacity for selecting search matches.</p>
 
 <p>For example, a search for “static” brings up a couple of Job matches, and clicking “Select Matches” would include these in the export:</p>
 
-<img src="images/Part14-05-SearchingForJobs.jpg" alt="Export: searching for Jobs" width="1000" border="2">
-<p>Export: Searching for Jobs</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-05-SearchingForJobs.jpg" alt="Export: searching for Jobs" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Export: Searching for Jobs</em></td>
+  </tr>
+</table>
 
 <p><strong>Note:</strong> While there is a dedicated “Configurations and Scenarios” tree to select items from, it is worth remembering that any configurations used by selected Jobs will automatically be included in the Export. Think about a fictional Job foo that has two Validation Scenarios applied, bar and baz. If foo were to be imported into another instance of Combine, it would require those Validation Scenarios to exist such that they could be rerun and referenced.</p>
 
 <p>When all desired export objects have been selected from both “Organizations, Record Groups, Jobs” and “Configurations and Scenarios”, click “Export State” at the bottom. This will redirect back to the State Export/Import overview table, with the export running as a background tasks, and the following has been created:</p>
 
-<img src="images/Part14-06-ExportForC.jpg" alt="Export for Job C" width="1000" border="2">
-<p>Export for Job C</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-06-ExportForC.jpg" alt="Export for Job C" width="1000" border="2"></p></td>
+  </tr>
+  <tr>
+  	<td><em>Export for Job C</em></td>
+  </tr>
+</table
 
 <p>Once finished, we can click into details about the Export from the “Details” button for the export row. This looks like the following:</p>
 
-<img src="images/Part14-07-ExportDetailsForC.jpg" alt="Details for Job C export" width="1000" border="2">
-<p>Details for Job C export</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-07-ExportDetailsForC.jpg" alt="Details for Job C export" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Details for Job C export</em></td>
+  </tr>
+</table
 
 <p>Of note, we see details about the Export itself in the first table, a second table where any imports that reference this table would show up, and another hierarchical tree showing all “objects” that were exported. This can be helpful for getting a sense of what Configuration Scenarios might have been included, or connected Jobs that may not have been immediately obvious during export.</p>
 
@@ -144,8 +186,14 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>To import a previously exported state, click on the “Import State” button from the main State Export/Import page. You will be presented with a form that looks like the following:</p>
 
-<img src="images/Part14-08-ImportState.jpg" alt="Details for Job C export" width="1000" border="2">
-<p>Details for Job C export</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-08-ImportState.jpg" alt="Details for Job C export" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Details for Job C export</em></td>
+  </tr>
+</table
 
 <p>Similar to an export, there is an optional name field for the Import task. But now, a user may select to:</p>
 
@@ -159,18 +207,36 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>Immediately we are redirected, and a new Import row is created indicating it is “running”:</p>
 
-<img src="images/Part14-09-DetailsForJobCExport.jpg" alt="Details for Job C export" width="1000" border="2">
-<p>Details for Job C export</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-09-DetailsForJobCExport.jpg" alt="Details for Job C export" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Details for Job C export</em></td>
+  </tr>
+</table
 
 <p>At this time, it has no Export ID or Export Name, or much of anything. But once the import is complete, this information populates:</p>
 
-<img src="images/Part14-10-DetailsForJobCExport.jpg" alt="Details for Job C export" width="1000" border="2">
-<p>Details for Job C export</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-10-DetailsForJobCExport.jpg" alt="Details for Job C export" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Details for Job C export</em></td>
+  </tr>
+</table
 
 <p>Clicking into this Import’s details, we see the following:</p>
 
-<img src="images/Part14-11-DetailsOfJobC.jpg" alt="Details for Job C export" width="1000" border="2">
-<p>Details for Job C import</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-11-DetailsOfJobC.jpg" alt="Details for Job C export" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Details for Job C import</em></td>
+  </tr>
+</table
 
 <p>The first table is details about this <strong>Import</strong>, but the following table shows what <strong>Export</strong> was used. This linkage is only possible when the Export exists in the same instance of Combine. Finally, at the bottom, a similar “results” tree to the Export, but this time showing what objects were imported.</p>
 
@@ -224,8 +290,14 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>Exporting documents will export the XML document for all Records in a Job or published, distributed across a series of XML files with an optional number of Records per file and a root element <root> to contain them. This is for ease of working with outside of Combine, where a single XML document containing 50k, 500k, 1m records is cumbersome to work with. The default is 500 Records per file.</p>
 
-<img src="images/Part14-12-ExportDocumentsTab.jpg" alt="Export documents tab" width="1000" border="2">
-<p>Export Documents tab</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-12-ExportDocumentsTab.jpg" alt="Export documents tab" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Export Documents tab</em></td>
+  </tr>
+</table
 
 <p>You may enter how many records per file, and what kind of compression to use (if any) on the output archive file. For example, 1000 records where a user selects 250 per file, for Job #42, would result in the following structure:</p>
 
@@ -238,8 +310,14 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>The following screenshot shows the actual result of a Job with 1,070 Records, exporting 50 per file, with a zip file and the resulting, unzipped structure:</p>
 
-<img src="images/Part14-13-StructureOfExportedJob.jpg" alt="Example structure of an exported Job as XML documents" width="1000" border="2">
-<p>Example structure of an exported Job as XML Documents</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-13-StructureOfExportedJob.jpg" alt="Example structure of an exported Job as XML documents" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Example structure of an exported Job as XML Documents</em></td>
+  </tr>
+</table
 
 <p>Why export like this? Very large XML files can be problematic to work with, particularly for XML parsers that attempt to load the entire document into memory (which is most of them). Combine is naturally pre-disposed to think in terms of the parts and partitions with the Spark back-end, which makes for convenient writing of all Records from Job in smaller chunks. The size of the “chunk” can be set by specifying the XML Records per file input in the export form. Finally, .zip or .tar files for the resulting export are both supported.</p>
 
@@ -253,8 +331,14 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>Publish Set IDs will be used to organzize the exported XML files in the resulting archive file. For example, if a single Job was published under the Publish ID foo, and two Jobs were published under the Publish ID bar, and the user specified 100 Record per file, the resulting export structure would look similar to this:</p>
 
-<img src="images/Part14-14-PublishedIDs.jpg" alt="Publish IDs as folder structured in exported Published Records" width="1000" border="2">
-<p>Publish IDs as folder structured in exported Published Records</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-14-PublishedIDs.jpg" alt="Publish IDs as folder structured in exported Published Records" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Publish IDs as folder structured in exported Published Records</em></td>
+  </tr>
+</table
 
 <h3>Export Mapped Fields</h3>
 
@@ -273,8 +357,14 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>This is the preferred way to export mapped fields, as it handles characters for field values that may disrupt column delimiters and/or newlines.</p>
 
-<img src="images/Part14-15-ExportMappedFields.jpg" alt="Export mapped fields as JSON documents" width="1000" border="2">
-<p>Export Mapped Fields as JSON documents</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-15-ExportMappedFields.jpg" alt="Export mapped fields as JSON documents" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Export Mapped Fields as JSON documents</em></td>
+  </tr>
+</table
 
 <p>Combine uses ElasticSearch-Dump to export Records as line-delimited JSON documents. This library handles well special characters and newlines, and as such, is recommended. This output format also handles multivalued fields and maintains field type (integer, string).</p>
 
@@ -282,8 +372,14 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>Alternatively, mapped fields can be exported as comma-seperated, tabular data in .csv format. As mentioned, this does not as deftly handle characters that may disrupt column delimiters</p>
 
-<img src="images/Part14-16-ExportMappedFields.jpg" alt="Export mapped fields as JSON documents" width="1000" border="2">
-<p>Export Mapped Fields as JSON documents</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-16-ExportMappedFields.jpg" alt="Export mapped fields as JSON documents" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Export Mapped Fields as JSON documents</em></td>
+  </tr>
+</table
 
 <p>If a Record contains a mapped field such as mods_subject_topic that is repeating, the default export format is to create multiple columns in the export, appending an integer for each instance of that field, e.g.,</p>
 
@@ -301,8 +397,14 @@ history,michigan,snow</code>
 
 <p>Some options looks similar to mapped fields exporting, but also include a section for “Export Parameters”:</p>
 
-<img src="images/Part14-17-ExportMappedFields.jpg" alt="Export mapped fields as JSON documents" width="1000" border="2">
-<p>Export Mapped Fields as JSON documents</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-17-ExportMappedFields.jpg" alt="Export mapped fields as JSON documents" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Export Mapped Fields as JSON documents</em></td>
+  </tr>
+</table
 
 <p>These export parameters – either configured at the time of export, or loaded from a pre-existing configuration – are used to modify delimiters and other options for the CSV or JSON export. You can read more about harvesting tabular data here, but suffice it to say now that it can be helpful to save the configurations used when exporting such that they can be used later for re-harvesting. In short, they provide a shared set of configurations for round-tripping data.</p>
 
@@ -340,13 +442,25 @@ history,michigan,snow</code>
 
 <p>From the “Export Documents” tab of a Job or Published Records export screen, it is possible to export to S3 by clicking the “Export to Amazon S3 Bucket?” checkbox:</p>
 
-<img src="images/Part14-18-ExportToAmazon.jpg" alt="Checkbox for exporting to S3" width="1000" border="2">
-<p>Checkbox for exporting to S3</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-18-ExportToAmazon.jpg" alt="Checkbox for exporting to S3" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Checkbox for exporting to S3</em></td>
+  </tr>
+</table
 
 <p>This opens a form to enter S3 export information:</p>
 
-<img src="images/Part14-19-ExportToAmazonForm.jpg" alt=" Form for exporting documents to S3" width="1000" border="2">
-<p>Form for exporting Documents to S3 bucket</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-19-ExportToAmazonForm.jpg" alt=" Form for exporting documents to S3" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Form for exporting Documents to S3 bucket</em></td>
+  </tr>
+</table
 
 <p>For any S3 export, a bucket name S3 Bucket and key S3 Key are required.</p>
 
@@ -370,13 +484,25 @@ history,michigan,snow</code>
 
 <p>From the “Export Mapped Fields” tab of a Job or Published Records export screen, it is possible to export to S3 by clicking the “Export to Amazon S3 Bucket?” checkbox:</p>
 
-<img src="images/Part14-20-ExportToAmazon.jpg" alt="Checkbox for exporting to S3" width="1000" border="2">
-<p>Checkbox for exporting to S3</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-20-ExportToAmazon.jpg" alt="Checkbox for exporting to S3" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Checkbox for exporting to S3</em></td>
+  </tr>
+</table
 
 <p>This opens a form to enter S3 export information:</p>
 
-<img src="images/Part14-21-ExportToAmazonForm.jpg" alt="Form for exporting mapped fields to S3" width="1000" border="2">
-<p>Form for exporting Mapped Fields to S3 bucket</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-21-ExportToAmazonForm.jpg" alt="Form for exporting mapped fields to S3" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Form for exporting Mapped Fields to S3 bucket</em></td>
+  </tr>
+</table
 
 <p>When exporting documents to S3, two options are available:</p>
 
@@ -391,13 +517,25 @@ history,michigan,snow</code>
 
 <p>From the “Export Tabular Data” tab of a Job or Published Records export screen, it is possible to export to S3 by clicking the “Export to Amazon S3 Bucket?” checkbox:</p>
 
-<img src="images/Part14-22-ExportToAmazon.jpg" alt="Checkbox for exporting to S3" width="1000" border="2">
-<p>Checkbox for exporting to S3</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-22-ExportToAmazon.jpg" alt="Checkbox for exporting to S3" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Checkbox for exporting to S3</em></td>
+  </tr>
+</table
 
 <p>This opens a form to enter S3 export information:</p>
 
-<img src="images/Part14-23-ExportToAmazonForm.jpg" alt="Checkbox for exporting tabular data to S3" width="1000" border="2">
-<p>Form for exporting Tabular Data to S3 bucket</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-23-ExportToAmazonForm.jpg" alt="Checkbox for exporting tabular data to S3" width="1000" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Form for exporting Tabular Data to S3 bucket</em></td>
+  </tr>
+</table
 
 <p>For any S3 export, a bucket name S3 Bucket and key S3 Key are required.</p>
 
