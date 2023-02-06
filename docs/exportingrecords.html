@@ -7,22 +7,12 @@ title: Exporting Records
 <p>There are different ways and level of granularites for exporting and importing data in Combine. These include:</p>
 
 <ul>
-  <li>State Export / Import</li>
-  <li>export and import of Organizations, Record Groups, Jobs, and all Configuration Scenarios</li>
-  <li>Record Export</li>
-  <li>export of Record documents or mapped fields</li>
-  <li>Export to S3</li>
-  <li>export to S3 Buckets</li>
+  <li><strong>State Export / Import</strong> - export and import of Organizations, Record Groups, Jobs, and all Configuration Scenarios</li>
+  <li><strong>Record Export</strong> - export of Record documents or mapped fields</li>
+  <li><strong>Export to S3</strong> - export to S3 Buckets</li>
 </ul><br />
 
 <h2>State Export and Import</h2>
-
-<ul>
-  <li>Overview</li>
-  <li>How does it work?</li>
-  <li>Exporting States</li>
-  <li>Importing States</li>
-</ul><br />
 
 <h3>Overview</h3>
 
@@ -50,7 +40,14 @@ title: Exporting Records
 
 <p>In this example, if we were to select Job C for export, with the intention of importing to another instance of Combine that had none of the supporting pieces, what would be needed? Because exports include all “downstream” Jobs as well, quite a few things would be included:</p>
 
-<p>Job C export, with accompanying objects</p>
+<table>
+  <tr>
+    <td><img src="images/Part14-01a-JobCExportwithObjects.jpg" alt="image of an exported Job" width="600" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Job C export, with accompanying objects</em></td>
+  </tr>
+</table>
 
 <p>From this list of exported objects, we can see Job C down near the bottom under “Jobs”. From the image above, it’s clear that Job C is taking input Records from Job A, so it’s unsurprising that Job is included as well. We also see the Organization “sandbox”, and the Record Group “stateio” are included as well. When exporting state, the organizing hierarchies are included as well.</p>
 
@@ -74,31 +71,14 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>A typical export might look like the following:</p>
 
-<code>.
-└── 21627afc4d0042baae56f826e19bbcf2
-    ├── django_objects.json
-    ├── export_manifest.json
-    ├── mapped_fields_exports
-    │   ├── j1089_mapped_fields.json
-    │   ├── j1097_mapped_fields.json
-    │   ├── j967_mapped_fields.json
-    │   ├── j968_mapped_fields.json
-    │   ├── j969_mapped_fields.json
-    │   └── j970_mapped_fields.json
-    ├── record_exports
-    │   ├── j1089_mongo_records.json
-    │   ├── j1097_mongo_records.json
-    │   ├── j967_mongo_records.json
-    │   ├── j968_mongo_records.json
-    │   ├── j969_mongo_records.json
-    │   └── j970_mongo_records.json
-    └── validation_exports
-        ├── j1089_mongo_validations.json
-        ├── j1097_mongo_validations.json
-        ├── j967_mongo_validations.json
-        ├── j968_mongo_validations.json
-        ├── j969_mongo_validations.json
-        └── j970_mongo_validations.json</code>
+<table>
+  <tr>
+    <td><img src="images/Part14-01b-ExampleofanExport.jpg" alt="an image showing an example of an exported Job" width="600" border="2"></td>
+  </tr>
+  <tr>
+  	<td><em>Example of an Export</em></td>
+  </tr>
+</table>
 
 <p>This is the export from the Job C export example above. You can see the various exported Jobs are represented in the Record exports, but all Django ORM objects are serialized to the single django_objects.json file.</p>
 
@@ -271,17 +251,14 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>That’s effectively 1.5million documents to export. If this exists in a “pipeline” with 3 other Jobs of similar size, you’re looking at potentially 6 million record exports. The upside is, all the computation time that went into transformations, validations, field mapping, etc., is complete and included with an import of a state. The import time is purely I/O to the databases, but it should recreate the “state” of the original export.</p><br />
 
-<h2>Exporting Records</h2>
+<h2>Record Export</h2>
 
 <p>Records can be exported in three ways:</p>
 
 <ul>
-  <li>XML Documents</li>
-  <li>a series of XML files aggregating the XML document for each Record</li>
-  <li>Mapped Fields</li>
-  <li>Mapped fields for each Record as structured data (CSV or JSON)</li>
-  <li>Tabular Data</li>
-  <li>Export that is suitable for editing “outside” of Combine and re-harvesting (CSV or JSON)</li>
+  <li><strong>XML Documents</strong> - a series of XML files aggregating the XML document for each Record</li>
+  <li><strong>Mapped Fields</strong> - mapped fields for each Record as structured data (CSV or JSON)</li>
+  <li><strong>Tabular Data</strong> - export that is suitable for editing “outside” of Combine and re-harvesting (CSV or JSON)</li>
 </uL>
 
 <p>For any of these methods, records from a single Job, or all Published Records, may be exported.</p><br />
@@ -301,12 +278,19 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>You may enter how many records per file, and what kind of compression to use (if any) on the output archive file. For example, 1000 records where a user selects 250 per file, for Job #42, would result in the following structure:</p>
 
-<code>- archive.zip|tar
-    - j42/ # folder for Job
-        - part00000.xml # each XML file contains 250 records grouped under a root XML element <documents>
-        - part00001.xml
-        - part00002.xml
-        - part00003.xml</code>
+<table>
+  <tr>
+    <td>
+      <code>- archive.zip|tar<br />
+&nbsp;- j42/ # folder for Job<br />
+&nbsp;&nbsp;"match":{<br />
+&nbsp;&nbsp;&nbsp;- part00000.xml # each XML file contains 250 records grouped under a root XML element < documents ><br />
+&nbsp;&nbsp;&nbsp;- part00001.xml<br />
+&nbsp;&nbsp;&nbsp;- part00002.xml<br />
+&nbsp;&nbsp;&nbsp;- part00003.xml<br /></code>
+    </td>
+  </tr>
+</table><br />
 
 <p>The following screenshot shows the actual result of a Job with 1,070 Records, exporting 50 per file, with a zip file and the resulting, unzipped structure:</p>
 
@@ -327,7 +311,7 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>Another way to “publish” or distribute Records from Combine is by exporting flat files of Record XML documents as an archive file. This can be done by clicking the “Export” tab and then “Export Documents”. Read more about exporting here.</p>
 
-<p>Publish Set IDs will be used to organzize the exported XML files in the resulting archive file. For example, if a single Job was published under the Publish ID foo, and two Jobs were published under the Publish ID bar, and the user specified 100 Record per file, the resulting export structure would look similar to this:</p>
+<p>Publish Set IDs will be used to organize the exported XML files in the resulting archive file. For example, if a single Job was published under the Publish ID foo, and two Jobs were published under the Publish ID bar, and the user specified 100 Record per file, the resulting export structure would look similar to this:</p>
 
 <table>
   <tr>
@@ -336,7 +320,7 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
   <tr>
   	<td><em>Publish IDs as folder structured in exported Published Records</em></td>
   </tr>
-</table
+</table>
 
 <h3>Export Mapped Fields</h3>
 
@@ -364,7 +348,7 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
   </tr>
 </table
 
-<p>Combine uses ElasticSearch-Dump to export Records as line-delimited JSON documents. This library handles well special characters and newlines, and as such, is recommended. This output format also handles multivalued fields and maintains field type (integer, string).</p><br />
+<p>Combine uses <a href="https://github.com/elasticsearch-dump/elasticsearch-dump">ElasticSearch-Dump</a> to export Records as line-delimited JSON documents. This library handles well special characters and newlines, and as such, is recommended. This output format also handles multivalued fields and maintains field type (integer, string).</p><br />
 
 <p><strong>CSV</strong></p>
 
@@ -386,7 +370,7 @@ history, michigan, snow</code></p>
 
 <p>But if the checkbox, Export CSV "Kibana style"? is checked, all multi-valued fields will export in the “Kibana style” where a single column is added to the export and the values are comma separated, e.g.,</p>
 
-<p><code>mods_subject_topic
+<p><code>mods_subject_topic<br />
 history,michigan,snow</code></p><br />
 
 <h3>Export Tabular Data</h3>
@@ -408,7 +392,7 @@ history,michigan,snow</code></p><br />
 
 <h2>Exporting to S3</h2>
 
-<p>It is also possible to export assets directly to Amazon AWS S3 buckets from some locations in Combine. At the time of this writing, it is possible to export to S3 for all types of Record exports, but each type of export varies slightly in how it exports to S3.</p>
+<p>It is also possible to export assets directly to <a href="https://aws.amazon.com/s3/">Amazon AWS S3 Buckets</a> from some locations in Combine. At the time of this writing, it is possible to export to S3 for all types of Record exports, but each type of export varies slightly in how it exports to S3.</p>
 
 <p><strong>Note:</strong> All examples below are of exporting Published Records to S3, but the same workflows apply to a single Job as well.</p><br />
 
@@ -418,10 +402,10 @@ history,michigan,snow</code></p><br />
 
 <ul>
   <li>To provide an online, universally accessible version of exports that were formerly restricted to downloading from Combine only.</li>
-  <li>To more readily support utilizing data from exports in Apache Spark contexts.</li>
+  <li>To more readily support utilizing data from exports in <a href="https://spark.apache.org/">Apache Spark</a> contexts.</li>
 </ul>
 
-<p>The second reason, providing online, accessible data dumps that are readily read by other instances of Spark, is perhaps the most compelling. By exporting, or “publishing”, to S3 as parquet files or JSONLines, it is possible for others to load data exported from Combine without sacrificing some dimensionality of the data as it exists in the database.</p>
+<p>The second reason, providing online, accessible data dumps that are readily read by other instances of Spark, is perhaps the most compelling. By exporting, or “publishing”, to S3 as <a href="https://parquet.apache.org/">Apache Parquet</a> files or <a href="https://jsonlines.org/">JSONLines</a>, it is possible for others to load data exported from Combine without sacrificing some dimensionality of the data as it exists in the database.</p>
 
 <p>One use case might be exporting Records published in Combine to S3, thereby “publishing” them for another entity to read via Spark and act on, where formerly that entity would have had to harvest via OAI-PMH from Combine, relying on network uptime and connections. If the Records are stored in a database already, with ancillary metadata like Record identifiers, why not share that directly if possible! S3 buckets provide a convenient way to do this.</p><br />
 
@@ -466,7 +450,9 @@ history,michigan,snow</code></p><br />
 
 <ul>
   <li>Spark DataFrame: This is a multi-columned DataFrame that mirrors the database entry for each Record in MongoDB</li>
-  <li>exports as Parquet file, leveraging compression and performance of this format for Spark reading</li>
+  <ul>
+    <li>exports as Parquet file, leveraging compression and performance of this format for Spark reading</li>
+  </ul>
   <li>Archive file: The same archive file that would have been downloadble from Combine for this export type, is uploaded to S3</li>
 </ul>
 
@@ -475,7 +461,9 @@ history,michigan,snow</code></p><br />
 <ul>
   <li>document: the XML string of the Record document</li>
   <li>record_id: The Record identifier that would have been used during OAI publishing, but is accessible in this DataFrame</li>
+  <ul>
   <li><strong>Note:</strong> This identifier will no longer contain the OAI server identifier or Publish Set identifier that would have accompanied it in the OAI output.</li>
+  </ul>
 </ul><br />
 
 <h3>Exporting Mapped Fields to S3</h3>
@@ -541,7 +529,9 @@ history,michigan,snow</code></p><br />
 
 <ul>
   <li>Spark DataFrame: This Spark DataFrame will include all field names that were generated during Tabular Data exporting, which can be extremely numerous</li>
-  <li>exports as JSONLines, due to unpredictable nature of column names, while not as efficient as parquet, nonetheless works</li>
+  <ul>
+    <li>exports as JSONLines, due to unpredictable nature of column names, while not as efficient as parquet, nonetheless works</li>
+  </ul>
   <li>Archive file: The same archive file that would have been downloadble from Combine for this export type, is uploaded to S3</li>
 </ul><br /><br />
 
