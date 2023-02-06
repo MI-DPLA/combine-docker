@@ -214,7 +214,7 @@ title: Running Jobs
   <li>Filter by Mapped Fields</li>
 </ul><br />
 
-<p><strong>Filter by Record Validity</strong></p><br />
+<p><strong>Filter by Record Validity</strong></p>
 
 <p>Users can select if all, valid, or invalid Records will be included.</p>
 
@@ -240,17 +240,17 @@ title: Running Jobs
 
 <p>Keep in mind, if multiple Validation Scenarios were run for a particular Job, it only requires one Record failing one test, within one Validation Scenario, for the Job to be considered “invalid” as a whole.</p><br />
 
-<p><strong>Limit Number of Records</strong></p><br />
+<p><strong>Limit Number of Records</strong></p>
 
 <p>Arguably the simplest filter, users can provide a number to limit total number of Records that will be used as input. This numerical filter is applied after other filters have been applied, and the Records from each Input Job have been mixed. Given Input Jobs A, B, and C--each having 1,000 Records--and applying a numerical limit of 50, it’s quite possible that all 50 will come from Job A, and 0 from B and C.</p>
 
 <p>This filter is best used for testing and sampling.</p><br />
 
-<p><strong>Filter Duplicates</strong></p><br />
+<p><strong>Filter Duplicates</strong></p>
 
 <p>This filter will remove duplicate Records based on matching record_id values. As these are used for publishing, this can be a way to ensure that Records are not published with duplicate record_id’s.</p><br />
 
-<p><strong>Filter by Mapped Fields</strong></p><br />
+<p><strong>Filter by Mapped Fields</strong></p>
 
 <p>Users can provide an ElasticSearch DSL query, as JSON, to refine the records that will be used for this Job.</p>
 
