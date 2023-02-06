@@ -75,15 +75,15 @@ title: Publishing Records
 
 <p>Note that the table is organized into sets with Publish Set Identifiers in the far left column.</p>
 
-<p>The the right of the table is a green button that will run an Analysis Job on all Published Records. This is provided as a convenience so a user won’t have to build such a Job by manually selecting all Published Jobs one-by-one, but most users will probably not need to use it. (See Part 11: Analysis for more on Analysis Jobs.)</p><br />
+<p>The the right of the table is a green button that will run an Analysis Job on all Published Records. Analysis Jobs are effectively deprecated because they haven't been actively developed in recent versions. The button does function, however, and the results might be helpful if used with caution.</p><br />
 
 <p><strong>The Published Records Section</strong></p>
 
 <p>Below the table of Published Sets is a section called “Published Records” that’s similar to a Job Details page (see Part 12) but includes all Published Records. The tabs in this section include:</p>
 
 <ul>
-  <li><strong>Mapped Fields</strong> - the display is similar to the “Mapped Fields” tab on a Job Details page, but here the user can analyze the distribution of metadata across all of the Published Records in Combine. This can be helpful in several ways, such as confirming that DPLA required fields are at 100% compliance.</li>
-  <li><strong>Outgoing OAI-PMH Server</strong> - this time gives access to XML displays for several XML commands:</li>
+  <li><strong>Mapped Fields</strong> - the display was intended to be similar to the “Mapped Fields” tab on a Job Details page, but here the user could analyze the distribution of metadata across all of the Published Records in Combine. This could be helpful for confirming that DPLA required fields are at 100% compliance. We were not able to develop this feature, however, so it should be considered deprecated pending future development.</li>
+  <li><strong>Outgoing OAI-PMH Server</strong> - this tab provides data about the OAI feed that shares metadata from Combine:</li>
   <ul>
     <li>Identify</li
     <li>List metadata formats</li>
@@ -91,7 +91,7 @@ title: Publishing Records
     <li>List records</li>
     <li>List sets</li>
   </ul>
-  <li><strong>Export</strong> - this tab allows the user to export flat files as documents. (See “Part 14: Exporting” for a description of Combine’s Export functions.)</li>
+  <li><strong>Export</strong> - this tab allows the user to export flat files as documents. (See “Part 14: Exporting Records” for a description of Combine’s Export functions. Note that these functions have not been actively developed in recent versions and may not work reliably.)</li>
 </ul><br />
 
 <p><strong>The Published Subsets Section</strong></p>
@@ -123,7 +123,7 @@ title: Publishing Records
   <li><strong>Organizations, Record Groups</strong>, and <strong>Jobs</strong> where all published Jobs are included</li>
 </ul>
 
-<p>Published Subsets allow the user to create specific combinations of Published Records for particular needs.</p>
+<p>Published Subsets allow the user to create specific combinations of Published Records for particular needs. Subsets have not been actively developed in recent versions, so they may not work reliably.</p>
 
 <p>By default, exports from Combine’s OAI-PMH server, or from flat file exports, will include all published Records in Combine. For most users, this will be perfectly acceptable. It’s also possible that organizing exports at the level of Publish Set Identifiers – which translate directly to OAI sets – may be all that a Combine user needs to provide the right metadata to the right places. But if the user needs more granular control of metadata, Published Subsets allow the user to give customized groups of Records their own OAI-PMH endpoint, or their own flat file exports.</p>
 
