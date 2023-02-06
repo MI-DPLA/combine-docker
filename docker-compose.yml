@@ -15,6 +15,10 @@ services:
         read_only: false # owner
     expose:
       - "9200"
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "5"
 
 
   mongo:
@@ -27,6 +31,10 @@ services:
     # ports:
     #   - "127.0.0.1:27017:27017"
     command: "--config /etc/mongod.conf"
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "5"
 
 
   mysql:
@@ -45,11 +53,19 @@ services:
     # ports:
     #   - "127.0.0.1:3307:3307"
     #command: "--default-authentication-plugin=mysql_native_password"
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "5"
 
   redis:
     image: redis:4.0
     # ports:
     #   - 6379:6379
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "5"
 
   spark-cluster-base:
     build:
@@ -81,6 +97,10 @@ services:
       - "8020"
     # entrypoint: bash /tmp/entrypoint_namenode.sh
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "5"
 
   hadoop-datanode:
     build:
@@ -94,6 +114,10 @@ services:
       - "50071"
       - "50075"
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "5"
 
   combine-django:
     build:
@@ -148,6 +172,10 @@ services:
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
     depends_on:
       - mysql
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "5"
 
   combine-celery:
     build:
@@ -195,6 +223,10 @@ services:
       - "9001"
     depends_on:
       - redis
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "5"
 
   livy:
     build:
@@ -243,6 +275,10 @@ services:
       - "8998"
       - "4040"
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && /opt/livy/bin/livy-server"
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "5"
 
   nginx:
     image: nginx:latest
@@ -267,6 +303,10 @@ services:
       - livy
       - elasticsearch
       - hadoop-datanode
+    logging:
+      options:
+        max-size: "1M"
+        max-file: "5"
 
 # when using certbot for SSL, uncomment these lines:
 #  certbot:
