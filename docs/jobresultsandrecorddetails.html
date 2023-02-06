@@ -30,7 +30,7 @@ title: Job Results and Record Details
   <li>Publish</li>
   <li>Input Jobs</li>
   <li>Validation</li>
-  <li>Job Type Details (Harvest, Transform, Merge, Analysis)</li>
+  <li>Job Type Details (Harvest, Transform, Merge)</li>
   <li>Export</li>
   <li>Job Parameters</li>
   <li>Spark Details</li>
@@ -128,19 +128,19 @@ title: Job Results and Record Details
   </tr>
 </table>
 
-<p>Jobs can be run without a Validation Scenario, but if the user does apply one or more to a Job, they will be displayed on this tab. If the user decides that the Validation Scenario isn’t needed after the fact, this tab also allows them to remove it. 
+<p>Jobs can be run without a Validation Scenario, but if the user does apply one or more to a Job, they will be displayed on this tab. If the user decides that the Validation Scenario isn’t needed after the fact, this tab also allows them to remove it.</p>
+
 The tab also shows the name of the Validation Scenario, its type, and the number of Records in the Job that failed it. If any Records failed, an additional blue button will appear that will show the results of the failures in more detail.</p>
 
 <p>For more details about analyzing the Validation results of a Job, see “Part 11: Validation.”</p><br />
 
-<h2>Jobs: Harvest / Transformation / Merge / Analysis Details</h2>
+<h2>Jobs: Harvest / Transformation / Merge Details</h2>
 
 <p>This content of this tab depends on the type of Job that was run:</p>
 
 <ul>
   <li>Harvests: The tab shows the OAI endpoint used for the harvest and the OAI sets included in the Job.</li>
   <li>Merges: This tab was not developed.</li>
-  <li>Analysis: This tab was not developed.</li>
   <li>Transformations: This tab is especially detailed for this Job type. It shows the Transformation Scenario that was used in the Job. It also shows the DB ID and Record ID of each Record that was transformed during the Job. In most Transformation Scenarios all the Records will be transformed, but some might target only a few Records. This tab allows the user to view only those that were transformed.</li>
 </ul>
 
@@ -150,7 +150,7 @@ The tab also shows the name of the Validation Scenario, its type, and the number
 
 <h3>Export</h3>
 
-<p>This tab support export of Records in a variety of ways. For a detailed explanation, see “Part 15: Exporting Records”</p><br />
+<p>This tab supports the export of Records in a variety of ways, but it hasn't been actively developed in recent versions and may not function reliably.</p><br />
 
 <h3>Job Parameters</h3>
 
@@ -170,8 +170,8 @@ The tab also shows the name of the Validation Scenario, its type, and the number
 <p>This tab provides diagnostic information about the Job as run in in the background in Spark:</p>
 
 <ul>
-  <li>Spark Jobs/Tasks Run shows the actual tasks and stages as run by Spark. Due to how Spark runs, the names of these tasks may not be familiar or immediately obvious, but provide a window into the Job as it runs. This section also shows additional tasks that have been run for this Job such as re-indexing, or new validations.</li>
-  <li>Livy Statement Information: shows the raw JSON output from the Job as submitted to Apache Livy.</li>
+  <li><strong>Spark Jobs/Tasks Run</strong> - shows the actual tasks and stages as run by Spark. Due to how Spark runs, the names of these tasks may not be familiar or immediately obvious, but provide a window into the Job as it runs. This section also shows additional tasks that have been run for this Job such as re-indexing, or new validations.</li>
+  <li><strong>Livy Statement Information</strong> - shows the raw JSON output from the Job as submitted to Apache Livy.</li>
 </ul><br />
 
 <h2>Viewing Record Details</h2>
@@ -215,8 +215,8 @@ The tab also shows the name of the Validation Scenario, its type, and the number
 Note the two buttons for this tab:</p>
 
 <ul>
-  <li>View Raw Document -  displays the raw XML in a new browser tab</li>
-  <li>Search for Identifcal Documents - opens a search page and begins a search of all Records in Combine for Records with identical XML to this Record. Note that the page will open in the same tab, so you will need to backspace to return to the Record details section.</li>
+  <li><strong>View Raw Document</strong> -  displays the raw XML in a new browser tab</li>
+  <li><strong>Search for Identifcal Documents</strong> - opens a search page and begins a search of all Records in Combine for Records with identical XML to this Record. Note that the page will open in the same tab, so you will need to backspace to return to the Record details section.</li>
 </ul><br />
 
 <h3>Mapped Fields</h3>
@@ -230,22 +230,7 @@ Note the two buttons for this tab:</p>
   </tr>
 </table>
 
-<p>This tab displays a table of all the mapped fields for this Record.</p>
-
-<p>Note the two buttons for this tab:</p>
-
-<ul>
-  <li>how Field Mapping Configuration Used: This opens a new section in the same tab that displays the code that was applied to the Record’s configuration.</li>
-  <li>View ElasticSearch Document: This opens a page in a new browser tab that will allow you to view the Record’s JSON, its raw data without formatting, and its headers.</li>
-</ul>
-
-<p>Notice in this table the columns DPLA Mapped Field and Map DPLA Field. Both of these columns pertain to a functionality in Combine that attempts to “link” a Record with the same record in the live DPLA site. It performs this action by querying the DPLA API (DPLA API credentials must be set in localsettings.py) based on mapped indexed fields. Though this area has potential for expansion, currently the most reliable and effective DPLA field to try and map is the isShownAt field.</p>
-
-<p>The isShownAt field is the URL that all DPLA items require to send visitors back to the originating organization or institution’s page for that item. As such, it is also unique to each Record, and provides a handy way to “link” Records in Combine to items in DPLA. The difficult part is often figuring out which indexed field in Combine contains the URL.</p>
-
-<p><strong>Note:</strong> When this is applied to a single Record, that mapping is then applied to the Job as a whole. Viewing another Record from this Job will reflect the same mappings. These mappings can also be applied at the Job or Record level.</p>
-
-<p>In the example above, the indexed field mods_location_url_@usage_primary has been mapped to the DPLA field isShownAt which provides a reliable linkage at the Record level.</p><br />
+<p>This tab displays a table of all the mapped fields for this Record. There are several elements to this tab but none have been actively developed in recent versions their performance might be unreliable (and in some cases they may be deprecated).</p><br />
 
 <h3>Record Stages</h3>
 
@@ -275,9 +260,9 @@ Note the two buttons for this tab:</p>
 
 <p>This tab shows all Validation Tests that were run for this Job, and how this Record fared. For more information about Validation in Combine, see “Part 11: Validation.”</p><br />
 
-<h2>Records: Harvest / Transformations / Merge / Analysis Details</h2>
+<h2>Records: Harvest / Transformations / Merge Details</h2>
 
-<p>Job results have a tab for the specific Job type, and so do the Records that are part of those Jobs. The name of this tab will depend on the Job type – Harvest, Transform, Merge/Duplicate, or Analysis. At the moment, however, only Transform Jobs have additional data for this tab.For Records that are part of Harvest, Merge, or Analysis Jobs, this tab will currently say, “No additional information at this time.”</p><br />
+<p>Job results have a tab for the specific Job type, and so do the Records that are part of those Jobs. The name of this tab will depend on the Job type – Harvest, Transform, or Merge/Duplicate. At the moment, however, only Transformation Jobs have additional data for this tab. For Records that are part of Harvest or Merge Jobs, this tab will currently say, “No additional information at this time.”</p><br />
 
 <p><strong>Transform Records</strong></p>
 
@@ -290,7 +275,7 @@ Note the two buttons for this tab:</p>
   </tr>
 </table>
 
-<p>For Records in Transform Jobs, the first section of the page will show which Transformation Scenarios were used on that Record, including the type and a link to a display of the Transformation Payload.</p>
+<p>For Records in Transformation Jobs, the first section of the page will show which Transformation Scenarios were used on that Record, including the type and a link to a display of the Transformation Payload.</p>
 
 <p>The first section shows the Transformation Scenario used, including the transformation itself, and the “input” or “upsteram” Record that was used for the transformation:</p>
 
@@ -307,7 +292,7 @@ Note the two buttons for this tab:</p>
   </tr>
 </table>
 
-<p>The other offers a split view, showing the original and transformed versions side-by-side (this view relies on the sxsdiff library):</p>
+<p>The other offers a split view, showing the original and transformed versions side-by-side (this view relies on the <a href="https://github.com/timonwong/sxsdiff">sxsdiff</a> library):</p>
 
 <table>
   <tr>
