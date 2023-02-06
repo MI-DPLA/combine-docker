@@ -36,7 +36,7 @@ title: Harvesting Records
 </table>
 
 
-<p>The values for “OAI URL endpoint” and “OAI metadata format” are automatically populated from your configured endpoint, but you can override them, if necessary, for this specific harvest Job. Any changes made here will not be applied to future harvests.</p>
+<p>The values for “OAI URL endpoint” and “OAI metadata format” are automatically populated from your configured endpoint, but you can override them, if necessary, for this specific harvest Job. Any changes made here will not be applied to future harvests (unless you create a clone of that harvest).</p>
 
 <p>The “Harvest type” field gives you four options. These are basically self-explanatory, but you should think carefully about which one will give you the specific results you’re looking for:</p>
 
@@ -183,11 +183,11 @@ title: Harvesting Records
 
 <p>Briefly the steps are:</p>
 
-<ul>
+<ol>
   <li>Transfer your data into a preconfigured spreadsheet we provide,</li>
   <li>Use the reaper.rb ruby program to extract the spreadsheet data into a Dublin Core xml file, and</li>
   <li>Use the provided xslt file to transform the Dublin Core xml file into MODS xml file that can be harvested into Combine.</li>
-</ul>
+</ol>
 
 <p><strong>Step 1: Preparing A Preconfigured Spreadsheet</strong></p>
 
