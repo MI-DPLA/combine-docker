@@ -44,17 +44,23 @@ title: Appendix - Deprecated Features
 
 <ul>
   <li>any token</li>
-  <li>matches any token from the search terms, and is NOT case-sensitive</li>
-  <li>default search type</li>
-  <li>The search terms provided are tokenized, and each term is searched. This is the most general search.</li>
+  <ul>
+    <li>matches any token from the search terms, and is NOT case-sensitive</li>
+    <li>default search type</li>
+    <li>The search terms provided are tokenized, and each term is searched. This is the most general search.</li>
+  </ul>
   <li>exact phrase</li>
-  <li>matches the exact phrase, and only the exact phrase, and IS case-sensitive</li>
-  <li>This search type is case-sensitive, and searches the entire search phrase provided, against un-tokenzied fields for all Records</li>
+  <ul>
+    <li>matches the exact phrase, and only the exact phrase, and IS case-sensitive</li>
+    <li>This search type is case-sensitive, and searches the entire search phrase provided, against un-tokenzied fields for all Records</li>
+  </ul>
   <li>wildcard</li>
-  <li>allows for the inclusion of a * wildcard character, matching the entire phrase, and IS case-sensitive</li>
-  <li>This search type can be particularly helpful for searching various identifiers in records, allowing the match of a sub-string in a field’s full, case-sensitive value.</li> 
-  <li>For example, we can take a piece of the Record ID for these Records – 1881b4 – and find Records that match that string somewhere in a field. Note the wildcard character * on both sides of the search term, indicating the field value may begin with anything, end with anything, but must contain that sub-string 1881b4. Somewhat unsurprisingly, the results are the same.</li>
-  <li><strong>Note:</strong> Even blank spaces must be captured by a wild card *. So, searching for public domain anywhere in a field would translate to *public*domain*.</li>
+  <ul>
+    <li>allows for the inclusion of a * wildcard character, matching the entire phrase, and IS case-sensitive</li>
+    <li>This search type can be particularly helpful for searching various identifiers in records, allowing the match of a sub-string in a field’s full, case-sensitive value.</li> 
+    <li>For example, we can take a piece of the Record ID for these Records – 1881b4 – and find Records that match that string somewhere in a field. Note the wildcard character * on both sides of the search term, indicating the field value may begin with anything, end with anything, but must contain that sub-string 1881b4. Somewhat unsurprisingly, the results are the same.</li>
+    <li><strong>Note:</strong> Even blank spaces must be captured by a wild card *. So, searching for public domain anywhere in a field would translate to *public*domain*.</li>
+  </ul>
 </ul>
 
 <p>Global Search is searching the mapped fields for Records, which are stored in ElasticSearch. As such, the power (and complexity) of ElasticSearch is exposed here to some degree.</p><br />
@@ -91,7 +97,7 @@ title: Appendix - Deprecated Features
   <tr>
   	<td><em>Analysis Job showing analysis of two Jobs, across two different Record Groups</em></td>
   </tr>
-</table
+</table>
 
 <h2>Analyzing Indexed Fields</h2>
 
@@ -113,7 +119,7 @@ title: Appendix - Deprecated Features
 
 <p>While mods_accessCondition_@type_useAndReproduction is not terribly pleasant to look at, it’s telling where this value came from inside the XML document. And most importantly, this generic XPath flattening approach can be applied across all XML documents that Combine might encounter.</p> 
 
-<p>This “flattening”, aka “mapping”, of XML to fields that can be stored and readily queried in ElasticSearch is done through Field Mapping Configurations.</p> 
+<p>This “flattening”, aka “mapping”, of XML to fields that can be stored and readily queried in ElasticSearch is done through Field Mapping Configurations.</p><br />
 
 <p><strong>Breakdown of indexed fields for a Job</strong></p>
 
@@ -204,31 +210,35 @@ title: Appendix - Deprecated Features
 
 <p>Here’s an example of the default configurations:</p> 
 
-<p border="2">
-{
-  "add_literals": {},
-  "concat_values_on_all_fields": false,
-  "concat_values_on_fields": {},
-  "copy_to": {},
-  "copy_to_regex": {},
-  "copy_value_to_regex": {},
-  "error_on_delims_collision": false,
-  "exclude_attributes": [],
-  "exclude_elements": [],
-  "include_all_attributes": false,
-  "include_attributes": [],
-  "node_delim": "_",
-  "ns_prefix_delim": "|",
-  "remove_copied_key": true,
-  "remove_copied_value": false,
-  "remove_ns_prefix": false,
-  "self_describing": false,
-  "skip_attribute_ns_declarations": true,
-  "skip_repeating_values": true,
-  "split_values_on_all_fields": false,
-  "split_values_on_fields": {}
-}
-</p>
+<table>
+  <tr>
+    <td>
+      <code>{<br />
+&nbsp;"add_literals": {},<br />
+&nbsp;"concat_values_on_all_fields": false,<br />
+&nbsp;"concat_values_on_fields": {},<br />
+&nbsp;"copy_to": {},<br />
+&nbsp;"copy_to_regex": {},<br />
+&nbsp;"copy_value_to_regex": {},<br />
+&nbsp;"error_on_delims_collision": false,<br />
+&nbsp;"exclude_attributes": [],<br />
+&nbsp;"exclude_elements": [],<br />
+&nbsp;"include_all_attributes": false,<br />
+&nbsp;"include_attributes": [],<br />
+&nbsp;"node_delim": "_",<br />
+&nbsp;"ns_prefix_delim": "|",<br />
+&nbsp;"remove_copied_key": true,<br />
+&nbsp;"remove_copied_value": false,<br />
+&nbsp;"remove_ns_prefix": false,<br />
+&nbsp;"self_describing": false,<br />
+&nbsp;"skip_attribute_ns_declarations": true,<br />
+&nbsp;"skip_repeating_values": true,<br />
+&nbsp;"split_values_on_all_fields": false,<br />
+&nbsp;"split_values_on_fields": {}<br />
+}</code>
+    </td>
+  </tr>
+</table><br />
 
 <p>Clicking the button “What do these configurations mean?” will provide information about each parameter, pulled form the XML2kvp JSON schema.</p> 
 
@@ -240,129 +250,60 @@ title: Appendix - Deprecated Features
 
 <p>Take for example the following, “unique” XML:</p> 
 
-<p border="2">
-<?xml version="1.0" encoding="UTF-8"?>
-<root xmlns:internet="http://internet.com">
-        <foo>
-                <bar>42</bar>
-                <baz>109</baz>
-        </foo>
-        <foo>
-                <bar>42</bar>
-                <baz>109</baz>
-        </foo>
-        <foo>
-                <bar>9393943</bar>
-                <baz>3489234893</baz>
-        </foo>
-        <tronic type='tonguetwister'>Sally sells seashells by the seashore.</tronic>
-        <tronic type='tonguetwister'>Red leather, yellow leather.</tronic>
-        <tronic>You may disregard</tronic>
-        <goober scrog='true' tonk='false'>
-                <depths>
-                        <plunder>Willy Wonka</plunder>
-                </depths>
-        </goober>
-        <nested_attribs type='first'>
-                <another type='second'>paydirt</another>
-        </nested_attribs>
-        <nested>
-                <empty></empty>
-        </nested>
-        <internet:url url='http://example.com'>see my url</internet:url>
-        <beat type="4/4">four on the floor</beat>
-        <beat type="3/4">waltz</beat>
-        <ordering>
-                <duck>100</duck>
-                <duck>101</duck>
-                <goose>102</goose>
-                <it>run!</it>
-        </ordering>
-        <ordering>
-                <duck>200</duck>
-                <duck>201</duck>
-                <goose>202</goose>
-                <it>run!</it>
-        </ordering>
-</root>
-</p>
+<table>
+  <tr>
+    <td><img src="images/Part15-08a-ExampleofUniqueXML.jpg" alt="image of xml for the example" width="800" border="2"></td>
+  </tr>
+</table>
 
 <p>Converted with default options from XML2kvp, you would get the following key/value pairs in JSON form:</p> 
 
-<p border="2">
-{'root_beat': ('four on the floor', 'waltz'),
- 'root_foo_bar': ('42', '9393943'),
- 'root_foo_baz': ('109', '3489234893'),
- 'root_goober_depths_plunder': 'Willy Wonka',
- 'root_nested_attribs_another': 'paydirt',
- 'root_ordering_duck': ('100', '101', '200', '201'),
- 'root_ordering_goose': ('102', '202'),
- 'root_ordering_it': 'run!',
- 'root_tronic': ('Sally sells seashells by the seashore.',
-  'Red leather, yellow leather.',
-  'You may disregard'),
- 'root_url': 'see my url'}
-</p>
+<table>
+  <tr>
+    <td><img src="images/Part15-08b-ExampleofUniqueXML.jpg" alt="image of xml for the example" width="800" border="2"></td>
+  </tr>
+</table>
 
 <p>Some things to notice…</p> 
 
 <ul>
   <li>the XML root element <root> is present for all fields as root</li>
   <li>the XML hierarchy <root><foo><bar> repeats twice in the XML, but is collapsed into a single field root_foo_bar</li>
-  <li>moreover, because skip_repeating_values is set to true, the value 42 shows up only once, if set to false we would see the value ('42', '42', '9393943')</li>
+  <ul>
+    <li>moreover, because skip_repeating_values is set to true, the value 42 shows up only once, if set to false we would see the value ('42', '42', '9393943')</li>
+  </ul>
   <li>a distinct absence of all attributes from the original XML, this is because include_all_attributes is set to false by default.</li>
 </ul>
 
 <p>Running with include_all_attributes set to true, we see a more complex and verbose output, with @ in various field names, indicating attributes:</p> 
 
-<p border="2">
-{'root_beat_@type=3/4': 'waltz',
- 'root_beat_@type=4/4': 'four on the floor',
- 'root_foo_bar': ('42', '9393943'),
- 'root_foo_baz': ('109', '3489234893'),
- 'root_goober_@scrog=true_@tonk=false_depths_plunder': 'Willy Wonka',
- 'root_nested_attribs_@type=first_another_@type=second': 'paydirt',
- 'root_ordering_duck': ('100', '101', '200', '201'),
- 'root_ordering_goose': ('102', '202'),
- 'root_ordering_it': 'run!',
- 'root_tronic': 'You may disregard',
- 'root_tronic_@type=tonguetwister': ('Sally sells seashells by the seashore.',
-  'Red leather, yellow leather.'),
- 'root_url_@url=http://example.com': 'see my url'}
-</p>
+<table>
+  <tr>
+    <td><img src="images/Part15-08c-ExampleofUniqueXML.jpg" alt="image of xml for the example" width="800" border="2"></td>
+  </tr>
+</table>
 
 <p>A more familiar example may be Dublin Core XML:</p> 
 
-<p border="2">
-<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns="http://www.openarchives.org/OAI/2.0/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
-        <dc:title>Fragments of old book</dc:title>
-        <dc:creator>Unknown</dc:creator>
-        <dc:date>1601</dc:date>
-        <dc:description>An object of immense cultural and historical worth</dc:description>
-        <dc:subject>Writing--Materials and instruments</dc:subject>
-        <dc:subject>Archaeology</dc:subject>
-        <dc:coverage>1600-1610</dc:coverage>
-        <dc:identifier>book_1234</dc:identifier>
-</oai_dc:dc>
-</p>
+<table>
+  <tr>
+    <td><img src="images/Part15-08d-ExampleofUniqueXML.jpg" alt="image of xml for the example" width="800" border="2"></td>
+  </tr>
+</table>
 
 <p>And with default configurations, would map to:</p> 
 
-<p border="2">
-{'dc_coverage': '1600-1610',
- 'dc_creator': 'Unknown',
- 'dc_date': '1601',
- 'dc_description': 'An object of immense cultural and historical worth',
- 'dc_identifier': 'book_1234',
- 'dc_subject': ('Writing--Materials and instruments', 'Archaeology'),
- 'dc_title': 'Fragments of old book'}
-</p><br />
+<table>
+  <tr>
+    <td><img src="images/Part15-08e-ExampleofUniqueXML.jpg" alt="image of xml for the example" width="800" border="2"></td>
+  </tr>
+</table><br />
 
 <h3>Configurations</h3>
 
 <p>Within Combine, the configurations passed to XML2kvp are referred to as “Field Mapper Configurations”, and like many other parts of Combine, can be named, saved, and updated in the database for later, repeated use. This following table describes the configurations that can be used for field mapping.</p> 
 
-<table>
+<table border="2">
   <tr>
     <th>Parameter</th>
     <th>Type</th>
