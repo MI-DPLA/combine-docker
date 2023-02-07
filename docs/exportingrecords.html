@@ -42,7 +42,7 @@ title: Exporting Records
 
 <table>
   <tr>
-    <td><img src="images/Part14-01a-JobCExportwithObjects.jpg" alt="image of an exported Job" width="600" border="2"></td>
+    <td><img src="images/Part14-01a-JobCExportwithObjects.jpg" alt="image of an exported Job" width="400" border="2"></td>
   </tr>
   <tr>
   	<td><em>Job C export, with accompanying objects</em></td>
@@ -73,7 +73,7 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <table>
   <tr>
-    <td><img src="images/Part14-01b-ExampleofanExport.jpg" alt="an image showing an example of an exported Job" width="600" border="2"></td>
+    <td><img src="images/Part14-01b-ExampleofanExport.jpg" alt="an image showing an example of an exported Job" width="400" border="2"></td>
   </tr>
   <tr>
   	<td><em>Example of an Export</em></td>
@@ -282,12 +282,13 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
   <tr>
     <td>
       <code>- archive.zip|tar<br />
-&nbsp;- j42/ # folder for Job<br />
-&nbsp;&nbsp;"match":{<br />
-&nbsp;&nbsp;&nbsp;- part00000.xml # each XML file contains 250 records grouped under a root XML element < documents ><br />
-&nbsp;&nbsp;&nbsp;- part00001.xml<br />
-&nbsp;&nbsp;&nbsp;- part00002.xml<br />
-&nbsp;&nbsp;&nbsp;- part00003.xml<br /></code>
+&nbsp;&nbsp;- j42/ # folder for Job<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"match":{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- part00000.xml 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# each XML file has 250 records under root XML element < documents ><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- part00001.xml<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- part00002.xml<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- part00003.xml<br /></code>
     </td>
   </tr>
 </table><br />
@@ -365,13 +366,13 @@ Of note, we also see some Configuration Scenarios that were used by the Jobs A, 
 
 <p>If a Record contains a mapped field such as mods_subject_topic that is repeating, the default export format is to create multiple columns in the export, appending an integer for each instance of that field, e.g.,</p>
 
-<p><code>mods_subject_topic.0, mods_subject_topic.1, mods_subject_topic.0
-history, michigan, snow</code></p>
+<p><code>mods_subject_topic.0, mods_subject_topic.1,</code></p>
+<p><code>mods_subject_topic.0 history, michigan, snow</code></p>
 
 <p>But if the checkbox, Export CSV "Kibana style"? is checked, all multi-valued fields will export in the “Kibana style” where a single column is added to the export and the values are comma separated, e.g.,</p>
 
-<p><code>mods_subject_topic<br />
-history,michigan,snow</code></p><br />
+<p><code>mods_subject_topic</code></p>
+<p><code>history,michigan,snow</code></p>
 
 <h3>Export Tabular Data</h3>
 
@@ -449,9 +450,9 @@ history,michigan,snow</code></p><br />
 <p>When exporting documents to S3, two options are available:</p>
 
 <ul>
-  <li>Spark DataFrame: This is a multi-columned DataFrame that mirrors the database entry for each Record in MongoDB</li>
+  <li><a href="https://spark.apache.org/docs/3.3.1/sql-programming-guide.html">Spark DataFrame</a>: This is a multi-columned DataFrame that mirrors the database entry for each Record in <a href="https://www.mongodb.com/">MongoDB</a></li>
   <ul>
-    <li>exports as Parquet file, leveraging compression and performance of this format for Spark reading</li>
+    <li>exports as a <a href="https://parquet.apache.org/">Parquet</a> file, leveraging compression and performance of this format for Spark reading</li>
   </ul>
   <li>Archive file: The same archive file that would have been downloadble from Combine for this export type, is uploaded to S3</li>
 </ul>
@@ -493,7 +494,7 @@ history,michigan,snow</code></p><br />
 <p>When exporting documents to S3, two options are available:</p>
 
 <ul>
-  <li>Spark DataFrame: This is a multi-columned DataFrame that mirrors the database entry for each Record in MongoDB</li>
+  <li><a href="https://spark.apache.org/docs/3.3.1/sql-programming-guide.html">Spark DataFrame</a>: This is a multi-columned DataFrame that mirrors the database entry for each Record in <a href="https://www.mongodb.com/">MongoDB</a></li>
   <li>Archive file: The same archive file that would have been downloadble from Combine for this export type, is uploaded to S3</li>
 </ul>
 
@@ -528,9 +529,9 @@ history,michigan,snow</code></p><br />
 <p>When exporting documents to S3, two options are available:</p>
 
 <ul>
-  <li>Spark DataFrame: This Spark DataFrame will include all field names that were generated during Tabular Data exporting, which can be extremely numerous</li>
+  <li><a href="https://spark.apache.org/docs/3.3.1/sql-programming-guide.html">Spark DataFrame</a>: This Spark DataFrame will include all field names that were generated during Tabular Data exporting, which can be extremely numerous</li>
   <ul>
-    <li>exports as JSONLines, due to unpredictable nature of column names, while not as efficient as parquet, nonetheless works</li>
+    <li>exports as <a href="https://jsonlines.org/">JSONLines</a>, due to unpredictable nature of column names, while not as efficient as <a href="https://parquet.apache.org/">Parquet</a>, nonetheless works</li>
   </ul>
   <li>Archive file: The same archive file that would have been downloadble from Combine for this export type, is uploaded to S3</li>
 </ul><br /><br />
