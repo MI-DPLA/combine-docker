@@ -1,4 +1,4 @@
-FROM combine-docker_spark-cluster-base:latest
+FROM ghcr.io/mi-dpla/combine-docker/spark-cluster-base:latest
 
 # Arguments
 ARG HADOOP_VERSION

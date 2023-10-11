@@ -1,4 +1,4 @@
-FROM combine-docker_spark-cluster-base:latest
+FROM ghcr.io/mi-dpla/combine-docker/spark-cluster-base:latest
 
 # Arguments
 ARG COMBINE_BRANCH
@@ -45,12 +45,17 @@ ENV SCALA_VERSION=$SCALA_VERSION
 RUN pip install livy
 
 # install ElasticDump
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - 
-RUN apt-get install -y nodejs && npm install elasticdump -g
+RUN apt-get update
+RUN apt-get install -y ca-certificates curl gnupg
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update && apt-get install -y nodejs && npm install elasticdump -g
 RUN pip install git+https://github.com/MI-DPLA/es2csv.git@python3
 
 # install mongo tools
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E52529D4 \
-  && echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list \
-  && apt-get update \
-  && apt-get install -y mongodb-org-tools
+RUN curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
+   gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
+   --dearmor
+RUN echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] http://repo.mongodb.org/apt/debian buster/mongodb-org/6.0 main" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+RUN apt-get update && apt-get install -y mongodb-database-tools

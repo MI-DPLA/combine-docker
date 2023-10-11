@@ -59,6 +59,7 @@ services:
         SPARK_VERSION: "${SPARK_VERSION}"
         HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
         ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: "${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}"
+    image: ghcr.io/mi-dpla/combine-docker/spark-cluster-base
     command:  /bin/true # exits code 0
 
 
@@ -89,6 +90,7 @@ services:
       args:
         HADOOP_VERSION: "${HADOOP_VERSION}"
     depends_on:
+      - spark-cluster-base
       - hadoop-namenode
     expose:
       - "50071"
@@ -103,6 +105,10 @@ services:
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
         COMBINE_BRANCH: "${COMBINE_BRANCH}"
+    image: ghcr.io/mi-dpla/combine-docker/combine-django
+    depends_on:
+      - spark-cluster-base
+      - mysql
     volumes:
       - ./combine/combine/static:/static
       - ./combinelib:/combinelib
@@ -146,8 +152,6 @@ services:
     # ports:
     #   - "127.0.0.1:6767:6767"
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
-    depends_on:
-      - mysql
 
   combine-celery:
     build:
@@ -203,6 +207,8 @@ services:
       args:
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
+    depends_on:
+      - combine-django
     volumes:
       - ./combinelib:/combinelib
       - type: volume
