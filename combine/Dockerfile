@@ -1,4 +1,34 @@
-FROM ghcr.io/mi-dpla/combine-docker/spark-cluster-base:latest
+FROM openjdk:8-jdk-slim-buster
+
+RUN apt-get update \
+ && apt-get install -y locales \
+ && dpkg-reconfigure -f noninteractive locales \
+ && locale-gen C.UTF-8 \
+ && /usr/sbin/update-locale LANG=C.UTF-8 \
+ && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+ && locale-gen \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+# Users with other locales should set this in their derivative image
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+# Install OS libraries
+RUN apt-get update \
+ && mkdir -p /usr/share/man/man1 \
+ && apt-get install -y curl unzip lsof wget unzip \
+    python3 python3-setuptools python3-pip \
+ && ln -s /usr/bin/python3 /usr/bin/python \
+ && pip3 install py4j \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+# http://blog.stuart.axelbrooke.com/python-3-on-spark-return-of-the-pythonhashseed
+ENV PYTHONHASHSEED 0
+ENV PYTHONIOENCODING UTF-8
+ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
 # Arguments
 ARG COMBINE_BRANCH
@@ -34,15 +64,6 @@ COPY mysql/root.my.cnf /etc/.my.cnf
 # install python dependencies
 RUN cd /opt/combine \
  && pip install -r requirements.txt
-
-# install Livy Client
-# https://github.com/MI-DPLA/combine-playbook/blob/master/roles/combine/tasks/main.yml#L34-L42
-# Arguments
-ARG LIVY_TAGGED_RELEASE
-ARG SCALA_VERSION
-ENV LIVY_TAGGED_RELEASE=$LIVY_TAGGED_RELEASE
-ENV SCALA_VERSION=$SCALA_VERSION
-RUN pip install livy
 
 # install ElasticDump
 RUN apt-get update

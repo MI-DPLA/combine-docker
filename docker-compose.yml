@@ -47,57 +47,11 @@ services:
     #command: "--default-authentication-plugin=mysql_native_password"
 
   redis:
-    image: redis:4.0
+    image: redis:7.2
     # ports:
     #   - 6379:6379
 
-  spark-cluster-base:
-    build:
-      context: ./spark_cluster_base
-      dockerfile: Dockerfile
-      args:
-        SPARK_VERSION: "${SPARK_VERSION}"
-        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-        ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: "${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}"
-    image: ghcr.io/mi-dpla/combine-docker/spark-cluster-base
-    command:  /bin/true # exits code 0
-
-
-  hadoop-namenode:
-    build:
-      context: ./hadoop
-      dockerfile: Dockerfile
-      args:
-        HADOOP_VERSION: "${HADOOP_VERSION}"
-    volumes:
-      - type: volume
-        source: hdfs
-        target: /hdfs
-        read_only: false
-      - type: volume
-        source: hadoop_binaries
-        target: /opt/hadoop
-        read_only: false # owner of dir
-    expose:
-      - "8020"
-    # entrypoint: bash /tmp/entrypoint_namenode.sh
-    command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
-
-  hadoop-datanode:
-    build:
-      context: ./hadoop
-      dockerfile: Dockerfile
-      args:
-        HADOOP_VERSION: "${HADOOP_VERSION}"
-    depends_on:
-      - spark-cluster-base
-      - hadoop-namenode
-    expose:
-      - "50071"
-      - "50075"
-    command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
-
-  combine-django:
+  django:
     build:
       context: .
       dockerfile: ./combine/Dockerfile
@@ -105,9 +59,8 @@ services:
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
         COMBINE_BRANCH: "${COMBINE_BRANCH}"
-    image: ghcr.io/mi-dpla/combine-docker/combine-django
+    image: ghcr.io/mi-dpla/combine-docker/django
     depends_on:
-      - spark-cluster-base
       - mysql
     volumes:
       - ./combine/combine/static:/static
@@ -115,18 +68,6 @@ services:
       - type: volume
         source: hdfs
         target: /hdfs
-        read_only: true
-      - type: volume
-        source: hadoop_binaries
-        target: /opt/hadoop
-        read_only: true
-      - type: volume
-        source: spark_binaries
-        target: /opt/spark
-        read_only: true
-      - type: volume
-        source: livy_binaries
-        target: /opt/livy
         read_only: true
       - type: bind # Bind Combine app submodule
         source: ./combine/combine
@@ -153,7 +94,7 @@ services:
     #   - "127.0.0.1:6767:6767"
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
 
-  combine-celery:
+  celery:
     build:
       context: .
       dockerfile: ./celery/Dockerfile
@@ -162,18 +103,6 @@ services:
       - type: volume
         source: hdfs
         target: /hdfs
-        read_only: true
-      - type: volume
-        source: hadoop_binaries
-        target: /opt/hadoop
-        read_only: true
-      - type: volume
-        source: spark_binaries
-        target: /opt/spark
-        read_only: true
-      - type: volume
-        source: livy_binaries
-        target: /opt/livy
         read_only: true
       - type: bind # Bind Combine app submodule
         source: ./combine/combine
@@ -200,56 +129,6 @@ services:
     depends_on:
       - redis
 
-  livy:
-    build:
-      context: .
-      dockerfile: livy/Dockerfile
-      args:
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
-        SCALA_VERSION: "${SCALA_VERSION}"
-    depends_on:
-      - combine-django
-    volumes:
-      - ./combinelib:/combinelib
-      - type: volume
-        source: hdfs
-        target: /hdfs
-        read_only: true
-      - type: volume
-        source: hadoop_binaries
-        target: /opt/hadoop
-        read_only: true
-      - type: volume
-        source: spark_binaries
-        target: /opt/spark
-        read_only: false # owner of /opt/spark when Livy only
-      - type: volume
-        source: livy_binaries
-        target: /opt/livy
-        read_only: false # owner of dir
-      - type: bind # Bind Combine app submodule
-        source: ./combine/combine
-        target: /opt/combine
-        read_only: false # owner
-        bind:
-          propagation: shared
-      - type: volume
-        source: combine_home
-        target: /home/combine
-        read_only: false
-      - type: volume
-        source: combine_python_env
-        target: /opt/conda/envs/combine
-        read_only: true
-      - type: volume
-        source: combine_tmp
-        target: /tmp
-        read_only: false
-    expose:
-      - "8998"
-      - "4040"
-    command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && /opt/livy/bin/livy-server"
-
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -268,11 +147,9 @@ services:
       - "127.0.0.1:80:80"
       - "127.0.0.1:443:443"
     depends_on:
-      - combine-django
-      - combine-celery
-      - livy
+      - django
+      - celery
       - elasticsearch
-      - hadoop-datanode
 
 # when using certbot for SSL, uncomment these lines:
 #  certbot:
@@ -297,12 +174,6 @@ volumes:
 
   # volatile
   combine_python_env:
-    driver: local
-  hadoop_binaries:
-    driver: local
-  spark_binaries:
-    driver: local
-  livy_binaries:
     driver: local
   combine_tmp:
     driver: local
