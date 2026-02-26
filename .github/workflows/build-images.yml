@@ -38,7 +38,7 @@ jobs:
           context: ./spark_cluster_base
           push: true
           tags: 'ghcr.io/mi-dpla/combine-docker/spark-cluster-base:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/spark-cluster-base:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/spark-cluster-base:latest'
-          file: Dockerfile
+          file: ./spark_cluster_base/Dockerfile
 
       - name: Build hadoop-namenode image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -46,7 +46,7 @@ jobs:
           context: ./hadoop
           push: true
           tags: 'ghcr.io/mi-dpla/combine-docker/hadoop-namenode:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/hadoop-namenode:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/hadoop-namenode:latest'
-          file: Dockerfile
+          file: ./hadoop/Dockerfile
 
       - name: Build hadoop-datanode image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -54,7 +54,7 @@ jobs:
           context: ./hadoop
           push: true
           tags: 'ghcr.io/mi-dpla/combine-docker/hadoop-datanode:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/hadoop-datanode:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/hadoop-datanode:latest'
-          file: Dockerfile
+          file: ./hadoop/Dockerfile
 
       - name: Build django image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
