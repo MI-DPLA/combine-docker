@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-slim-buster
+FROM eclipse-temurin:8-jdk-noble
 
 RUN apt-get update \
  && apt-get install -y locales \
@@ -18,10 +18,11 @@ ENV LC_ALL en_US.UTF-8
 # Install OS libraries
 RUN apt-get update \
  && mkdir -p /usr/share/man/man1 \
- && apt-get install -y curl unzip lsof wget unzip maven \
-    python3 python3-setuptools python3-pip \
+ && apt-get install -y curl lsof wget unzip maven \
+ python3-full python3-setuptools python3-pip \
  && ln -s /usr/bin/python3 /usr/bin/python \
- && pip3 install py4j \
+ && python3 -m venv /opt/python \
+ && /opt/python/bin/pip install py4j \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 

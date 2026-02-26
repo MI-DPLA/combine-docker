@@ -105,7 +105,7 @@ services:
         LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
         COMBINE_BRANCH: "${COMBINE_BRANCH}"
-    image: ghcr.io/mi-dpla/combine-docker/combine-django
+    image: ghcr.io/mi-dpla/combine-docker/django
     depends_on:
       - spark-cluster-base
       - mysql
