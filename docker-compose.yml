@@ -100,10 +100,6 @@ services:
       dockerfile: ./celery/Dockerfile
     volumes:
       - ./combinelib:/combinelib
-      - type: volume
-        source: hdfs
-        target: /hdfs
-        read_only: true
       - type: bind # Bind Combine app submodule
         source: ./combine/combine
         target: /opt/combine
