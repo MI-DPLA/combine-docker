@@ -11,9 +11,9 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Users with other locales should set this in their derivative image
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 # Install OS libraries
 RUN apt-get update \
@@ -27,9 +27,9 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # http://blog.stuart.axelbrooke.com/python-3-on-spark-return-of-the-pythonhashseed
-ENV PYTHONHASHSEED 0
-ENV PYTHONIOENCODING UTF-8
-ENV PIP_DISABLE_PIP_VERSION_CHECK 1
+ENV=PYTHONHASHSEED 0
+ENV=PYTHONIOENCODING UTF-8
+ENV=PIP_DISABLE_PIP_VERSION_CHECK 1
 
 # Arguments
 ARG SPARK_VERSION

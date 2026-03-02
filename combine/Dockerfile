@@ -7,7 +7,7 @@ ENV COMBINE_BRANCH=$COMBINE_BRANCH
 # install miniconda
 # https://hub.docker.com/r/continuumio/miniconda3/dockerfile
 RUN apt-get update --fix-missing && \
-    apt-get install -y wget bzip2 ca-certificates curl git default-libmysqlclient-dev libmariadbclient-dev gcc libkrb5-dev libxml2-dev libxslt1-dev libmariadb-java python3-dev default-mysql-client vim make && \
+    apt-get install -y wget bzip2 ca-certificates curl git libmariadb3 libmariadb-dev libmariadb-dev-compat gcc libkrb5-dev libxml2-dev libxslt1-dev libmariadb-java python3-dev default-mysql-client vim make && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/lib/x86_64-linux-gnu/libmariadb.so.3 /usr/lib/x86_64-linux-gnu/libmariadbclient.so.18
@@ -21,7 +21,7 @@ RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.6.14-Linux-x86
 
 # create combine conda env and set to path
 RUN /opt/conda/bin/conda create -n combine python=3.7 --yes
-ENV PATH /opt/conda/envs/combine/bin:$PATH
+ENV PATH=/opt/conda/envs/combine/bin:$PATH
 
 # copy Combine app submodule
 COPY combine/combine /opt/combine/
