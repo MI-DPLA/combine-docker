@@ -52,9 +52,9 @@ jobs:
           tags: 'ghcr.io/mi-dpla/combine-docker/spark-cluster-base:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/spark-cluster-base:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/spark-cluster-base:latest'
           file: ./spark_cluster_base/Dockerfile
           build-args: |
-            SPARK_VERSION: "${SPARK_VERSION}"
-            HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
-            ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: "${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}"
+            SPARK_VERSION: ${{ environment.SPARK_VERSION }}
+            HADOOP_VERSION_SHORT: ${{ environment.HADOOP_VERSION_SHORT }}
+            ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: ${{ environment.ELASTICSEARCH_HADOOP_CONNECTOR_VERSION }}
 
       - name: Build hadoop-namenode image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
