@@ -17,8 +17,6 @@ RUN cd /opt \
   && mkdir logs \
   && ln -s /combinelib/ingestion3_${SCALA_VERSION}-0.0.1.jar /opt/livy/rsc/target/jars/ingestion3.jar
 
-COPY livy/livy_binaries /opt/livy
-
 # Copy configurations
 COPY livy/livy.conf /opt/livy/conf/livy.conf
 RUN cat /opt/livy/conf/livy.conf
