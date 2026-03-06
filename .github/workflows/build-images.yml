@@ -81,7 +81,7 @@ jobs:
           context: .
           push: true
           tags: 'ghcr.io/mi-dpla/combine-docker/django:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/django:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/django:latest'
-          file: ./combine/Dockerfile
+          file: ./combine/Dockerfile.prod
           build-args: |
             SCALA_VERSION=2.11
             COMBINE_BRANCH=kubernetify
