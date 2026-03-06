@@ -1,4 +1,4 @@
-FROM ghcr.io/mi-dpla/combine-docker/spark-cluster-base:latest
+gROM ghcr.io/mi-dpla/combine-docker/spark-cluster-base:latest
 
 # Arguments
 ARG COMBINE_BRANCH
@@ -38,9 +38,7 @@ RUN cd /opt/combine \
 # install Livy Client
 # https://github.com/MI-DPLA/combine-playbook/blob/master/roles/combine/tasks/main.yml#L34-L42
 # Arguments
-ARG LIVY_TAGGED_RELEASE
 ARG SCALA_VERSION
-ENV LIVY_TAGGED_RELEASE=$LIVY_TAGGED_RELEASE
 ENV SCALA_VERSION=$SCALA_VERSION
 RUN pip install livy
 

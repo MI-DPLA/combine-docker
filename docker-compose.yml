@@ -101,7 +101,6 @@ services:
       context: .
       dockerfile: ./combine/Dockerfile
       args:
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
         COMBINE_BRANCH: "${COMBINE_BRANCH}"
     image: ghcr.io/mi-dpla/combine-docker/django
@@ -204,8 +203,8 @@ services:
       context: .
       dockerfile: livy/Dockerfile
       args:
-        LIVY_TAGGED_RELEASE: "${LIVY_TAGGED_RELEASE}"
         SCALA_VERSION: "${SCALA_VERSION}"
+    image: ghcr.io/mi-dpla/combine-docker/livy
     depends_on:
       - combine-django
     volumes:

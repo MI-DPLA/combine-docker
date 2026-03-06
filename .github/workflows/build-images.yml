@@ -14,7 +14,6 @@ env:
   ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: 7.1.1
   HADOOP_VERSION: 2.7.5
   HADOOP_VERSION_SHORT: 2.7
-  LIVY_TAGGED_RELEASE: v0.6.0-incubating
   SCALA_VERSION: 2.11
   SPARK_VERSION: 2.3.2
   SPARK_GIT: branch-2.3
@@ -63,6 +62,8 @@ jobs:
           push: true
           tags: 'ghcr.io/mi-dpla/combine-docker/hadoop-namenode:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/hadoop-namenode:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/hadoop-namenode:latest'
           file: ./hadoop/Dockerfile
+          build-args: |
+            HADOOP_VERSION=${HADOOP_VERSION}
 
       - name: Build hadoop-datanode image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -71,6 +72,8 @@ jobs:
           push: true
           tags: 'ghcr.io/mi-dpla/combine-docker/hadoop-datanode:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/hadoop-datanode:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/hadoop-datanode:latest'
           file: ./hadoop/Dockerfile
+          build-args: |
+            HADOOP_VERSION=${HADOOP_VERSION}
 
       - name: Build django image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -79,6 +82,9 @@ jobs:
           push: true
           tags: 'ghcr.io/mi-dpla/combine-docker/django:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/django:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/django:latest'
           file: ./combine/Dockerfile
+          build-args: |
+            SCALA_VERSION=${SCALA_VERSION}
+            COMBINE_BRANCH=${COMBINE_BRANCH}
 
       - name: Build celery image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -95,3 +101,6 @@ jobs:
           push: true
           tags: 'ghcr.io/mi-dpla/combine-docker/livy:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/livy:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/livy:latest'
           file: ./livy/Dockerfile
+          build-args: |
+            SCALA_VERSION=${SCALA_VERSION}
+            ELASTICSEARCH_HADOOP_CONNECTOR_VERSION=${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}
