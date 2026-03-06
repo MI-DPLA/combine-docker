@@ -1,4 +1,4 @@
-gROM ghcr.io/mi-dpla/combine-docker/spark-cluster-base:latest
+FROM ghcr.io/mi-dpla/combine-docker/spark-cluster-base:latest
 
 # Arguments
 ARG COMBINE_BRANCH
