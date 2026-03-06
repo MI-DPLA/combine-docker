@@ -63,7 +63,7 @@ jobs:
           tags: 'ghcr.io/mi-dpla/combine-docker/hadoop-namenode:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/hadoop-namenode:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/hadoop-namenode:latest'
           file: ./hadoop/Dockerfile
           build-args: |
-            HADOOP_VERSION=${HADOOP_VERSION}
+            HADOOP_VERSION=2.7.5
 
       - name: Build hadoop-datanode image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -73,7 +73,7 @@ jobs:
           tags: 'ghcr.io/mi-dpla/combine-docker/hadoop-datanode:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/hadoop-datanode:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/hadoop-datanode:latest'
           file: ./hadoop/Dockerfile
           build-args: |
-            HADOOP_VERSION=${HADOOP_VERSION}
+            HADOOP_VERSION=2.7.5
 
       - name: Build django image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -83,8 +83,8 @@ jobs:
           tags: 'ghcr.io/mi-dpla/combine-docker/django:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/django:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/django:latest'
           file: ./combine/Dockerfile
           build-args: |
-            SCALA_VERSION=${SCALA_VERSION}
-            COMBINE_BRANCH=${COMBINE_BRANCH}
+            SCALA_VERSION=2.11
+            COMBINE_BRANCH=kubernetify
 
       - name: Build celery image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -102,5 +102,5 @@ jobs:
           tags: 'ghcr.io/mi-dpla/combine-docker/livy:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/livy:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/livy:latest'
           file: ./livy/Dockerfile
           build-args: |
-            SCALA_VERSION=${SCALA_VERSION}
-            ELASTICSEARCH_HADOOP_CONNECTOR_VERSION=${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}
+            SCALA_VERSION=2.11
+            ELASTICSEARCH_HADOOP_CONNECTOR_VERSION=7.1.1
