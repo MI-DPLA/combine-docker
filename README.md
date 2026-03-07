@@ -31,8 +31,9 @@ Combine code should be run behind your institution's firewall on a secured serve
 
 This is in addition to Combine's own passwords. While we don't yet have explicit documentation on how to set up SSL inside the provided nginx in Combine, it's possible and strongly recommended to do so.
 
-### Version Change Log for v0.11.1
-[V0.11.1 Change Log](https://github.com/MI-DPLA/combine-docker/blob/master/combine_version_change_log.pdf)
+### Version Change Logs
+* [v0.11.1 Change Log](https://github.com/fruviad/combine-docker/blob/master/docs/combine_version_change_log_0_11_0.pdf)
+* [v0.11.2-SNAPSHOT Change Log](https://github.com/fruviad/combine-docker/blob/master/docs/combine_version_change_log_0_11_2-SNAPSHOT.md)
 
 
 ## Installation and First Build
@@ -56,12 +57,10 @@ The first install step is to clone this repository and move into it:
 ### Initializing combine-docker
 The complete instructions include important information on upgrading an existing Combine server. Using the detailed instructions is strongly recommended.
 
-[Complete detailed Linux instructions](https://github.com/MI-DPLA/combine-docker/blob/master/combine_docker_detailed_installation_instructions.pdf)
+[Complete detailed Linux instructions](https://github.com/fruviad/combine-docker/blob/master/docs/combine_docker_ubuntu_installation_instructions.md), as tested on Ubuntu 20.04 Server.
 
 
 **Abbreviated Instructions**
-
-NOTE: All of the scripts assume you are building on Ubuntu 18.04 LTS.
 
 **Windows only: In the next step run build.ps1 instead of build.sh**
 
@@ -78,12 +77,12 @@ Next, run the `build.sh` script:
 
 ## Configuration
 
-Once a build is complete, configurations may be performed on Combine's `localsettings.py`.  This file is found at `./combine/combine/combine/localsettings.py`.  This file will be maintained between upgrades.
+Once a build is complete, you can change the Combine configuration by editing Combine's `localsettings.py`.  This file is found at `./combine/combine/combine/localsettings.py`.  This file will be maintained between upgrades.
 
 
 ## Running and Managing
 
-Ensuring that `first_build.sh` (or `update_build.sh` if appropriate) has been run, fire up all containers with the following:
+After the Combine-Docker application has been installed, fire up all containers with the following:
 ```
 docker-compose up -d
 ```
@@ -110,7 +109,7 @@ As outlined in the [Combine-Docker Containers](#docker-images-and-containers) se
 
 ## Updating
 
-This Dockerized version of Combine supports, arguably, easier version updating because major components, broken out as images and containers, can be readily rebuilt.  Much like the repository Combine-Playbook, this repository follows the same versioning as Combine.  So checking out the tagged release `v0.11.1` for this repository, will build Combine version `v0.11.1`.
+This Dockerized version of Combine supports, arguably, easier version updating because major components, broken out as images and containers, can be readily rebuilt.  Much like the (now deprecated) repository Combine-Playbook, this repository follows the same versioning as Combine.  So checking out the tagged release `v0.11.1` for this Combine-Docker repository will build Combine version `v0.11.1`.
 
 To update, follow these steps from the Combine-Docker repository root folder:
 
@@ -209,7 +208,7 @@ Find the first point in the script at which it failed and try running each line 
 **PROS**: Incredibly simple.  
 **CONS**: Means the data is stored in opaque layers of sandbox filesystems. Semi-easy to accidentally delete all your data.
 
-(Most of the volume mounts in [this docker-compose.yml](https://github.com/MI-DPLA/combine-docker/blob/ffd3a22ec830af05721cba78ecb3b611cc193ce5/docker-compose.yml) are using bind mounts.)
+(Most of the volume mounts in [this docker-compose.yml](https://github.com/fruviad/combine-docker/blob/ffd3a22ec830af05721cba78ecb3b611cc193ce5/docker-compose.yml) are using bind mounts.)
 
 ### ElasticSearch container dies because of `vm.max_map_count`
 
@@ -226,7 +225,7 @@ Make sure that the `elasticsearch-hadoop-x.y.z.jar` in `combinelib` matches the 
 
 ### Other issues?
 
-Help is available for combine installation at `combine-support@umich.edu`. Also, please don't hesitate to [submit an issue](https://github.com/MI-DPLA/combine-docker/issues)!
+Help is available for combine installation at `combine-support@umich.edu`. Also, please don't hesitate to [submit an issue](https://github.com/fruviad/combine-docker/issues)!
 
 
 ## Development
