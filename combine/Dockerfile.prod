@@ -35,7 +35,6 @@ COPY combine/combine_db_prepare.sh /tmp/combine_db_prepare.sh
 COPY mysql/root.my.cnf /etc/.my.cnf
 
 # install python dependencies
-RUN ls /opt/combine
 RUN cd /opt/combine \
  && pip install -r requirements.txt
 
