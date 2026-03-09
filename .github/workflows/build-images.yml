@@ -3,9 +3,6 @@ name: "Build images"
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'kubernetify'
 
 env:
   COMBINE_BRANCH: kubernetify
