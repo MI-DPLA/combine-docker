@@ -101,3 +101,11 @@ jobs:
           build-args: |
             SCALA_VERSION=2.11
             ELASTICSEARCH_HADOOP_CONNECTOR_VERSION=7.1.1
+
+      - name: Build mysql image and push to GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: 'ghcr.io/mi-dpla/combine-docker/mysql:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/mysql:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/mysql:latest'
+          file: ./mysql/Dockerfile
