@@ -3,6 +3,22 @@ name: "Build images"
 
 on:
   workflow_dispatch:
+    inputs:
+      image:
+        description: 'which image to build'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - mongo
+          - spark-cluster-base
+          - hadoop-namenode
+          - hadoop-datanode
+          - django
+          - celery
+          - livy
+          - mysql
 
 env:
   COMBINE_BRANCH: kubernetify
@@ -33,6 +49,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build mongo image and push to GitHub Container Registry
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'mongo' }}
         uses: docker/build-push-action@v2
         with:
           context: ./mongo
@@ -41,6 +58,7 @@ jobs:
           file: ./mongo/Dockerfile
 
       - name: Build spark-cluster-base image and push to GitHub Container Registry
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'spark-cluster-base' }}
         uses: docker/build-push-action@v2
         with:
           context: ./spark_cluster_base
@@ -53,6 +71,7 @@ jobs:
             ELASTICSEARCH_HADOOP_CONNECTOR_VERSION=7.1.1
 
       - name: Build hadoop-namenode image and push to GitHub Container Registry
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'hadoop-namenode' }}
         uses: docker/build-push-action@v2
         with:
           context: ./hadoop
@@ -63,6 +82,7 @@ jobs:
             HADOOP_VERSION=2.7.5
 
       - name: Build hadoop-datanode image and push to GitHub Container Registry
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'hadoop-datanode' }}
         uses: docker/build-push-action@v2
         with:
           context: ./hadoop
@@ -73,6 +93,7 @@ jobs:
             HADOOP_VERSION=2.7.5
 
       - name: Build django image and push to GitHub Container Registry
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'django' }}
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -84,6 +105,7 @@ jobs:
             COMBINE_BRANCH=kubernetify
 
       - name: Build celery image and push to GitHub Container Registry
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'celery' }}
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -92,6 +114,7 @@ jobs:
           file: ./celery/Dockerfile
 
       - name: Build livy image and push to GitHub Container Registry
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'livy' }}
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -103,6 +126,7 @@ jobs:
             ELASTICSEARCH_HADOOP_CONNECTOR_VERSION=7.1.1
 
       - name: Build mysql image and push to GitHub Container Registry
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'mysql' }}
         uses: docker/build-push-action@v2
         with:
           context: ./mysql
