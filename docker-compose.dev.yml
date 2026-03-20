@@ -8,34 +8,66 @@ services:
       - http.max_initial_line_length=5m
     volumes:
       - esdata:/usr/share/elasticsearch/data
+      - type: bind
+        source: ./elasticsearch/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: false # owner
     expose:
       - "9200"
 
 
   mongo:
-    image: ghcr.io/mi-dpla/combine-docker/mongo:657e7e780cc39d742ab5c392059f75675e6224b2
+    build: ./mongo
     volumes:
       - mongodata:/data/db
     expose:
       - "27017"
+    # use ports for testing
+    # ports:
+    #   - "127.0.0.1:27017:27017"
     command: "--config /etc/mongod.conf"
 
 
   mysql:
-    image: ghcr.io/mi-dpla/combine-docker/mysql:72e95c55779db9885ece4d8d943b644ab74ab851
+    image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: combine
       MYSQL_TCP_PORT: 3307
+        #    build: ./mysql
+        #environment:
+        #MYSQL_ROOT_PASSWORD: combine
     volumes:
       - mysqldata:/var/lib/mysql/
+    # use ports for testing
+    # ports:
+    #   - "127.0.0.1:3307:3307"
+    #command: "--default-authentication-plugin=mysql_native_password"
 
   redis:
     image: redis:4.0
+    # ports:
+    #   - 6379:6379
+
+  spark-cluster-base:
+    build:
+      context: ./spark_cluster_base
+      dockerfile: Dockerfile
+      args:
+        SPARK_VERSION: "${SPARK_VERSION}"
+        HADOOP_VERSION_SHORT: "${HADOOP_VERSION_SHORT}"
+        ELASTICSEARCH_HADOOP_CONNECTOR_VERSION: "${ELASTICSEARCH_HADOOP_CONNECTOR_VERSION}"
+    image: ghcr.io/mi-dpla/combine-docker/spark-cluster-base
+    command:  /bin/true # exits code 0
+
 
   hadoop-namenode:
-    image: ghcr.io/mi-dpla/combine-docker/hadoop-namenode:657e7e780cc39d742ab5c392059f75675e6224b2
+    build:
+      context: ./hadoop
+      dockerfile: Dockerfile
+      args:
+        HADOOP_VERSION: "${HADOOP_VERSION}"
     volumes:
       - type: volume
         source: hdfs
@@ -47,22 +79,37 @@ services:
         read_only: false # owner of dir
     expose:
       - "8020"
+    # entrypoint: bash /tmp/entrypoint_namenode.sh
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
 
   hadoop-datanode:
-    image: ghcr.io/mi-dpla/combine-docker/hadoop-datanode:657e7e780cc39d742ab5c392059f75675e6224b2
+    build:
+      context: ./hadoop
+      dockerfile: Dockerfile
+      args:
+        HADOOP_VERSION: "${HADOOP_VERSION}"
     depends_on:
+      - spark-cluster-base
       - hadoop-namenode
     expose:
       - "50071"
       - "50075"
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
 
-  django:
-    image: ghcr.io/mi-dpla/combine-docker/django:657e7e780cc39d742ab5c392059f75675e6224b2
+  combine-django:
+    build:
+      context: .
+      dockerfile: ./combine/Dockerfile
+      args:
+        SCALA_VERSION: "${SCALA_VERSION}"
+        COMBINE_BRANCH: "${COMBINE_BRANCH}"
+    image: ghcr.io/mi-dpla/combine-docker/django
     depends_on:
+      - spark-cluster-base
       - mysql
     volumes:
+      - ./combine/combine/static:/static
+      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -79,6 +126,12 @@ services:
         source: livy_binaries
         target: /opt/livy
         read_only: true
+      - type: bind # Bind Combine app submodule
+        source: ./combine/combine
+        target: /opt/combine
+        read_only: false # owner
+        bind:
+          propagation: shared
       - type: volume
         source: combine_home
         target: /home/combine
@@ -93,11 +146,17 @@ services:
         read_only: false
     expose:
       - "8000"
+    # use ports for testing
+    # ports:
+    #   - "127.0.0.1:6767:6767"
     command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
 
-  celery:
-    image: ghcr.io/mi-dpla/combine-docker/celery:20260320.1
+  combine-celery:
+    build:
+      context: .
+      dockerfile: ./celery/Dockerfile
     volumes:
+      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -114,6 +173,12 @@ services:
         source: livy_binaries
         target: /opt/livy
         read_only: true
+      - type: bind # Bind Combine app submodule
+        source: ./combine/combine
+        target: /opt/combine
+        read_only: false # owner
+        bind:
+          propagation: shared
       - type: volume
         source: combine_home
         target: /home/combine
@@ -134,10 +199,16 @@ services:
       - redis
 
   livy:
-    image: ghcr.io/mi-dpla/combine-docker/livy:657e7e780cc39d742ab5c392059f75675e6224b2
+    build:
+      context: .
+      dockerfile: livy/Dockerfile
+      args:
+        SCALA_VERSION: "${SCALA_VERSION}"
+    image: ghcr.io/mi-dpla/combine-docker/livy
     depends_on:
-      - django
+      - combine-django
     volumes:
+      - ./combinelib:/combinelib
       - type: volume
         source: hdfs
         target: /hdfs
@@ -154,6 +225,12 @@ services:
         source: livy_binaries
         target: /opt/livy
         read_only: false # owner of dir
+      - type: bind # Bind Combine app submodule
+        source: ./combine/combine
+        target: /opt/combine
+        read_only: false # owner
+        bind:
+          propagation: shared
       - type: volume
         source: combine_home
         target: /home/combine
@@ -180,15 +257,27 @@ services:
       - ./nginx/error.log:/etc/nginx/error_log.log
       - ./nginx/cache/:/etc/nginx/cache
       - ./combine/combine/static:/static
+# when using not certbot for SSL, uncomment this line:
+#      - /etc/ssl:/etc/ssl
+# when using certbot for SSL, uncomment these lines:
+#      - ./certbot/conf:/etc/letsencrypt
+#      - ./certbot/www:/var/www/certbot
     ports:
       - "127.0.0.1:80:80"
       - "127.0.0.1:443:443"
     depends_on:
-      - django
-      - celery
+      - combine-django
+      - combine-celery
       - livy
       - elasticsearch
       - hadoop-datanode
+
+# when using certbot for SSL, uncomment these lines:
+#  certbot:
+#    image: certbot/certbot
+#    volumes:
+#      - ./certbot/conf:/etc/letsencrypt
+#      - ./certbot/www:/var/www/certbot
 
 volumes:
 
