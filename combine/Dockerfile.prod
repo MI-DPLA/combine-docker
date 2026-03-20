@@ -27,7 +27,8 @@ ENV PATH=/opt/conda/envs/combine/bin:$PATH
 RUN cd /opt \
   && git clone https://github.com/MI-DPLA/combine \
   && cd combine \
-  && git checkout ${COMBINE_BRANCH}
+  && git checkout ${COMBINE_BRANCH} \
+  && cp combine/localsettings.py.docker combine/localsettings.py
 
 # Copy scripts
 COPY combine/combine.sql /tmp/combine.sql
