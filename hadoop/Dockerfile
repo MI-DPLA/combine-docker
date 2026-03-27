@@ -4,16 +4,17 @@ FROM ghcr.io/mi-dpla/combine-docker/spark-cluster-base:latest
 ARG HADOOP_VERSION
 ENV HADOOP_VERSION=$HADOOP_VERSION
 
-# Download and install Hadoop
-RUN mkdir /opt/hadoop \
- && cd /opt/hadoop \
- && wget https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
+# Install Hadoop
+RUN mkdir /opt/hadoop
+COPY hadoop-${HADOOP_VERSION}.tar.gz /opt/hadoop
+RUN cd /opt/hadoop \
  && tar --strip-components=1 -xvf hadoop-${HADOOP_VERSION}.tar.gz \
  && rm /opt/hadoop/hadoop-${HADOOP_VERSION}.tar.gz
 
 # Copy configurations
 COPY core-site.xml /opt/hadoop/etc/hadoop/core-site.xml
 COPY hdfs-site.xml /opt/hadoop/etc/hadoop/hdfs-site.xml
+COPY entrypoint_namenode.sh /opt/hadoop/entrypoint_namenode.sh
 
 # Envs
 ENV HADOOP_PREFIX=/opt/hadoop

@@ -7,7 +7,7 @@ while [ ! "`mysqladmin ping -h mysql --port=3307 -pcombine --silent`" ]; do
     sleep 1
 done
 echo "ready!"
-mysql -h mysql --port=3307 -u root -pcombine < /tmp/combine.sql
+mysql -h mysql --port=3307 -u combine -pcombine < /tmp/combine.sql
 python /opt/combine/manage.py makemigrations
 python /opt/combine/manage.py migrate
 python /opt/combine/manage.py makemigrations core

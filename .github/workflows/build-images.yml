@@ -57,6 +57,15 @@ jobs:
           tags: 'ghcr.io/mi-dpla/combine-docker/mongo:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/mongo:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/mongo:latest'
           file: ./mongo/Dockerfile
 
+      - name: Build elasticsearch image and push to GitHub Container Registry
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'elasticsearch' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./elasticsearch
+          push: true
+          tags: 'ghcr.io/mi-dpla/combine-docker/elasticsearch:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/elasticsearch:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/elasticsearch:latest'
+          file: ./elasticsearch/Dockerfile
+
       - name: Build spark-cluster-base image and push to GitHub Container Registry
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'spark-cluster-base' }}
         uses: docker/build-push-action@v2

@@ -3,14 +3,10 @@
 # Handle line endings automatically for files detected as text
 # and leave all files detected as binary untouched.
 * text=auto
-
 #
 # The above will handle all files NOT found below
 # https://help.github.com/articles/dealing-with-line-endings/
 # https://github.com/Danimoth/gitattributes/blob/master/Web.gitattributes
-
-
-
 # These files are text and should be normalized (Convert crlf => lf)
 *.php text eol=lf
 *.css text eol=lf
@@ -29,7 +25,6 @@
 *.sql text eol=lf
 .htaccess text eol=lf
 *.sh text eol=lf
-
 # These files are binary and should be left untouched
 # (binary is a macro for -text -diff)
 *.png binary
@@ -48,3 +43,4 @@
 *.7z binary
 *.ttf binary
 *.pyc binary
+*.tar.gz filter=lfs diff=lfs merge=lfs -text

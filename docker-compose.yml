@@ -1,6 +1,6 @@
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
+    image: ghcr.io/mi-dpla/combine-docker/elasticsearch:latest
     environment:
       - cluster.name=combine-elasticsearch
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
@@ -22,12 +22,17 @@ services:
 
 
   mysql:
-    image: ghcr.io/mi-dpla/combine-docker/mysql:72e95c55779db9885ece4d8d943b644ab74ab851
-    command: --default-authentication-plugin=mysql_native_password
+    image: ghcr.io/mi-dpla/combine-docker/mysql:latest
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: combine
       MYSQL_TCP_PORT: 3307
+      MARIADB_AUTO_UPGRADE: true
+      MARIADB_USER: combine
+      MARIADB_PASSWORD: combine
+      MARIADB_DATABASE: combine
+    expose:
+      - "3307"
     volumes:
       - mysqldata:/var/lib/mysql/
 
@@ -35,19 +40,17 @@ services:
     image: redis:4.0
 
   hadoop-namenode:
-    image: ghcr.io/mi-dpla/combine-docker/hadoop-namenode:657e7e780cc39d742ab5c392059f75675e6224b2
+    image: ghcr.io/mi-dpla/combine-docker/hadoop-namenode:latest
     volumes:
       - type: volume
         source: hdfs
         target: /hdfs
         read_only: false
-      - type: volume
-        source: hadoop_binaries
-        target: /opt/hadoop
-        read_only: false # owner of dir
     expose:
       - "8020"
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop namenode
+    # Use entrypoint when errors about hdfs not being configured/present
+    # entrypoint: bash /opt/hadoop/entrypoint_namenode.sh
 
   hadoop-datanode:
     image: ghcr.io/mi-dpla/combine-docker/hadoop-datanode:657e7e780cc39d742ab5c392059f75675e6224b2
@@ -59,9 +62,14 @@ services:
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
 
   django:
-    image: ghcr.io/mi-dpla/combine-docker/django:657e7e780cc39d742ab5c392059f75675e6224b2
+    image: ghcr.io/mi-dpla/combine-docker/django:20260320.1
     depends_on:
       - mysql
+    expose:
+      - "8000"
+    command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
+    # if starting the app gives an error about needing to run migrations, uncomment this line
+    #entrypoint: bash /tmp/combine_db_prepare.sh
     volumes:
       - type: volume
         source: hdfs
@@ -91,9 +99,6 @@ services:
         source: combine_tmp
         target: /tmp
         read_only: false
-    expose:
-      - "8000"
-    command:  bash -c "nohup pyjxslt 6767 & > /tmp/pyjxslt.out && python /opt/combine/manage.py runserver 0.0.0.0:8000"
 
   celery:
     image: ghcr.io/mi-dpla/combine-docker/celery:20260320.1
