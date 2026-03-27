@@ -36,13 +36,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          lfs: true
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -50,7 +52,7 @@ jobs:
 
       - name: Build mongo image and push to GitHub Container Registry
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'mongo' }}
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: ./mongo
           push: true
@@ -59,7 +61,7 @@ jobs:
 
       - name: Build elasticsearch image and push to GitHub Container Registry
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'elasticsearch' }}
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: ./elasticsearch
           push: true
@@ -68,7 +70,7 @@ jobs:
 
       - name: Build spark-cluster-base image and push to GitHub Container Registry
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'spark-cluster-base' }}
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: ./spark_cluster_base
           push: true
@@ -81,7 +83,7 @@ jobs:
 
       - name: Build hadoop-namenode image and push to GitHub Container Registry
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'hadoop-namenode' }}
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: ./hadoop
           push: true
@@ -92,7 +94,7 @@ jobs:
 
       - name: Build hadoop-datanode image and push to GitHub Container Registry
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'hadoop-datanode' }}
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: ./hadoop
           push: true
@@ -103,7 +105,7 @@ jobs:
 
       - name: Build django image and push to GitHub Container Registry
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'django' }}
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: .
           push: true
@@ -115,7 +117,7 @@ jobs:
 
       - name: Build celery image and push to GitHub Container Registry
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'celery' }}
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: .
           push: true
@@ -124,7 +126,7 @@ jobs:
 
       - name: Build livy image and push to GitHub Container Registry
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'livy' }}
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: .
           push: true
@@ -136,7 +138,7 @@ jobs:
 
       - name: Build mysql image and push to GitHub Container Registry
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'mysql' }}
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: ./mysql
           push: true
