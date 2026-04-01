@@ -1,6 +1,6 @@
 services:
   elasticsearch:
-    image: ghcr.io/mi-dpla/combine-docker/elasticsearch:latest
+    image: ghcr.io/mi-dpla/combine-docker/elasticsearch:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
     environment:
       - cluster.name=combine-elasticsearch
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
@@ -13,7 +13,7 @@ services:
 
 
   mongo:
-    image: ghcr.io/mi-dpla/combine-docker/mongo:657e7e780cc39d742ab5c392059f75675e6224b2
+    image: ghcr.io/mi-dpla/combine-docker/mongo:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
     volumes:
       - mongodata:/data/db
     expose:
@@ -22,7 +22,7 @@ services:
 
 
   mysql:
-    image: ghcr.io/mi-dpla/combine-docker/mysql:latest
+    image: ghcr.io/mi-dpla/combine-docker/mysql:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: combine
@@ -40,7 +40,7 @@ services:
     image: redis:4.0
 
   hadoop-namenode:
-    image: ghcr.io/mi-dpla/combine-docker/hadoop-namenode:latest
+    image: ghcr.io/mi-dpla/combine-docker/hadoop-namenode:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
     volumes:
       - type: volume
         source: hdfs
@@ -53,7 +53,7 @@ services:
     # entrypoint: bash /opt/hadoop/entrypoint_namenode.sh
 
   hadoop-datanode:
-    image: ghcr.io/mi-dpla/combine-docker/hadoop-datanode:657e7e780cc39d742ab5c392059f75675e6224b2
+    image: ghcr.io/mi-dpla/combine-docker/hadoop-datanode:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
     depends_on:
       - hadoop-namenode
     expose:
@@ -62,7 +62,7 @@ services:
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
 
   django:
-    image: ghcr.io/mi-dpla/combine-docker/django:20260320.1
+    image: ghcr.io/mi-dpla/combine-docker/django:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
     depends_on:
       - mysql
     expose:
@@ -101,7 +101,7 @@ services:
         read_only: false
 
   celery:
-    image: ghcr.io/mi-dpla/combine-docker/celery:20260320.1
+    image: ghcr.io/mi-dpla/combine-docker/celery:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
     volumes:
       - type: volume
         source: hdfs
@@ -139,7 +139,7 @@ services:
       - redis
 
   livy:
-    image: ghcr.io/mi-dpla/combine-docker/livy:657e7e780cc39d742ab5c392059f75675e6224b2
+    image: ghcr.io/mi-dpla/combine-docker/livy:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
     depends_on:
       - django
     volumes:
