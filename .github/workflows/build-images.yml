@@ -50,7 +50,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build mongo image and push to GitHub Container Registry
+      - name: mongo
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'mongo' }}
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
@@ -59,7 +59,7 @@ jobs:
           tags: 'ghcr.io/mi-dpla/combine-docker/mongo:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/mongo:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/mongo:latest'
           file: ./mongo/Dockerfile
 
-      - name: Build elasticsearch image and push to GitHub Container Registry
+      - name: elasticsearch
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'elasticsearch' }}
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
@@ -68,7 +68,7 @@ jobs:
           tags: 'ghcr.io/mi-dpla/combine-docker/elasticsearch:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/elasticsearch:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/elasticsearch:latest'
           file: ./elasticsearch/Dockerfile
 
-      - name: Build spark-cluster-base image and push to GitHub Container Registry
+      - name: spark-cluster-base
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'spark-cluster-base' }}
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
@@ -81,7 +81,7 @@ jobs:
             HADOOP_VERSION_SHORT=2.7
             ELASTICSEARCH_HADOOP_CONNECTOR_VERSION=7.1.1
 
-      - name: Build hadoop-namenode image and push to GitHub Container Registry
+      - name: hadoop-namenode
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'hadoop-namenode' }}
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
@@ -92,7 +92,7 @@ jobs:
           build-args: |
             HADOOP_VERSION=2.7.5
 
-      - name: Build hadoop-datanode image and push to GitHub Container Registry
+      - name: hadoop-datanode
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'hadoop-datanode' }}
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
@@ -103,8 +103,8 @@ jobs:
           build-args: |
             HADOOP_VERSION=2.7.5
 
-      - name: Build django image and push to GitHub Container Registry
-        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'django' || github.events.inputs.image == 'celery' }}
+      - name: django
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'django' }}
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: .
@@ -115,16 +115,17 @@ jobs:
             SCALA_VERSION=2.11
             COMBINE_BRANCH=kubernetify
 
-      - name: Build celery image and push to GitHub Container Registry
+      - name: celery
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'celery' }}
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
+        needs: django
         with:
           context: .
           push: true
           tags: 'ghcr.io/mi-dpla/combine-docker/celery:${{ github.sha }}, ghcr.io/mi-dpla/combine-docker/celery:${{ github.ref_name }}, ghcr.io/mi-dpla/combine-docker/celery:latest'
           file: ./celery/Dockerfile
 
-      - name: Build livy image and push to GitHub Container Registry
+      - name: livy
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'livy' }}
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
@@ -136,7 +137,7 @@ jobs:
             SCALA_VERSION=2.11
             ELASTICSEARCH_HADOOP_CONNECTOR_VERSION=7.1.1
 
-      - name: Build mysql image and push to GitHub Container Registry
+      - name: mysql
         if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'mysql' }}
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
