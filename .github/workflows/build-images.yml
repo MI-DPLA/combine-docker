@@ -51,7 +51,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build mongo image and push to GitHub Container Registry
-        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'mongo' }}
+        if: ${{ github.event.inputs.image == 'all' || github.event.inputs.image == 'mongo' || github.event.inputs.image == 'celery' }}
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           context: ./mongo
