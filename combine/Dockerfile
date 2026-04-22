@@ -20,7 +20,7 @@ RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.6.14-Linux-x86
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc
 
 # create combine conda env and set to path
-RUN /opt/conda/bin/conda create -n combine python=3.7 --yes
+RUN /opt/conda/bin/conda create -n combine python=3.8 --yes
 ENV PATH=/opt/conda/envs/combine/bin:$PATH
 
 # copy Combine app submodule
