@@ -38,9 +38,11 @@ services:
 
   redis:
     image: redis:4.0
+    expose:
+      - "6379"
 
   hadoop-namenode:
-    image: ghcr.io/mi-dpla/combine-docker/hadoop-namenode:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
+    image: ghcr.io/mi-dpla/combine-docker/hadoop-namenode:4c5153079b49c907f2d96a6066f2ec25929cb4c5
     volumes:
       - type: volume
         source: hdfs
@@ -62,7 +64,7 @@ services:
     command:  /opt/hadoop/bin/hdfs --config /opt/hadoop/etc/hadoop datanode
 
   django:
-    image: ghcr.io/mi-dpla/combine-docker/django:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
+    image: ghcr.io/mi-dpla/combine-docker/django:b4418d1c4d99fe5c706da16fd75f959534268adb
     depends_on:
       - mysql
     expose:
@@ -99,10 +101,22 @@ services:
         source: combine_tmp
         target: /tmp
         read_only: false
+      - type: bind # Bind Combine app submodule
+        source: ./combine/combine
+        target: /opt/combine
+        read_only: false # owner
+        bind:
+          propagation: shared
 
   celery:
-    image: ghcr.io/mi-dpla/combine-docker/celery:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
+    image: ghcr.io/mi-dpla/combine-docker/celery:b4418d1c4d99fe5c706da16fd75f959534268adb
     volumes:
+#     - type: bind # Bind Combine app submodule
+#       source: ./combine/combine
+#       target: /opt/combine
+#       read_only: false # owner
+#       bind:
+#         propagation: shared
       - type: volume
         source: hdfs
         target: /hdfs
@@ -137,6 +151,7 @@ services:
       - "9001"
     depends_on:
       - redis
+      - mysql
 
   livy:
     image: ghcr.io/mi-dpla/combine-docker/livy:04fbc964b22e76e30169fee1b22aea9ddb7f41f0
