@@ -44,3 +44,4 @@
 *.ttf binary
 *.pyc binary
 *.tar.gz filter=lfs diff=lfs merge=lfs -text
+*.tgz filter=lfs diff=lfs merge=lfs -text
